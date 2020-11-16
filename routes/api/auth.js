@@ -93,27 +93,34 @@ router.post("/", (req, res) => {
 // @desc    Get user data
 // @access  Private
 router.get("/user", auth, (req, res) => {
-  User.findById(req.user.id, (err, foundUser) => {
-    if (err) return res.status(400).json({ msg: "Cannot find user" });
+  User.findByPk(req.user.id)
+    .then((foundUser) => {
+      if (!foundUser)
+        return res
+          .status(400)
+          .json({ type: "NO_USER", msg: "User does not exist" });
 
-    jwt.sign(
-      { id: foundUser.id },
-      process.env.JWT_SECRET,
-      { expiresIn: 3600 },
-      (err, token) => {
-        if (err) throw err;
+      jwt.sign(
+        { id: foundUser.id },
+        process.env.JWT_SECRET,
+        { expiresIn: 3600 },
+        (err, token) => {
+          if (err) throw err;
 
-        res.json({
-          token,
-          user: {
-            id: foundUser.id,
-            username: foundUser.username,
-            email: foundUser.email,
-          },
-        });
-      }
-    );
-  });
+          res.json({
+            token,
+            user: {
+              id: foundUser.id,
+              username: foundUser.username,
+              email: foundUser.email,
+            },
+          });
+        }
+      );
+    })
+    .catch(() => {
+      return res.status(400).json({ type: "NO_USER", msg: "Cannot find user" });
+    });
 });
 
 module.exports = router;

@@ -1,5 +1,8 @@
 import axios from "axios";
 import {
+  FETCH_USER_BEGIN,
+  FETCH_USER_SUCCESS,
+  FETCH_USER_FAIL,
   REGISTER_BEGIN,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -8,6 +11,51 @@ import {
   LOGIN_FAIL,
   LOGOUT,
 } from "./actions";
+
+import { tokenConfig } from "../../shared/utils";
+
+// Check token & fetch user
+export const fetchUser = () => (dispatch, getState) => {
+  return new Promise((resolve, reject) => {
+    dispatch(fetchUserBegin());
+    axios
+      .get("/api/auth/user", tokenConfig(getState))
+      .then((res) => {
+        const { token, user } = res.data;
+        dispatch(fetchUserSuccess(token, user));
+        resolve(res.data);
+      })
+      .catch((err) => {
+        if (err && err.response) {
+          dispatch(fetchUserFail(err.response.data.msg));
+          reject(err.response.data.msg);
+        } else {
+          console.log(err);
+          reject(err);
+        }
+      });
+  });
+};
+
+const fetchUserBegin = () => {
+  return {
+    type: FETCH_USER_BEGIN,
+  };
+};
+
+const fetchUserSuccess = (token, user) => {
+  return {
+    type: FETCH_USER_SUCCESS,
+    payload: { token, user },
+  };
+};
+
+const fetchUserFail = (msg) => {
+  return {
+    type: FETCH_USER_FAIL,
+    payload: { id: "FETCH_USER_ERROR", msg: msg },
+  };
+};
 
 export const register = (username, email, password, rePassword) => (
   dispatch
@@ -41,10 +89,7 @@ const registerBegin = () => {
 const registerSuccess = (token, user) => {
   return {
     type: REGISTER_SUCCESS,
-    payload: {
-      token,
-      user,
-    },
+    payload: { token, user },
   };
 };
 
