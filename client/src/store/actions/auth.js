@@ -6,6 +6,7 @@ import {
   LOGIN_BEGIN,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOGOUT,
 } from "./actions";
 
 export const register = (username, email, password, rePassword) => (
@@ -65,7 +66,7 @@ export const login = (email, password) => (dispatch) => {
       })
       .catch((err) => {
         if (err.response) {
-          dispatch(registerFail());
+          dispatch(loginFail());
           reject(err.response.data);
         } else {
           console.log(err);
@@ -94,4 +95,8 @@ const loginFail = () => {
   return {
     type: LOGIN_FAIL,
   };
+};
+
+export const logout = () => (dispatch) => {
+  dispatch({ type: LOGOUT });
 };

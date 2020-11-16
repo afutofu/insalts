@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
+import { logout } from "../store/actions/auth";
 import { loginModalToggle, registerModalToggle } from "../store/actions/modal";
 
 const NavbarComp = styled.nav`
@@ -59,7 +60,13 @@ const NavItem = styled.li`
 `;
 
 const Navbar = (props) => {
-  const { loginModalToggle, registerModalToggle } = props;
+  const {
+    isAuthenticated,
+    user,
+    logout,
+    loginModalToggle,
+    registerModalToggle,
+  } = props;
 
   return (
     <NavbarComp>
@@ -69,20 +76,36 @@ const Navbar = (props) => {
           Insalts
         </Link>
       </Title>
-
       <NavItems>
-        <NavItem onClick={() => loginModalToggle()}>Login</NavItem>
-        <NavItem onClick={() => registerModalToggle()}>Register</NavItem>
+        {isAuthenticated ? (
+          <>
+            <NavItem>{user.username}</NavItem>
+            <NavItem onClick={() => logout()}>Logout</NavItem>
+          </>
+        ) : (
+          <>
+            <NavItem onClick={() => loginModalToggle()}>Login</NavItem>
+            <NavItem onClick={() => registerModalToggle()}>Register</NavItem>
+          </>
+        )}
       </NavItems>
     </NavbarComp>
   );
 };
 
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
+    logout: () => dispatch(logout()),
     loginModalToggle: () => dispatch(loginModalToggle()),
     registerModalToggle: () => dispatch(registerModalToggle()),
   };
 };
 
-export default connect(null, mapDispatchToProps)(Navbar);
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
