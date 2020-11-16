@@ -16,7 +16,7 @@ export const register = (username, email, password, rePassword) => (
       .catch((err) => {
         if (err.response) {
           dispatch(registerFail());
-          reject(err.response.data);
+          reject(err.response.data.errors);
         } else {
           console.log(err);
         }

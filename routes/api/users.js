@@ -73,7 +73,6 @@ router.post("/", (req, res) => {
       // Send errors back to client if exists
       if (!isValidated) {
         return res.status(400).json({
-          error_type: "VALIDATION",
           errors: { ...registerDataError },
         });
       }

@@ -252,14 +252,15 @@ const RegisterModal = (props) => {
       registerDataError.email = "Incorrect format";
     }
 
+    // Check if rePassword is same as password
+    if (!validator.equals(rePassword, password)) {
+      registerDataError.password = "Password does not match";
+      registerDataError.rePassword = "Password does not match";
+    }
+
     // Check if password is at least 6 characters long
     if (!validator.isLength(password, { min: 6 })) {
       registerDataError.password = "Must be at least 6 characters long";
-    }
-
-    // Check if rePassword is same as password
-    if (!validator.equals(rePassword, password)) {
-      registerDataError.rePassword = "Password does not match";
     }
 
     // Check if any fields are empty
@@ -270,6 +271,7 @@ const RegisterModal = (props) => {
     }
 
     if (isValidated(registerDataError)) {
+      setRegisterDataError(initialRegisterData);
       return true;
     } else {
       setRegisterDataError(registerDataError);
@@ -286,11 +288,8 @@ const RegisterModal = (props) => {
         .then(() => {
           onModalClose();
         })
-        .catch((err) => {
-          const { error_type, errors } = err;
-          if (error_type === "VALIDATION") {
-            setRegisterDataError(errors);
-          }
+        .catch((errors) => {
+          setRegisterDataError(errors);
         });
     }
   };
@@ -306,7 +305,7 @@ const RegisterModal = (props) => {
       <Backdrop onClick={() => onModalClose()} />
       <RegisterBox>
         <Container>
-          <Title>login</Title>
+          <Title>register</Title>
           <Header>
             username <Error>{registerDataError.username}</Error>
           </Header>

@@ -15,7 +15,7 @@ router.post("/", (req, res) => {
   const { email, password } = req.body;
 
   // Check for existing user
-  User.findOne({ email }).then((user) => {
+  User.findOne({ where: { email } }).then((user) => {
     if (!user) return res.status(400).json({ msg: "User does not exist" });
 
     // Validate password

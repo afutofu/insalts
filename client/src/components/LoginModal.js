@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { connect } from "react-redux";
+import validator from "validator";
 
 import { loginModalToggle } from "../store/actions/modal";
 
@@ -190,12 +191,70 @@ let firstRender = true;
 const LoginModal = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginDataErrors, setLoginDataErrors] = useState({
+    email: "",
+    password: "",
+  });
+
   const { modalOpen, toggleModal } = props;
 
   if (modalOpen) firstRender = false;
 
+  const isValidated = (errors) => {
+    let isValidated = true;
+
+    // Check if there are no errors
+    for (const key in errors) {
+      if (!validator.isEmpty(errors[key])) {
+        isValidated = false;
+      }
+    }
+
+    return isValidated;
+  };
+
+  const validateInputs = (email) => {
+    let loginDataErrors = {
+      email: "",
+      password: "",
+    };
+
+    // Check if email is correct format
+    if (!validator.isEmail(email)) {
+      loginDataErrors.email = "Incorrect format";
+    }
+
+    // Check if email field is empty
+    if (validator.isEmpty(email)) {
+      loginDataErrors.email = "Field must not be empty";
+    }
+
+    // Check if password field is empty
+    if (validator.isEmpty(password)) {
+      loginDataErrors.password = "Field must not be empty";
+    }
+
+    if (isValidated(loginDataErrors)) {
+      return true;
+    } else {
+      setLoginDataErrors(loginDataErrors);
+      return false;
+    }
+  };
+
   const onLogin = () => {
     // Attempt login
+    const isValidated = validateInputs(email, password);
+
+    if (isValidated) {
+      // login(email, password)
+      //   .then(() => {
+      //     onModalClose();
+      //   })
+      //   .catch((errors) => {
+      //     setLoginDataErrors(errors);
+      //   });
+    }
   };
 
   const onModalClose = () => {
@@ -245,6 +304,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    // login: (email, password) => dispatch(login(email, password)),
     toggleModal: () => dispatch(loginModalToggle()),
   };
 };
