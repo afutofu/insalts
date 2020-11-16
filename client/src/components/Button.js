@@ -10,14 +10,12 @@ const ButtonComp = styled.button.attrs((props) => ({
   height: 43px;
   padding: 8px 0;
   text-align: center;
-  background-color: ${(props) =>
-    props.secondary ? "white" : "rgb(182, 78, 31)"};
-  color: ${(props) => (props.secondary ? "rgb(182, 78, 31)" : "white")};
+  background-color: ${(props) => (props.secondary ? "white" : "#b64e1f")};
+  color: ${(props) => (props.secondary ? "#b64e1f" : "white")};
   margin: 15px 20px;
   margin-top: ${(props) => props.noMarginTop && "0px"};
   text-transform: uppercase;
-  border: ${(props) =>
-    props.secondary ? "1px solid rgb(182, 78, 31)" : "none"};
+  border: ${(props) => (props.secondary ? "1px solid #b64e1f" : "none")};
   outline: none;
   box-sizing: border-box;
   font-size: 12px;
@@ -34,11 +32,9 @@ const ButtonComp = styled.button.attrs((props) => ({
 
   :hover {
     text-decoration: none;
-    color: ${(props) => (props.secondary ? "rgb(233, 132, 85)" : "white")};
-    background-color: ${(props) =>
-      props.secondary ? "white" : "rgb(233, 132, 85)"};
-    border: ${(props) =>
-      props.secondary ? "1px solid rgb(233, 132, 85)" : "none"};
+    color: ${(props) => (props.secondary ? "#e98455" : "white")};
+    background-color: ${(props) => (props.secondary ? "white" : "#e98455")};
+    border: ${(props) => (props.secondary ? "1px solid #e98455" : "none")};
   }
 
   :focus {
@@ -48,7 +44,7 @@ const ButtonComp = styled.button.attrs((props) => ({
   a {
     width: 100%;
     height: 100%;
-    color: ${(props) => (props.secondary ? "rgb(182, 78, 31)" : "white")};
+    color: ${(props) => (props.secondary ? "#b64e1f" : "white")};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -58,7 +54,7 @@ const ButtonComp = styled.button.attrs((props) => ({
 
     :hover {
       text-decoration: none;
-      color: ${(props) => (props.secondary ? "rgb(233, 132, 85)" : "white")};
+      color: ${(props) => (props.secondary ? "#e98455" : "white")};
     }
   }
 `;
