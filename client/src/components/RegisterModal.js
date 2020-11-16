@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { connect } from "react-redux";
 import validator from "validator";
@@ -123,6 +123,10 @@ const Input = styled.input.attrs((props) => ({
   font-family: "Montserrat", "san-serif";
   margin: 0;
   margin-bottom: 20px;
+
+  :focus {
+    border: 1px #e98455 solid;
+  }
 `;
 
 const Error = styled.p`
@@ -345,7 +349,7 @@ const RegisterModal = (props) => {
             password<Error>{registerDataError.password}</Error>
           </Header>
           <Input
-            type={"password"}
+            type="password"
             onChange={(e) => {
               e.persist();
               setRegisterData((prevData) => {
@@ -366,7 +370,7 @@ const RegisterModal = (props) => {
             <Error>{registerDataError.rePassword}</Error>
           </Header>
           <Input
-            type={"password"}
+            type="password"
             onChange={(e) => {
               e.persist();
               setRegisterData((prevData) => {
