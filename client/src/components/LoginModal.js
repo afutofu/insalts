@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { connect } from "react-redux";
 import validator from "validator";
 
+import { login } from "../store/actions/auth";
 import { loginModalToggle } from "../store/actions/modal";
 
 const modalFadeIn = keyframes`
@@ -101,6 +102,17 @@ const Header = styled.h3`
   text-transform: uppercase;
   margin-bottom: 10px;
   font-weight: 500;
+
+  display: flex;
+`;
+
+const Error = styled.p`
+  margin: 0;
+  font-size: 10px;
+  color: red;
+  margin-left: 10px;
+  text-transform: capitalize;
+  font-weight: 400;
 `;
 
 const Input = styled.input.attrs((props) => ({
@@ -191,12 +203,17 @@ let firstRender = true;
 const LoginModal = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loginDataErrors, setLoginDataErrors] = useState({
+  const [error, setError] = useState("");
+
+  const initialLoginDataErrors = {
     email: "",
     password: "",
-  });
+  };
+  const [loginDataErrors, setLoginDataErrors] = useState(
+    initialLoginDataErrors
+  );
 
-  const { modalOpen, toggleModal } = props;
+  const { login, modalOpen, toggleModal } = props;
 
   if (modalOpen) firstRender = false;
 
@@ -235,6 +252,7 @@ const LoginModal = (props) => {
     }
 
     if (isValidated(loginDataErrors)) {
+      setLoginDataErrors(initialLoginDataErrors);
       return true;
     } else {
       setLoginDataErrors(loginDataErrors);
@@ -247,13 +265,13 @@ const LoginModal = (props) => {
     const isValidated = validateInputs(email, password);
 
     if (isValidated) {
-      // login(email, password)
-      //   .then(() => {
-      //     onModalClose();
-      //   })
-      //   .catch((errors) => {
-      //     setLoginDataErrors(errors);
-      //   });
+      login(email, password)
+        .then(() => {
+          onModalClose();
+        })
+        .catch((errors) => {
+          setLoginDataErrors(errors);
+        });
     }
   };
 
@@ -269,7 +287,10 @@ const LoginModal = (props) => {
       <LoginBox>
         <Container>
           <Title>login</Title>
-          <Header>email</Header>
+          <Error>{error}</Error>
+          <Header>
+            email <Error>{loginDataErrors.email}</Error>
+          </Header>
           <Input
             onChange={(e) => setEmail(e.target.value)}
             value={email}
@@ -277,7 +298,9 @@ const LoginModal = (props) => {
               if (e.key === "Enter") onLogin();
             }}
           />
-          <Header>password</Header>
+          <Header>
+            password <Error>{loginDataErrors.password}</Error>
+          </Header>
           <Input
             type="password"
             onChange={(e) => setPassword(e.target.value)}
@@ -304,7 +327,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // login: (email, password) => dispatch(login(email, password)),
+    login: (email, password) => dispatch(login(email, password)),
     toggleModal: () => dispatch(loginModalToggle()),
   };
 };

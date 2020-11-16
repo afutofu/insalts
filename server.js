@@ -13,9 +13,11 @@ app.use(express.json());
 
 // IMPORT ROUTES
 const userRoutes = require("./routes/api/users");
+const authRoutes = require("./routes/api/auth");
 
 // USE ROUTES
 app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
 
 // DATABASE
 const db = require("./config/database");
