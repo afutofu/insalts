@@ -117,8 +117,17 @@ const Error = styled.p`
   font-weight: 400;
 `;
 
+const Form = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+`;
+
 const Input = styled.input.attrs((props) => ({
   type: props.type ?? "text",
+  name: props.name ?? "username",
 }))`
   position: relative;
   width: 100%;
@@ -128,7 +137,7 @@ const Input = styled.input.attrs((props) => ({
   color: #222;
   background-color: #fff;
   outline: none;
-  border: none;
+  border: 1px #fff solid;
   box-sizing: border-box;
   font-size: 12px;
   font-family: "Montserrat", "san-serif";
@@ -262,7 +271,9 @@ const LoginModal = (props) => {
     }
   };
 
-  const onLogin = () => {
+  const onLogin = (e) => {
+    e.preventDefault();
+
     // Attempt login
     resetErrors();
 
@@ -299,36 +310,36 @@ const LoginModal = (props) => {
     <LoginModalComp modalOpen={modalOpen} firstRender={firstRender}>
       <Backdrop onClick={() => onModalClose()} />
       <LoginBox>
-        <Container>
-          <Title>
-            login <Error>{error}</Error>
-          </Title>
-          <Header>
-            email <Error>{loginDataErrors.email}</Error>
-          </Header>
-          <Input
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") onLogin();
-            }}
-          />
-          <Header>
-            password <Error>{loginDataErrors.password}</Error>
-          </Header>
-          <Input
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") onLogin();
-            }}
-          />
-        </Container>
-        <ButtonContainer>
-          <LoginButton onClick={() => onLogin()}>Login</LoginButton>
-          <CancelButton onClick={() => onModalClose()}>Cancel</CancelButton>
-        </ButtonContainer>
+        <Form onSubmit={onLogin}>
+          <Container>
+            <Title>
+              login <Error>{error}</Error>
+            </Title>
+
+            <Header>
+              email <Error>{loginDataErrors.email}</Error>
+            </Header>
+            <Input
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              name="email"
+              value={email}
+            />
+            <Header>
+              password <Error>{loginDataErrors.password}</Error>
+            </Header>
+            <Input
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              name="password"
+              value={password}
+            />
+          </Container>
+          <ButtonContainer>
+            <LoginButton onClick={onLogin}>Login</LoginButton>
+            <CancelButton onClick={() => onModalClose()}>Cancel</CancelButton>
+          </ButtonContainer>
+        </Form>
       </LoginBox>
     </LoginModalComp>
   );

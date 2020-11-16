@@ -117,8 +117,17 @@ const Error = styled.p`
   font-weight: 400;
 `;
 
+const Form = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+`;
+
 const Input = styled.input.attrs((props) => ({
   type: props.type ?? "text",
+  name: props.name ?? "username",
 }))`
   position: relative;
   width: 100%;
@@ -128,7 +137,7 @@ const Input = styled.input.attrs((props) => ({
   color: #222;
   background-color: #fff;
   outline: none;
-  border: none;
+  border: 1px #fff solid;
   box-sizing: border-box;
   font-size: 12px;
   font-family: "Montserrat", "san-serif";
@@ -264,6 +273,7 @@ const RegisterModal = (props) => {
     // Check if password is at least 6 characters long
     if (!validator.isLength(password, { min: 6 })) {
       registerDataError.password = "Must be at least 6 characters long";
+      registerDataError.rePassword = "Must be at least 6 characters long";
     }
 
     // Check if any fields are empty
@@ -282,7 +292,8 @@ const RegisterModal = (props) => {
     }
   };
 
-  const onRegister = () => {
+  const onRegister = (e) => {
+    e.preventDefault();
     resetErrors();
     const { username, email, password, rePassword } = registerData;
     const isValidated = validateInputs(username, email, password, rePassword);
@@ -318,94 +329,88 @@ const RegisterModal = (props) => {
     <RegisterModalComp modalOpen={modalOpen} firstRender={firstRender}>
       <Backdrop onClick={() => onModalClose()} />
       <RegisterBox>
-        <Container>
-          <Title>
-            register <Error>{error}</Error>
-          </Title>
+        <Form onSubmit={onRegister}>
+          <Container>
+            <Title>
+              register <Error>{error}</Error>
+            </Title>
 
-          <Header>
-            username <Error>{registerDataError.username}</Error>
-          </Header>
-          <Input
-            onChange={(e) => {
-              e.persist();
-              setRegisterData((prevData) => {
-                return {
-                  ...prevData,
-                  username: e.target.value,
-                };
-              });
-            }}
-            value={registerData.username}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") onRegister();
-            }}
-          />
+            <Header>
+              username <Error>{registerDataError.username}</Error>
+            </Header>
+            <Input
+              onChange={(e) => {
+                e.persist();
+                setRegisterData((prevData) => {
+                  return {
+                    ...prevData,
+                    username: e.target.value,
+                  };
+                });
+              }}
+              value={registerData.username}
+            />
 
-          <Header>
-            email<Error>{registerDataError.email}</Error>
-          </Header>
-          <Input
-            onChange={(e) => {
-              e.persist();
-              setRegisterData((prevData) => {
-                return {
-                  ...prevData,
-                  email: e.target.value,
-                };
-              });
-            }}
-            value={registerData.email}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") onRegister();
-            }}
-          />
+            <Header>
+              email<Error>{registerDataError.email}</Error>
+            </Header>
+            <Input
+              onChange={(e) => {
+                e.persist();
+                setRegisterData((prevData) => {
+                  return {
+                    ...prevData,
+                    email: e.target.value,
+                  };
+                });
+              }}
+              type="email"
+              name="email"
+              value={registerData.email}
+            />
 
-          <Header>
-            password<Error>{registerDataError.password}</Error>
-          </Header>
-          <Input
-            type="password"
-            onChange={(e) => {
-              e.persist();
-              setRegisterData((prevData) => {
-                return {
-                  ...prevData,
-                  password: e.target.value,
-                };
-              });
-            }}
-            value={registerData.password}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") onRegister();
-            }}
-          />
+            <Header>
+              password<Error>{registerDataError.password}</Error>
+            </Header>
+            <Input
+              onChange={(e) => {
+                e.persist();
+                setRegisterData((prevData) => {
+                  return {
+                    ...prevData,
+                    password: e.target.value,
+                  };
+                });
+              }}
+              type="password"
+              name="password"
+              value={registerData.password}
+            />
 
-          <Header>
-            retype password
-            <Error>{registerDataError.rePassword}</Error>
-          </Header>
-          <Input
-            type="password"
-            onChange={(e) => {
-              e.persist();
-              setRegisterData((prevData) => {
-                return {
-                  ...prevData,
-                  rePassword: e.target.value,
-                };
-              });
-            }}
-            value={registerData.rePassword}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") onRegister();
-            }}
-          />
-        </Container>
-        <ButtonContainer>
-          <RegisterButton onClick={() => onRegister()}>Register</RegisterButton>
-          <CancelButton onClick={() => onModalClose()}>Cancel</CancelButton>
-        </ButtonContainer>
+            <Header>
+              retype password
+              <Error>{registerDataError.rePassword}</Error>
+            </Header>
+            <Input
+              onChange={(e) => {
+                e.persist();
+                setRegisterData((prevData) => {
+                  return {
+                    ...prevData,
+                    rePassword: e.target.value,
+                  };
+                });
+              }}
+              type="password"
+              name="password"
+              value={registerData.rePassword}
+            />
+          </Container>
+          <ButtonContainer>
+            <RegisterButton onClick={onRegister}>Register</RegisterButton>
+            <CancelButton onClick={() => onModalClose()}>Cancel</CancelButton>
+          </ButtonContainer>
+        </Form>
       </RegisterBox>
     </RegisterModalComp>
   );
