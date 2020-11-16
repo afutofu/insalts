@@ -11,8 +11,15 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// IMPORT ROUTES
+const userRoutes = require("./routes/api/users");
+
+// USE ROUTES
+app.use("/api/users", userRoutes);
+
 // DATABASE
 const db = require("./config/database");
+db.sync();
 
 // CONNECT TO DATABASE
 db.authenticate()
