@@ -278,8 +278,16 @@ const RegisterModal = (props) => {
     const isValidated = validateInputs(username, email, password, rePassword);
 
     if (isValidated) {
-      console.log("register");
-      //   register(username, email, password, rePassword).then().catch();
+      register(username, email, password, rePassword)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          const { error_type, errors } = err;
+          if (error_type === "VALIDATION") {
+            setRegisterDataError(errors);
+          }
+        });
     }
   };
 
@@ -391,8 +399,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    register: (username, email, password) =>
-      dispatch(register(username, email, password)),
+    register: (username, email, password, rePassword) =>
+      dispatch(register(username, email, password, rePassword)),
     toggleModal: () => dispatch(registerModalToggle()),
   };
 };
