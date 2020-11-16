@@ -283,6 +283,7 @@ const RegisterModal = (props) => {
   };
 
   const onRegister = () => {
+    resetErrors();
     const { username, email, password, rePassword } = registerData;
     const isValidated = validateInputs(username, email, password, rePassword);
 
@@ -299,6 +300,11 @@ const RegisterModal = (props) => {
           }
         });
     }
+  };
+
+  const resetErrors = () => {
+    setError("");
+    setRegisterDataError(initialRegisterData);
   };
 
   const onModalClose = () => {
