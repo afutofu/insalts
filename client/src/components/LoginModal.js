@@ -95,6 +95,8 @@ const Title = styled.h1`
   text-transform: uppercase;
   font-size: 22px;
   margin-bottom: 25px;
+  display: flex;
+  align-items: center;
 `;
 
 const Header = styled.h3`
@@ -262,6 +264,8 @@ const LoginModal = (props) => {
 
   const onLogin = () => {
     // Attempt login
+    resetErrors();
+
     const isValidated = validateInputs(email, password);
 
     if (isValidated) {
@@ -269,15 +273,25 @@ const LoginModal = (props) => {
         .then(() => {
           onModalClose();
         })
-        .catch((errors) => {
-          setLoginDataErrors(errors);
+        .catch((error) => {
+          if (error.type === "VALIDATION") {
+            setLoginDataErrors(error.errors);
+          } else {
+            setError(error.msg);
+          }
         });
     }
+  };
+
+  const resetErrors = () => {
+    setError("");
+    setLoginDataErrors(initialLoginDataErrors);
   };
 
   const onModalClose = () => {
     setEmail("");
     setPassword("");
+    setError("");
     toggleModal();
   };
 
@@ -286,8 +300,9 @@ const LoginModal = (props) => {
       <Backdrop onClick={() => onModalClose()} />
       <LoginBox>
         <Container>
-          <Title>login</Title>
-          <Error>{error}</Error>
+          <Title>
+            login <Error>{error}</Error>
+          </Title>
           <Header>
             email <Error>{loginDataErrors.email}</Error>
           </Header>

@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-require("dotenv/config");
 const jwt = require("jsonwebtoken");
+const validator = require("validator");
+require("dotenv/config");
+
 const auth = require("../../middleware/auth");
 
 // User Model
@@ -14,13 +16,57 @@ const User = require("../../models/User");
 router.post("/", (req, res) => {
   const { email, password } = req.body;
 
+  // Server side validation
+  let loginDataErrors = {
+    email: "",
+    password: "",
+  };
+
+  // Check if email is correct format
+  if (!validator.isEmail(email)) {
+    loginDataErrors.email = "Incorrect format";
+  }
+
+  // Check if email field is empty
+  if (validator.isEmpty(email)) {
+    loginDataErrors.email = "Field must not be empty";
+  }
+
+  // Check if password field is empty
+  if (validator.isEmpty(password)) {
+    loginDataErrors.password = "Field must not be empty";
+  }
+
+  let isValidated = true;
+
+  // Check if there are no errors
+  for (const field in loginDataErrors) {
+    if (!validator.isEmpty(loginDataErrors[field])) {
+      isValidated = false;
+    }
+  }
+
+  // Send errors back to client if exists
+  if (!isValidated) {
+    return res.status(400).json({
+      type: "VALIDATION",
+      errors: { ...loginDataErrors },
+    });
+  }
+
   // Check for existing user
   User.findOne({ where: { email } }).then((user) => {
-    if (!user) return res.status(400).json({ msg: "User does not exist" });
+    if (!user)
+      return res
+        .status(400)
+        .json({ type: "NO_USER", msg: "User does not exist" });
 
     // Validate password
     bcrypt.compare(password, user.password).then((isMatch) => {
-      if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
+      if (!isMatch)
+        return res
+          .status(400)
+          .json({ type: "INVALID_CREDENTIALS", msg: "Invalid credentials" });
 
       jwt.sign(
         { id: user.id },

@@ -65,8 +65,8 @@ export const login = (email, password) => (dispatch) => {
       })
       .catch((err) => {
         if (err.response) {
-          dispatch(loginFail());
-          reject(err.response.data.errors);
+          dispatch(registerFail());
+          reject(err.response.data);
         } else {
           console.log(err);
         }
