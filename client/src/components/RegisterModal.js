@@ -95,6 +95,8 @@ const Title = styled.h1`
   text-transform: uppercase;
   font-size: 22px;
   margin-bottom: 25px;
+  display: flex;
+  align-items: center;
 `;
 
 const Header = styled.h3`
@@ -104,6 +106,15 @@ const Header = styled.h3`
   font-weight: 500;
 
   display: flex;
+`;
+
+const Error = styled.p`
+  margin: 0;
+  font-size: 10px;
+  color: red;
+  margin-left: 10px;
+  text-transform: capitalize;
+  font-weight: 400;
 `;
 
 const Input = styled.input.attrs((props) => ({
@@ -127,15 +138,6 @@ const Input = styled.input.attrs((props) => ({
   :focus {
     border: 1px #e98455 solid;
   }
-`;
-
-const Error = styled.p`
-  margin: 0;
-  font-size: 10px;
-  color: red;
-  margin-left: 10px;
-  text-transform: capitalize;
-  font-weight: 400;
 `;
 
 const ButtonContainer = styled.div`
@@ -209,6 +211,7 @@ const RegisterModal = (props) => {
     rePassword: "",
   };
   const [registerData, setRegisterData] = useState(initialRegisterData);
+  const [error, setError] = useState("");
   const [registerDataError, setRegisterDataError] = useState(
     initialRegisterData
   );
@@ -288,8 +291,12 @@ const RegisterModal = (props) => {
         .then(() => {
           onModalClose();
         })
-        .catch((errors) => {
-          setRegisterDataError(errors);
+        .catch((error) => {
+          if (error.type === "VALIDATION") {
+            setRegisterDataError(error.errors);
+          } else if (error.type === "EMAIL_TAKEN") {
+            setError(error.msg);
+          }
         });
     }
   };
@@ -297,6 +304,7 @@ const RegisterModal = (props) => {
   const onModalClose = () => {
     setRegisterData(initialRegisterData);
     setRegisterDataError(initialRegisterData);
+    setError("");
     toggleModal();
   };
 
@@ -305,7 +313,10 @@ const RegisterModal = (props) => {
       <Backdrop onClick={() => onModalClose()} />
       <RegisterBox>
         <Container>
-          <Title>register</Title>
+          <Title>
+            register <Error>{error}</Error>
+          </Title>
+
           <Header>
             username <Error>{registerDataError.username}</Error>
           </Header>

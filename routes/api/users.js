@@ -55,27 +55,30 @@ router.post("/", (req, res) => {
     }
   }
 
+  let isValidated = true;
+
+  // Check if there are no errors
+  for (const field in registerDataError) {
+    if (!validator.isEmpty(registerDataError[field])) {
+      isValidated = false;
+    }
+  }
+
+  // Send errors back to client if exists
+  if (!isValidated) {
+    return res.status(400).json({
+      type: "VALIDATION",
+      errors: { ...registerDataError },
+    });
+  }
+
   User.findOne({ where: { email } })
     .then((foundUser) => {
-      if (foundUser) {
-        registerDataError.email = "Email already taken";
-      }
-
-      let isValidated = true;
-
-      // Check if there are no errors
-      for (const field in registerDataError) {
-        if (!validator.isEmpty(registerDataError[field])) {
-          isValidated = false;
-        }
-      }
-
-      // Send errors back to client if exists
-      if (!isValidated) {
+      if (foundUser)
         return res.status(400).json({
-          errors: { ...registerDataError },
+          type: "EMAIL_TAKEN",
+          msg: "Email already taken",
         });
-      }
 
       // Generate salt and hash user password
       bcrypt.genSalt(10, (err, salt) => {
