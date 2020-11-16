@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const validator = require("validator");
+require("dotenv/config");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const auth = require("../../middleware/auth");
 
 const User = require("../../models/User");
 
@@ -66,6 +70,7 @@ router.post("/", (req, res) => {
         }
       }
 
+      // Send errors back to client if exists
       if (!isValidated) {
         return res.status(400).json({
           error_type: "VALIDATION",
@@ -73,19 +78,43 @@ router.post("/", (req, res) => {
         });
       }
 
-      User.create({
-        username,
-        email,
-        password,
-      })
-        .then((user) => {
-          console.log(user);
-          res.send("nice");
-        })
-        .catch((err) => {
-          console.log(err);
-          return res.status(500);
+      // Generate salt and hash user password
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(password, salt, (err, hashedPassword) => {
+          if (err) throw err;
+
+          // Create a new user in the database
+          User.create({
+            username,
+            email,
+            password: hashedPassword,
+          })
+            .then((user) => {
+              // Sign a new jwt
+              jwt.sign(
+                { id: user.id },
+                process.env.JWT_SECRET,
+                { expiresIn: 3600 },
+                (err, token) => {
+                  if (err) throw err;
+
+                  // Send
+                  res.json({
+                    token,
+                    user: {
+                      id: user.id,
+                      username: user.username,
+                      email: user.email,
+                    },
+                  });
+                }
+              );
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         });
+      });
     })
     .catch((err) => {
       console.log(err);

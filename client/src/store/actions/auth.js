@@ -9,10 +9,13 @@ export const register = (username, email, password, rePassword) => (
     axios
       .post("/api/users", { username, email, password, rePassword })
       .then((res) => {
-        console.log(res.data);
+        const { token, user } = res.data;
+        dispatch(registerSuccess(token, user));
+        resolve(res.data);
       })
       .catch((err) => {
         if (err.response) {
+          dispatch(registerFail());
           reject(err.response.data);
         } else {
           console.log(err);
@@ -27,9 +30,13 @@ const registerBegin = () => {
   };
 };
 
-const registerSuccess = () => {
+const registerSuccess = (token, user) => {
   return {
     type: REGISTER_SUCCESS,
+    payload: {
+      token,
+      user,
+    },
   };
 };
 

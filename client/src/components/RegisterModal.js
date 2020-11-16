@@ -283,8 +283,8 @@ const RegisterModal = (props) => {
 
     if (isValidated) {
       register(username, email, password, rePassword)
-        .then((res) => {
-          console.log(res.data);
+        .then(() => {
+          onModalClose();
         })
         .catch((err) => {
           const { error_type, errors } = err;
