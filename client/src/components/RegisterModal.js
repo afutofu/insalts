@@ -319,7 +319,9 @@ const RegisterModal = (props) => {
   };
 
   const onModalClose = (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     setRegisterData(initialRegisterData);
     resetErrors();
     toggleModal();

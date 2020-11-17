@@ -300,7 +300,9 @@ const LoginModal = (props) => {
   };
 
   const onModalClose = (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     setEmail("");
     setPassword("");
     resetErrors();
