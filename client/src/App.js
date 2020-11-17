@@ -38,7 +38,7 @@ const App = ({ fetchUser }) => {
         <RegisterModal />
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/salts" exact component={Salts} />
+          <Route path="/s" exact component={Salts} />
         </Switch>
       </AppComp>
     </Router>
