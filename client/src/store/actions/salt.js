@@ -8,18 +8,14 @@ import {
 
 import { tokenConfig } from "../../shared/utils";
 
-export const createSalt = (name, title, description, userId) => (
+export const createSalt = (name, title, description) => (
   dispatch,
   getState
 ) => {
   return new Promise((resolve, reject) => {
     dispatch(createSaltBegin());
     axios
-      .post(
-        "/api/salts",
-        { name, title, description, userId },
-        tokenConfig(getState)
-      )
+      .post("/api/salts", { name, title, description }, tokenConfig(getState))
       .then((res) => {
         console.log(res.data);
       })

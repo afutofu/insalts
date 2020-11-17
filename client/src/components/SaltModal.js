@@ -248,7 +248,7 @@ const SaltModal = (props) => {
   const [saltData, setSaltData] = useState(initialSaltData);
   const [error, setError] = useState("");
   const [saltDataErrors, setSaltDataErrors] = useState(initialSaltData);
-  const { user, modalOpen, createSalt, toggleModal } = props;
+  const { modalOpen, createSalt, toggleModal } = props;
 
   if (modalOpen) firstRender = false;
 
@@ -319,8 +319,7 @@ const SaltModal = (props) => {
     const isValidated = validateInputs(name, title, description);
 
     if (isValidated) {
-      console.log(saltData);
-      createSalt(name, title, description, user.id)
+      createSalt(name, title, description)
         .then(() => {
           onModalClose();
         })
@@ -411,7 +410,6 @@ const SaltModal = (props) => {
 const mapStateToProps = (state) => {
   return {
     modalOpen: state.modal.salt,
-    user: state.auth.user,
   };
 };
 

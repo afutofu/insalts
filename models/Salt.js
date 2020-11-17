@@ -5,6 +5,7 @@ const Salt = db.define("salt", {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
+    primaryKey: true,
   },
   title: {
     type: DataTypes.STRING,
