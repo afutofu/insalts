@@ -302,7 +302,7 @@ const LoginModal = (props) => {
   const onModalClose = () => {
     setEmail("");
     setPassword("");
-    setError("");
+    resetErrors();
     toggleModal();
   };
 
