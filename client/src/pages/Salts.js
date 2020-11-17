@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import Jumbotron from "../components/Jumbotron";
 import InfoCard from "../components/InfoCard";
 
-import { loginModalToggle } from "../store/actions/modal";
+import { loginModalToggle, saltModalToggle } from "../store/actions/modal";
 
 const SaltsComp = styled.section`
   position: relative;
@@ -33,7 +33,7 @@ const Aside = styled.aside`
 `;
 
 const Salts = (props) => {
-  const { isAuthenticated, loginModalToggle } = props;
+  const { isAuthenticated, loginModalToggle, saltModalToggle } = props;
 
   return (
     <SaltsComp>
@@ -44,7 +44,12 @@ const Salts = (props) => {
           <InfoCard
             title="salts"
             desc="Check out all the Salts made by our users, or create one yourself!"
-            buttons={[{ text: "create salt", onClick: loginModalToggle }]}
+            buttons={[
+              {
+                text: "create salt",
+                onClick: isAuthenticated ? saltModalToggle : loginModalToggle,
+              },
+            ]}
           />
         </Aside>
       </Container>
@@ -61,6 +66,7 @@ const mapStatetoProps = (state) => {
 const mapDispatchtoProps = (dispatch) => {
   return {
     loginModalToggle: () => dispatch(loginModalToggle()),
+    saltModalToggle: () => dispatch(saltModalToggle()),
   };
 };
 

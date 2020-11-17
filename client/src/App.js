@@ -8,6 +8,7 @@ import "normalize.css";
 import Navbar from "./components/Navbar";
 import LoginModal from "./components/LoginModal";
 import RegisterModal from "./components/RegisterModal";
+import SaltModal from "./components/SaltModal";
 import Home from "./pages/Home";
 import Salts from "./pages/Salts";
 
@@ -22,9 +23,7 @@ const AppComp = styled.div`
 const App = ({ fetchUser }) => {
   useEffect(() => {
     fetchUser()
-      .then((res) => {
-        console.log(res.data);
-      })
+      .then(() => {})
       .catch((err) => {
         console.log(err);
       });
@@ -36,6 +35,7 @@ const App = ({ fetchUser }) => {
         <Navbar />
         <LoginModal />
         <RegisterModal />
+        <SaltModal />
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/s" exact component={Salts} />
