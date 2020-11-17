@@ -18,7 +18,7 @@ const ButtonComp = styled.button.attrs((props) => ({
   border: ${(props) => (props.secondary ? "1px solid #b64e1f" : "none")};
   outline: none;
   box-sizing: border-box;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   border-radius: 5px;
 
@@ -65,8 +65,13 @@ const Button = (props) => {
       secondary={props.secondary}
       noMarginTop={props.noMarginTop}
       src={props.src}
+      onClick={props.onClick}
     >
-      <Link to={props.src ?? "/"}>{props.children}</Link>
+      {props.onClick ? (
+        props.children
+      ) : (
+        <Link to={props.src ?? "/"}>{props.children}</Link>
+      )}
     </ButtonComp>
   );
 };

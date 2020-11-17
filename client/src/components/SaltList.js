@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Button from "../components/Button";
 
 const SaltListComp = styled.div`
-  width: 250px;
+  width: 280px;
   background-color: white;
   border-radius: 5px;
   margin-bottom: 30px;
@@ -12,7 +12,7 @@ const SaltListComp = styled.div`
 
 const Title = styled.h2`
   width: 100%;
-  font-size: 16px;
+  font-size: 18px;
   text-transform: uppercase;
   padding: 16px 20px;
   border-bottom: 1px solid #ccc;
@@ -34,7 +34,7 @@ const List = styled.ul`
 
 const ListItem = styled.li`
   width: 100%;
-  font-size: 14px;
+  font-size: 16px;
   list-style: none;
   border-bottom: 1px solid #ccc;
   padding: 10px 20px;
@@ -50,7 +50,7 @@ const SaltList = () => {
         <ListItem>Cats</ListItem>
         <ListItem>Faces</ListItem>
       </List>
-      <Button src="/salts">view all</Button>
+      <Button src="/s">view all</Button>
     </SaltListComp>
   );
 };

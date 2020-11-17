@@ -4,16 +4,16 @@ import styled from "styled-components";
 import Button from "../components/Button";
 
 const InfoCardComp = styled.div`
-  width: 250px;
+  width: 280px;
   background-color: white;
   border-radius: 5px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   box-sizing: border-box;
 `;
 
 const Title = styled.h2`
   width: 100%;
-  font-size: 16px;
+  font-size: 18px;
   text-transform: uppercase;
   padding: 16px 20px;
   border-bottom: 1px solid #ccc;
@@ -23,8 +23,9 @@ const Title = styled.h2`
 `;
 
 const Desc = styled.p`
-  font-size: 14px;
-  padding: 10px 20px;
+  font-size: 16px;
+  line-height: 1.5em;
+  padding: 15px 20px;
   padding-bottom: 0;
   margin: 0;
 `;
@@ -40,6 +41,7 @@ const InfoCard = (props) => {
             key={i}
             secondary={button.secondary}
             noMarginTop={button.secondary}
+            onClick={button.onClick}
           >
             {button.text}
           </Button>
