@@ -221,7 +221,7 @@ const RegisterModal = (props) => {
   };
   const [registerData, setRegisterData] = useState(initialRegisterData);
   const [error, setError] = useState("");
-  const [registerDataError, setRegisterDataError] = useState(
+  const [registerDataErrors, setRegisterDataErrors] = useState(
     initialRegisterData
   );
   const { register, modalOpen, toggleModal } = props;
@@ -242,7 +242,7 @@ const RegisterModal = (props) => {
   };
 
   const validateInputs = (username, email, password, rePassword) => {
-    let registerDataError = {
+    let registerDataErrors = {
       username: "",
       email: "",
       password: "",
@@ -251,43 +251,43 @@ const RegisterModal = (props) => {
 
     // Check if username is at least 4 characters long
     if (!validator.isLength(username, { min: 4 })) {
-      registerDataError.username = "Must be at least 4 characters long";
+      registerDataErrors.username = "Must be at least 4 characters long";
     }
 
     // Check if username is alphanumeric
     if (!validator.isAlphanumeric(username)) {
-      registerDataError.username = "Must only contain letters and numbers";
+      registerDataErrors.username = "Must only contain letters and numbers";
     }
 
     // Check if email is correct format
     if (!validator.isEmail(email)) {
-      registerDataError.email = "Incorrect format";
+      registerDataErrors.email = "Incorrect format";
     }
 
     // Check if rePassword is same as password
     if (!validator.equals(rePassword, password)) {
-      registerDataError.password = "Password does not match";
-      registerDataError.rePassword = "Password does not match";
+      registerDataErrors.password = "Password does not match";
+      registerDataErrors.rePassword = "Password does not match";
     }
 
     // Check if password is at least 6 characters long
     if (!validator.isLength(password, { min: 6 })) {
-      registerDataError.password = "Must be at least 6 characters long";
-      registerDataError.rePassword = "Must be at least 6 characters long";
+      registerDataErrors.password = "Must be at least 6 characters long";
+      registerDataErrors.rePassword = "Must be at least 6 characters long";
     }
 
     // Check if any fields are empty
     for (const key in registerData) {
       if (validator.isEmpty(registerData[key])) {
-        registerDataError[key] = "Field must not be empty";
+        registerDataErrors[key] = "Field must not be empty";
       }
     }
 
-    if (isValidated(registerDataError)) {
-      setRegisterDataError(initialRegisterData);
+    if (isValidated(registerDataErrors)) {
+      setRegisterDataErrors(initialRegisterData);
       return true;
     } else {
-      setRegisterDataError(registerDataError);
+      setRegisterDataErrors(registerDataErrors);
       return false;
     }
   };
@@ -305,7 +305,7 @@ const RegisterModal = (props) => {
         })
         .catch((error) => {
           if (error.type === "VALIDATION") {
-            setRegisterDataError(error.errors);
+            setRegisterDataErrors(error.errors);
           } else if (error.type === "EMAIL_TAKEN") {
             setError(error.msg);
           }
@@ -315,12 +315,12 @@ const RegisterModal = (props) => {
 
   const resetErrors = () => {
     setError("");
-    setRegisterDataError(initialRegisterData);
+    setRegisterDataErrors(initialRegisterData);
   };
 
   const onModalClose = () => {
     setRegisterData(initialRegisterData);
-    setRegisterDataError(initialRegisterData);
+    setRegisterDataErrors(initialRegisterData);
     setError("");
     toggleModal();
   };
@@ -336,7 +336,7 @@ const RegisterModal = (props) => {
             </Title>
 
             <Header>
-              username <Error>{registerDataError.username}</Error>
+              username <Error>{registerDataErrors.username}</Error>
             </Header>
             <Input
               onChange={(e) => {
@@ -352,7 +352,7 @@ const RegisterModal = (props) => {
             />
 
             <Header>
-              email<Error>{registerDataError.email}</Error>
+              email<Error>{registerDataErrors.email}</Error>
             </Header>
             <Input
               onChange={(e) => {
@@ -370,7 +370,7 @@ const RegisterModal = (props) => {
             />
 
             <Header>
-              password<Error>{registerDataError.password}</Error>
+              password<Error>{registerDataErrors.password}</Error>
             </Header>
             <Input
               onChange={(e) => {
@@ -389,7 +389,7 @@ const RegisterModal = (props) => {
 
             <Header>
               retype password
-              <Error>{registerDataError.rePassword}</Error>
+              <Error>{registerDataErrors.rePassword}</Error>
             </Header>
             <Input
               onChange={(e) => {
