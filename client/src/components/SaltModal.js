@@ -128,6 +128,7 @@ const Form = styled.form`
 const Input = styled.input.attrs((props) => ({
   type: props.type ?? "text",
   name: props.name ?? "name",
+  placeholder: props.placeholder ?? "",
 }))`
   position: relative;
   width: 100%;
@@ -139,10 +140,37 @@ const Input = styled.input.attrs((props) => ({
   outline: none;
   border: 1px #fff solid;
   box-sizing: border-box;
-  font-size: 12px;
+  font-size: 14px;
   font-family: "Montserrat", "san-serif";
   margin: 0;
   margin-bottom: 20px;
+
+  :focus {
+    border: 1px #e98455 solid;
+  }
+`;
+
+const TextArea = styled.textarea.attrs((props) => ({
+  type: props.type ?? "text",
+  name: props.name ?? "name",
+  placeholder: props.placeholder ?? "",
+}))`
+  position: relative;
+  width: 100%;
+  height: 100px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: #222;
+  background-color: #fff;
+  outline: none;
+  border: 1px #fff solid;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-family: "Montserrat", "san-serif";
+  margin: 0;
+  margin-bottom: 20px;
+  resize: none;
+  line-height: 1.5em;
 
   :focus {
     border: 1px #e98455 solid;
@@ -244,19 +272,14 @@ const SaltModal = (props) => {
       description: "",
     };
 
-    // Check if name is at least 4 characters long
-    if (!validator.isLength(name, { min: 4 })) {
-      saltDataErrors.name = "Must be at least 4 characters long";
-    }
-
     // Check if name is alphanumeric
-    if (!validator.isAlphanumeric(name)) {
-      saltDataErrors.name = "Must only contain letters and numbers";
+    if (!validator.isAlpha(name)) {
+      saltDataErrors.name = "Must only contain letters";
     }
 
-    // Check if title is correct format
-    if (!validator.isEmail(title)) {
-      saltDataErrors.title = "Incorrect format";
+    // Check if title is alphanumeric
+    if (!validator.isAlphanumeric(validator.blacklist(title, " "))) {
+      saltDataErrors.title = "Must only contain letters and numbers";
     }
 
     // Check if any fields are empty
@@ -282,7 +305,7 @@ const SaltModal = (props) => {
     const isValidated = validateInputs(name, title, description);
 
     if (isValidated) {
-      console.log("create salt!");
+      console.log(saltData);
       //   register(name, title, description)
       //     .then(() => {
       //       onModalClose();
@@ -329,11 +352,12 @@ const SaltModal = (props) => {
                 setSaltData((prevData) => {
                   return {
                     ...prevData,
-                    name: e.target.value,
+                    name: e.target.value.toLowerCase().trim(),
                   };
                 });
               }}
               name="name"
+              placeholder="yomama will be s/yomama"
               value={saltData.name}
             />
 
@@ -351,13 +375,14 @@ const SaltModal = (props) => {
                 });
               }}
               name="title"
+              placeholder="Yo Mama"
               value={saltData.title}
             />
 
             <Header>
               description <Error>{saltDataErrors.description}</Error>
             </Header>
-            <Input
+            <TextArea
               onChange={(e) => {
                 e.persist();
                 setSaltData((prevData) => {
@@ -368,8 +393,9 @@ const SaltModal = (props) => {
                 });
               }}
               name="description"
+              placeholder="Yo mama so smart, she made you join this salt"
               value={saltData.description}
-            />
+            ></TextArea>
           </Container>
           <ButtonContainer>
             <SaltButton>Create</SaltButton>
