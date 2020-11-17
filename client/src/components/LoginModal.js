@@ -127,7 +127,8 @@ const Form = styled.form`
 
 const Input = styled.input.attrs((props) => ({
   type: props.type ?? "text",
-  name: props.name ?? "username",
+  name: props.name ?? "name",
+  placeholder: props.placeholder ?? "",
 }))`
   position: relative;
   width: 100%;
@@ -139,7 +140,7 @@ const Input = styled.input.attrs((props) => ({
   outline: none;
   border: 1px #fff solid;
   box-sizing: border-box;
-  font-size: 12px;
+  font-size: 14px;
   font-family: "Montserrat", "san-serif";
   margin: 0;
   margin-bottom: 20px;
