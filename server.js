@@ -14,14 +14,17 @@ app.use(express.json());
 // IMPORT ROUTES
 const userRoutes = require("./routes/api/users");
 const authRoutes = require("./routes/api/auth");
+const saltRoutes = require("./routes/api/salts");
 
 // USE ROUTES
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/salts", saltRoutes);
 
 // DATABASE
 const db = require("./config/database");
 db.sync();
+// db.sync({ force: true });
 
 // CONNECT TO DATABASE
 db.authenticate()

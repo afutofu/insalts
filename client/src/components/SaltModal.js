@@ -3,7 +3,7 @@ import styled, { keyframes } from "styled-components";
 import { connect } from "react-redux";
 import validator from "validator";
 
-import { register } from "../store/actions/auth";
+import { createSalt } from "../store/actions/salt";
 import { saltModalToggle } from "../store/actions/modal";
 
 const modalFadeIn = keyframes`
@@ -248,7 +248,7 @@ const SaltModal = (props) => {
   const [saltData, setSaltData] = useState(initialSaltData);
   const [error, setError] = useState("");
   const [saltDataErrors, setSaltDataErrors] = useState(initialSaltData);
-  const { register, modalOpen, toggleModal } = props;
+  const { user, modalOpen, createSalt, toggleModal } = props;
 
   if (modalOpen) firstRender = false;
 
@@ -298,28 +298,6 @@ const SaltModal = (props) => {
     }
   };
 
-  const onCreateSalt = (e) => {
-    e.preventDefault();
-    resetErrors();
-    const { name, title, description } = saltData;
-    const isValidated = validateInputs(name, title, description);
-
-    if (isValidated) {
-      console.log(saltData);
-      //   register(name, title, description)
-      //     .then(() => {
-      //       onModalClose();
-      //     })
-      //     .catch((error) => {
-      //       if (error.type === "VALIDATION") {
-      //         setSaltDataErrors(error.errors);
-      //       } else if (error.type === "EMAIL_TAKEN") {
-      //         setError(error.msg);
-      //       }
-      //     });
-    }
-  };
-
   const resetErrors = () => {
     setError("");
     setSaltDataErrors(initialSaltData);
@@ -329,8 +307,31 @@ const SaltModal = (props) => {
     if (e) {
       e.preventDefault();
     }
+    setSaltData(initialSaltData);
     resetErrors();
     toggleModal();
+  };
+
+  const onCreateSalt = (e) => {
+    e.preventDefault();
+    resetErrors();
+    const { name, title, description } = saltData;
+    const isValidated = validateInputs(name, title, description);
+
+    if (isValidated) {
+      console.log(saltData);
+      createSalt(name, title, description, user.id)
+        .then(() => {
+          onModalClose();
+        })
+        .catch((error) => {
+          if (error.type === "VALIDATION") {
+            setSaltDataErrors(error.errors);
+          } else {
+            setError(error.msg);
+          }
+        });
+    }
   };
 
   return (
@@ -344,7 +345,7 @@ const SaltModal = (props) => {
             </Title>
 
             <Header>
-              salt link <Error>{saltDataErrors.name}</Error>
+              name <Error>{saltDataErrors.name}</Error>
             </Header>
             <Input
               onChange={(e) => {
@@ -410,13 +411,14 @@ const SaltModal = (props) => {
 const mapStateToProps = (state) => {
   return {
     modalOpen: state.modal.salt,
+    user: state.auth.user,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    register: (name, title, description) =>
-      dispatch(register(name, title, description)),
+    createSalt: (name, title, description) =>
+      dispatch(createSalt(name, title, description)),
     toggleModal: () => dispatch(saltModalToggle()),
   };
 };

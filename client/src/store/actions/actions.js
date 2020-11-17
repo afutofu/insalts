@@ -17,3 +17,8 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 
 export const LOGOUT = "LOGOUT";
+
+// SALT
+export const CREATE_SALT_BEGIN = "CREATE_SALT_BEGIN";
+export const CREATE_SALT_SUCCESS = "CREATE_SALT_SUCCESS";
+export const CREATE_SALT_FAIL = "CREATE_SALT_FAIL";

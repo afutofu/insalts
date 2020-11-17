@@ -1,23 +1,21 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/database");
 
-const User = db.define("user", {
-  username: {
+const Salt = db.define("salt", {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  email: {
+  title: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  password: {
+  description: {
+    type: DataTypes.STRING,
+  },
+  members: {
     type: DataTypes.STRING,
     allowNull: false,
-  },
-
-  joinedSalts: {
-    type: DataTypes.STRING,
-    allowNull: true,
     get() {
       return this.getDataValue("members").split(";");
     },
@@ -25,16 +23,6 @@ const User = db.define("user", {
       this.setDataValue("members", userId.join(";"));
     },
   },
-
-  //   posts: [
-  //     {
-  //       type: DataTypes.INTEGER,
-  //       references: {
-  //         model: Post,
-  //         key: "id",
-  //       },
-  //     },
-  //   ],
 });
 
-module.exports = User;
+module.exports = Salt;
