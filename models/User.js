@@ -19,10 +19,10 @@ const User = db.define("user", {
     type: DataTypes.STRING,
     allowNull: true,
     get() {
-      return this.getDataValue("members").split(";");
+      return this.getDataValue("joinedSalts").split(";");
     },
     set(userId) {
-      this.setDataValue("members", userId.join(";"));
+      this.setDataValue("joinedSalts", userId.join(";"));
     },
   },
 

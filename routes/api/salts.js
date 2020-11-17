@@ -23,7 +23,7 @@ router.post("/", auth, (req, res) => {
       foundUser.joinedSalts = [name];
       foundUser
         .save()
-        .then(() => {
+        .then((newUser) => {
           Salt.create({
             name,
             title,
@@ -31,7 +31,7 @@ router.post("/", auth, (req, res) => {
             members: [userId],
           })
             .then((newSalt) => {
-              res.send(newSalt);
+              res.json({ newSalt, newUser });
             })
             .catch((err) => {
               console.log(err);
