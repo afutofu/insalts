@@ -318,16 +318,16 @@ const RegisterModal = (props) => {
     setRegisterDataErrors(initialRegisterData);
   };
 
-  const onModalClose = () => {
+  const onModalClose = (e) => {
+    e.preventDefault();
     setRegisterData(initialRegisterData);
-    setRegisterDataErrors(initialRegisterData);
-    setError("");
+    resetErrors();
     toggleModal();
   };
 
   return (
     <RegisterModalComp modalOpen={modalOpen} firstRender={firstRender}>
-      <Backdrop onClick={() => onModalClose()} />
+      <Backdrop onClick={onModalClose} />
       <RegisterBox>
         <Form onSubmit={onRegister}>
           <Container>
@@ -408,7 +408,7 @@ const RegisterModal = (props) => {
           </Container>
           <ButtonContainer>
             <RegisterButton onClick={onRegister}>Register</RegisterButton>
-            <CancelButton onClick={() => onModalClose()}>Cancel</CancelButton>
+            <CancelButton onClick={onModalClose}>Cancel</CancelButton>
           </ButtonContainer>
         </Form>
       </RegisterBox>

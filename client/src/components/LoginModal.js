@@ -299,7 +299,8 @@ const LoginModal = (props) => {
     setLoginDataErrors(initialLoginDataErrors);
   };
 
-  const onModalClose = () => {
+  const onModalClose = (e) => {
+    e.preventDefault();
     setEmail("");
     setPassword("");
     resetErrors();
@@ -308,7 +309,7 @@ const LoginModal = (props) => {
 
   return (
     <LoginModalComp modalOpen={modalOpen} firstRender={firstRender}>
-      <Backdrop onClick={() => onModalClose()} />
+      <Backdrop onClick={onModalClose} />
       <LoginBox>
         <Form onSubmit={onLogin}>
           <Container>
@@ -337,7 +338,7 @@ const LoginModal = (props) => {
           </Container>
           <ButtonContainer>
             <LoginButton onClick={onLogin}>Login</LoginButton>
-            <CancelButton onClick={() => onModalClose()}>Cancel</CancelButton>
+            <CancelButton onClick={onModalClose}>Cancel</CancelButton>
           </ButtonContainer>
         </Form>
       </LoginBox>
