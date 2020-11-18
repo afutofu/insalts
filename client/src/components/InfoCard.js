@@ -30,7 +30,52 @@ const Desc = styled.p`
   margin: 0;
 `;
 
+const List = styled.ul`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const ListItem = styled.li`
+  width: 100%;
+  font-size: 16px;
+  list-style: none;
+  border-bottom: 1px solid #ccc;
+  padding: 14px 20px;
+  box-sizing: border-box;
+`;
+
 const InfoCard = (props) => {
+  if (props.type === "list") {
+    return (
+      <InfoCardComp>
+        <Title>{props.title}</Title>
+        <List>
+          <ListItem>Yo Mama</ListItem>
+          <ListItem>Cats</ListItem>
+          <ListItem>Faces</ListItem>
+        </List>
+        {props.buttons.map((button, i) => {
+          return (
+            <Button
+              key={i}
+              secondary={button.secondary}
+              noMarginTop={button.secondary}
+              src={button.src}
+              onClick={button.onClick}
+            >
+              {button.text}
+            </Button>
+          );
+        })}
+      </InfoCardComp>
+    );
+  }
   return (
     <InfoCardComp>
       <Title>{props.title}</Title>
