@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import Jumbotron from "../components/Jumbotron";
-import InfoCard from "../components/InfoCard";
+import Card from "../components/Card";
 
 const HomeComp = styled.section`
   position: relative;
@@ -38,7 +38,7 @@ const Home = () => {
       <Container>
         <Content></Content>
         <Aside>
-          <InfoCard
+          <Card
             type="list"
             title="saltiest salts"
             buttons={[
@@ -48,7 +48,7 @@ const Home = () => {
               },
             ]}
           />
-          <InfoCard
+          <Card
             title="home"
             desc="Your personal InSalts homepage, come here to check on insalts from your favorite salts"
             buttons={[
