@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import Jumbotron from "../components/Jumbotron";
 import InfoCard from "../components/InfoCard";
+import SaltItem from "../components/SaltItem";
 
 import { getSalts } from "../store/actions/salt";
 import { loginModalToggle, saltModalToggle } from "../store/actions/modal";
@@ -16,13 +17,15 @@ const SaltsComp = styled.section`
 
 const Container = styled.div`
   position: relative;
-  width: 80%;
+  width: 90%;
   margin: auto;
   display: flex;
 `;
 
 const Content = styled.section`
   width: 70%;
+  padding-right: 30px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
 `;
@@ -36,6 +39,7 @@ const Aside = styled.aside`
 const Salts = (props) => {
   const {
     isAuthenticated,
+    salts,
     getSalts,
     loginModalToggle,
     saltModalToggle,
@@ -49,7 +53,18 @@ const Salts = (props) => {
     <SaltsComp>
       <Jumbotron salts={true} />
       <Container>
-        <Content></Content>
+        <Content>
+          {salts.map((salt, i) => {
+            return (
+              <SaltItem
+                key={i}
+                name={salt.name}
+                title={salt.title}
+                description={salt.description}
+              />
+            );
+          })}
+        </Content>
         <Aside>
           <InfoCard
             title="salts"
@@ -70,6 +85,7 @@ const Salts = (props) => {
 const mapStatetoProps = (state) => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
+    salts: state.salt.salts,
   };
 };
 

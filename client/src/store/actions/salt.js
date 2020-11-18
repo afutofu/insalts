@@ -17,8 +17,7 @@ export const getSalts = () => (dispatch) => {
     axios
       .get("/api/salts")
       .then((res) => {
-        console.log(res.data);
-        dispatch(getSaltsSuccess());
+        dispatch(getSaltsSuccess(res.data));
         resolve();
       })
       .catch((err) => {
@@ -39,10 +38,10 @@ const getSaltsBegin = () => {
   };
 };
 
-const getSaltsSuccess = () => {
+const getSaltsSuccess = (salts) => {
   return {
     type: GET_SALTS_SUCCESS,
-    payload: {},
+    payload: { salts },
   };
 };
 
@@ -62,7 +61,7 @@ export const createSalt = (name, title, description) => (
     axios
       .post("/api/salts", { name, title, description }, tokenConfig(getState))
       .then((res) => {
-        dispatch(createSaltSuccess());
+        dispatch(createSaltSuccess(res.data));
         resolve();
       })
       .catch((err) => {
@@ -83,10 +82,10 @@ const createSaltBegin = () => {
   };
 };
 
-const createSaltSuccess = () => {
+const createSaltSuccess = (newSalt) => {
   return {
     type: CREATE_SALT_SUCCESS,
-    payload: {},
+    payload: { newSalt },
   };
 };
 
