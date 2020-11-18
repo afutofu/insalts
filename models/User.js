@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
-const db = require("../config/database");
+const db = require("../database/database");
 
-const User = db.define("user", {
+const User = db.define("User", {
   username: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -14,27 +14,6 @@ const User = db.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-
-  joinedSalts: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    get() {
-      return this.getDataValue("joinedSalts").split(";");
-    },
-    set(userId) {
-      this.setDataValue("joinedSalts", userId.join(";"));
-    },
-  },
-
-  //   posts: [
-  //     {
-  //       type: DataTypes.INTEGER,
-  //       references: {
-  //         model: Post,
-  //         key: "id",
-  //       },
-  //     },
-  //   ],
 });
 
 module.exports = User;
