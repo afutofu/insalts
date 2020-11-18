@@ -55,7 +55,7 @@ router.post("/", (req, res) => {
   }
 
   // Check for existing user
-  User.findOne({ where: { email } }).then((user) => {
+  User.findOne({ where: { email }, include: "joinedSalts" }).then((user) => {
     if (!user)
       return res
         .status(400)
@@ -81,6 +81,7 @@ router.post("/", (req, res) => {
               id: user.id,
               username: user.username,
               email: user.email,
+              joinedSalts: foundUser.joinedSalts,
             },
           });
         }
@@ -93,7 +94,7 @@ router.post("/", (req, res) => {
 // @desc    Get user data
 // @access  Private
 router.get("/user", auth, (req, res) => {
-  User.findByPk(req.user.id)
+  User.findOne({ where: { id: req.user.id }, include: "joinedSalts" })
     .then((foundUser) => {
       if (!foundUser)
         return res
@@ -113,6 +114,7 @@ router.get("/user", auth, (req, res) => {
               id: foundUser.id,
               username: foundUser.username,
               email: foundUser.email,
+              joinedSalts: foundUser.joinedSalts,
             },
           });
         }

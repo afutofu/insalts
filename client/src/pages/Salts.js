@@ -40,6 +40,7 @@ const Salts = (props) => {
   const {
     isAuthenticated,
     salts,
+    user,
     getSalts,
     loginModalToggle,
     saltModalToggle,
@@ -76,6 +77,21 @@ const Salts = (props) => {
               },
             ]}
           />
+          {isAuthenticated && (
+            <InfoCard
+              type="list"
+              title="joined salts"
+              list={user.joinedSalts.map((salt) => {
+                return salt.name;
+              })}
+              buttons={[
+                {
+                  text: "create salt",
+                  onClick: isAuthenticated ? saltModalToggle : loginModalToggle,
+                },
+              ]}
+            />
+          )}
         </Aside>
       </Container>
     </SaltsComp>
@@ -86,6 +102,7 @@ const mapStatetoProps = (state) => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     salts: state.salt.salts,
+    user: state.auth.user,
   };
 };
 
