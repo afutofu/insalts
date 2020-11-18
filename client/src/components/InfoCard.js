@@ -13,10 +13,11 @@ const InfoCardComp = styled.div`
 
 const Title = styled.h2`
   width: 100%;
-  font-size: 18px;
+  font-size: 19px;
   text-transform: uppercase;
-  padding: 16px 20px;
-  border-bottom: 1px solid #ccc;
+  padding: ${(props) => (props.text ? "20px" : "16px 20px")};
+  padding-bottom: ${(props) => (props.text ? "0px" : "16px")};
+  border-bottom: ${(props) => (props.text ? "" : "1px solid #ccc")};
   font-weight: 500;
   margin: 0;
   box-sizing: border-box;
@@ -78,7 +79,7 @@ const InfoCard = (props) => {
   }
   return (
     <InfoCardComp>
-      <Title>{props.title}</Title>
+      <Title text={true}>{props.title}</Title>
       <Desc>{props.desc}</Desc>
       {props.buttons.map((button, i) => {
         return (

@@ -80,7 +80,8 @@ const SaltBox = styled.div`
   padding-bottom: ${ButtonContainerHeight};
   box-sizing: border-box;
   z-index: 200;
-  border-radius: 10px;
+  border-radius: 5px;
+  overflow: hidden;
 `;
 
 const Container = styled.div`
@@ -183,7 +184,6 @@ const ButtonContainer = styled.div`
   width: 100%;
   height: ${ButtonContainerHeight};
   background-color: #ddd;
-  border-radius: 0 0 10px 10px;
   padding: ${horizontalPadding};
   box-sizing: border-box;
   display: flex;
