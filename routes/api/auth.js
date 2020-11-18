@@ -9,6 +9,7 @@ const auth = require("../../middleware/auth");
 
 // User Model
 const User = require("../../models/User");
+const Salt = require("../../models/Salt");
 
 // @route   POST /api/auth
 // @desc    Authenticate user / Login
@@ -55,51 +56,21 @@ router.post("/", (req, res) => {
   }
 
   // Check for existing user
-  User.findOne({ where: { email }, include: "joinedSalts" }).then((user) => {
-    if (!user)
+  User.findOne({
+    where: { email },
+    include: { model: Salt, as: "joinedSalts" },
+  }).then((foundUser) => {
+    if (!foundUser)
       return res
         .status(400)
         .json({ type: "NO_USER", msg: "User does not exist" });
 
     // Validate password
-    bcrypt.compare(password, user.password).then((isMatch) => {
+    bcrypt.compare(password, foundUser.password).then((isMatch) => {
       if (!isMatch)
         return res
           .status(400)
           .json({ type: "INVALID_CREDENTIALS", msg: "Invalid credentials" });
-
-      jwt.sign(
-        { id: user.id },
-        process.env.JWT_SECRET,
-        { expiresIn: 3600 },
-        (err, token) => {
-          if (err) throw err;
-
-          res.json({
-            token,
-            user: {
-              id: user.id,
-              username: user.username,
-              email: user.email,
-              joinedSalts: foundUser.joinedSalts,
-            },
-          });
-        }
-      );
-    });
-  });
-});
-
-// @route   GET /api/auth/user
-// @desc    Get user data
-// @access  Private
-router.get("/user", auth, (req, res) => {
-  User.findOne({ where: { id: req.user.id }, include: "joinedSalts" })
-    .then((foundUser) => {
-      if (!foundUser)
-        return res
-          .status(400)
-          .json({ type: "NO_USER", msg: "User does not exist" });
 
       jwt.sign(
         { id: foundUser.id },
@@ -115,6 +86,58 @@ router.get("/user", auth, (req, res) => {
               username: foundUser.username,
               email: foundUser.email,
               joinedSalts: foundUser.joinedSalts,
+            },
+          });
+        }
+      );
+    });
+  });
+});
+
+// @route   GET /api/auth/user
+// @desc    Get user data
+// @access  Private
+router.get("/user", auth, (req, res) => {
+  const userId = req.user.id;
+
+  User.findOne({
+    where: { id: userId },
+    include: {
+      model: Salt,
+      as: "joinedSalts",
+    },
+  })
+    .then((foundUser) => {
+      if (!foundUser)
+        return res
+          .status(400)
+          .json({ type: "NO_USER", msg: "User does not exist" });
+
+      // Order created salts by last updated
+      const joinedSalts = foundUser.joinedSalts.sort(function (salt1, salt2) {
+        var salt1Date = new Date(salt1.updatedAt);
+        var salt2Date = new Date(salt2.updatedAt);
+
+        // Descendingly order by updated date
+        // If salt2Date is newer than salt1Date,
+        // then it will be placed higher in the array
+        return salt2Date - salt1Date;
+      });
+
+      jwt.sign(
+        { id: foundUser.id },
+        process.env.JWT_SECRET,
+        { expiresIn: 3600 },
+        (err, token) => {
+          if (err) throw err;
+
+          res.json({
+            token,
+            user: {
+              id: foundUser.id,
+              username: foundUser.username,
+              email: foundUser.email,
+              joinedSalts,
             },
           });
         }
