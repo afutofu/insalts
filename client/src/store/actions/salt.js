@@ -12,6 +12,8 @@ import {
   LEAVE_SALT_FAIL,
 } from "./actions";
 
+import { addJoinedSalt, removeJoinedSalt } from "./auth";
+
 import { tokenConfig } from "../../shared/utils";
 
 export const getSalts = () => (dispatch) => {
@@ -65,6 +67,7 @@ export const createSalt = (name, title, description) => (
       .post("/api/salts", { name, title, description }, tokenConfig(getState))
       .then((res) => {
         dispatch(createSaltSuccess(res.data));
+        dispatch(addJoinedSalt(res.data));
         resolve();
       })
       .catch((err) => {
@@ -106,6 +109,7 @@ export const leaveSalt = (saltName) => (dispatch, getState) => {
       .patch(`/api/salts/${saltName}/leave`, {}, tokenConfig(getState))
       .then((res) => {
         dispatch(leaveSaltSuccess(res.data));
+        dispatch(removeJoinedSalt(res.data));
         resolve();
       })
       .catch((err) => {

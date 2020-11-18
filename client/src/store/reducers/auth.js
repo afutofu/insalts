@@ -9,6 +9,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  ADD_JOINED_SALT,
+  REMOVE_JOINED_SALT,
 } from "../actions/actions";
 
 const initialState = {
@@ -37,6 +39,24 @@ const authReducer = (state = initialState, action) => {
         ...action.payload,
         isAuthenticated: true,
         loading: false,
+      };
+    case ADD_JOINED_SALT:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          joinedSalts: [action.payload.newSalt, ...state.user.joinedSalts],
+        },
+      };
+    case REMOVE_JOINED_SALT:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          joinedSalts: state.user.joinedSalts.filter(
+            (salt) => salt.name !== action.payload.saltName
+          ),
+        },
       };
     case FETCH_USER_FAIL:
     case REGISTER_FAIL:

@@ -18,6 +18,9 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 
 export const LOGOUT = "LOGOUT";
 
+export const ADD_JOINED_SALT = "ADD_JOINED_SALT";
+export const REMOVE_JOINED_SALT = "REMOVE_JOINED_SALT";
+
 // SALT
 export const GET_SALTS_BEGIN = "GET_SALTS_BEGIN";
 export const GET_SALTS_SUCCESS = "GET_SALTS_SUCCESS";

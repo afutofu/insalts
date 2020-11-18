@@ -10,6 +10,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  ADD_JOINED_SALT,
+  REMOVE_JOINED_SALT,
 } from "./actions";
 
 import { tokenConfig } from "../../shared/utils";
@@ -144,4 +146,18 @@ const loginFail = () => {
 
 export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT });
+};
+
+export const addJoinedSalt = (newSalt) => {
+  return {
+    type: ADD_JOINED_SALT,
+    payload: { newSalt },
+  };
+};
+
+export const removeJoinedSalt = (saltName) => {
+  return {
+    type: REMOVE_JOINED_SALT,
+    payload: { saltName },
+  };
 };
