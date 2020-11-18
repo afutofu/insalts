@@ -5,6 +5,9 @@ import {
   CREATE_SALT_BEGIN,
   CREATE_SALT_SUCCESS,
   CREATE_SALT_FAIL,
+  LEAVE_SALT_BEGIN,
+  LEAVE_SALT_SUCCESS,
+  LEAVE_SALT_FAIL,
 } from "../actions/actions";
 
 const initialState = {
@@ -17,6 +20,7 @@ const saltReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_SALTS_BEGIN:
     case CREATE_SALT_BEGIN:
+    case LEAVE_SALT_BEGIN:
       return {
         ...state,
         isLoading: true,
@@ -33,8 +37,16 @@ const saltReducer = (state = initialState, action) => {
         salts: [action.payload.newSalt, ...state.salts],
         isLoading: false,
       };
+    case LEAVE_SALT_SUCCESS:
+      return {
+        ...state,
+        salts: state.salts.filter(
+          (salt) => salt.name !== action.payload.saltName
+        ),
+      };
     case GET_SALTS_FAIL:
     case CREATE_SALT_FAIL:
+    case LEAVE_SALT_FAIL:
       return {
         ...state,
         error: action.payload.error,

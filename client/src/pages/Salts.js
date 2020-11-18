@@ -5,9 +5,8 @@ import { connect } from "react-redux";
 import Jumbotron from "../components/Jumbotron";
 import Card from "../components/Card";
 import SaltItem from "../components/SaltItem";
-import SmallButton from "../components/SmallButton";
 
-import { getSalts } from "../store/actions/salt";
+import { getSalts, leaveSalt } from "../store/actions/salt";
 import { loginModalToggle, saltModalToggle } from "../store/actions/modal";
 
 const SaltsComp = styled.section`
@@ -43,13 +42,14 @@ const Salts = (props) => {
     salts,
     user,
     getSalts,
+    leaveSalt,
     loginModalToggle,
     saltModalToggle,
   } = props;
 
   useEffect(() => {
     getSalts();
-  }, []);
+  }, [getSalts]);
 
   return (
     <SaltsComp>
@@ -85,7 +85,7 @@ const Salts = (props) => {
               list={user.joinedSalts.map((salt) => {
                 return {
                   name: salt.name,
-                  onClick: () => console.log("Leave ", salt.name),
+                  onClick: () => leaveSalt(salt.name),
                 };
               })}
             />
@@ -107,6 +107,7 @@ const mapStatetoProps = (state) => {
 const mapDispatchtoProps = (dispatch) => {
   return {
     getSalts: () => dispatch(getSalts()),
+    leaveSalt: (saltName) => dispatch(leaveSalt(saltName)),
     loginModalToggle: () => dispatch(loginModalToggle()),
     saltModalToggle: () => dispatch(saltModalToggle()),
   };

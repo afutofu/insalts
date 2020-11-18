@@ -7,6 +7,9 @@ import {
   CREATE_SALT_BEGIN,
   CREATE_SALT_SUCCESS,
   CREATE_SALT_FAIL,
+  LEAVE_SALT_BEGIN,
+  LEAVE_SALT_SUCCESS,
+  LEAVE_SALT_FAIL,
 } from "./actions";
 
 import { tokenConfig } from "../../shared/utils";
@@ -92,6 +95,47 @@ const createSaltSuccess = (newSalt) => {
 const createSaltFail = (msg) => {
   return {
     type: CREATE_SALT_FAIL,
+    payload: { msg },
+  };
+};
+
+export const leaveSalt = (saltName) => (dispatch, getState) => {
+  return new Promise((resolve, reject) => {
+    dispatch(leaveSaltBegin());
+    axios
+      .patch(`/api/salts/${saltName}/leave`, {}, tokenConfig(getState))
+      .then((res) => {
+        dispatch(leaveSaltSuccess(res.data));
+        resolve();
+      })
+      .catch((err) => {
+        if (err && err.response) {
+          dispatch(leaveSaltFail(err.response.data.msg));
+          reject(err.response.data.msg);
+        } else {
+          console.log(err);
+          reject(err);
+        }
+      });
+  });
+};
+
+const leaveSaltBegin = () => {
+  return {
+    type: LEAVE_SALT_BEGIN,
+  };
+};
+
+const leaveSaltSuccess = (saltName) => {
+  return {
+    type: LEAVE_SALT_SUCCESS,
+    payload: { saltName },
+  };
+};
+
+const leaveSaltFail = (msg) => {
+  return {
+    type: LEAVE_SALT_FAIL,
     payload: { msg },
   };
 };

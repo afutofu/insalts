@@ -1,6 +1,6 @@
 const express = require("express");
 const { model } = require("../../database/database");
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 const auth = require("../../middleware/auth");
 
@@ -41,8 +41,36 @@ router.post("/", auth, (req, res) => {
     description,
   })
     .then((salt) => {
-      salt.addMembers(userId);
+      salt.addMember(userId);
       res.send(salt);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// @route   PATCH /api/salts/:saltName/leave
+// @desc    User leaves a salt
+// @access  Private
+router.patch("/:saltName/leave", auth, (req, res) => {
+  const { saltName } = req.params;
+  const userId = req.user.id;
+
+  Salt.findOne({ where: { name: saltName } })
+    .then((salt) => {
+      salt.removeMember(userId);
+      if (Object.keys(salt.getMembers()).length <= 0) {
+        salt
+          .destroy()
+          .then(() => {
+            res.status(200).send(saltName);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        res.status(200).send(saltName);
+      }
     })
     .catch((err) => {
       console.log(err);
