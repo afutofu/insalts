@@ -84,12 +84,6 @@ const Salts = (props) => {
               list={user.joinedSalts.map((salt) => {
                 return salt.name;
               })}
-              buttons={[
-                {
-                  text: "create salt",
-                  onClick: isAuthenticated ? saltModalToggle : loginModalToggle,
-                },
-              ]}
             />
           )}
         </Aside>
