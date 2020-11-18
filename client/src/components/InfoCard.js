@@ -15,9 +15,9 @@ const Title = styled.h2`
   width: 100%;
   font-size: 19px;
   text-transform: uppercase;
-  padding: ${(props) => (props.text ? "20px" : "16px 20px")};
+  padding: ${(props) => (props.text ? "20px" : "18px 20px")};
   padding-bottom: ${(props) => (props.text ? "0px" : "16px")};
-  border-bottom: ${(props) => (props.text ? "" : "1px solid #ccc")};
+  border-bottom: ${(props) => (props.text ? "" : "1px solid #ddd")};
   font-weight: 500;
   margin: 0;
   box-sizing: border-box;
@@ -46,7 +46,7 @@ const ListItem = styled.li`
   width: 100%;
   font-size: 16px;
   list-style: none;
-  border-bottom: 1px solid #ccc;
+  border-bottom: ${(props) => (props.noBorder ? "" : "1px solid #ddd")};
   padding: 14px 20px;
   box-sizing: border-box;
 `;
@@ -57,23 +57,29 @@ const InfoCard = (props) => {
       <InfoCardComp>
         <Title>{props.title}</Title>
         <List>
-          <ListItem>Yo Mama</ListItem>
-          <ListItem>Cats</ListItem>
-          <ListItem>Faces</ListItem>
+          {props.list &&
+            props.list.map((listItem, i) => {
+              return (
+                <ListItem key={i} noBorder={i + 1 === props.list.length}>
+                  {listItem}
+                </ListItem>
+              );
+            })}
         </List>
-        {props.buttons.map((button, i) => {
-          return (
-            <Button
-              key={i}
-              secondary={button.secondary}
-              noMarginTop={button.secondary}
-              src={button.src}
-              onClick={button.onClick}
-            >
-              {button.text}
-            </Button>
-          );
-        })}
+        {props.buttons &&
+          props.buttons.map((button, i) => {
+            return (
+              <Button
+                key={i}
+                secondary={button.secondary}
+                noMarginTop={button.secondary}
+                src={button.src}
+                onClick={button.onClick}
+              >
+                {button.text}
+              </Button>
+            );
+          })}
       </InfoCardComp>
     );
   }
@@ -87,6 +93,7 @@ const InfoCard = (props) => {
             key={i}
             secondary={button.secondary}
             noMarginTop={button.secondary}
+            src={button.src}
             onClick={button.onClick}
           >
             {button.text}
