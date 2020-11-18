@@ -78,7 +78,7 @@ const Salts = (props) => {
               },
             ]}
           />
-          {isAuthenticated && (
+          {isAuthenticated && user.joinedSalts && user.joinedSalts.length > 0 && (
             <Card
               type="joinedSalts"
               title="joined salts"
