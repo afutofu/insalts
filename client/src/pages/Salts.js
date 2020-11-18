@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 
 import Jumbotron from "../components/Jumbotron";
 import InfoCard from "../components/InfoCard";
 
+import { getSalts } from "../store/actions/salt";
 import { loginModalToggle, saltModalToggle } from "../store/actions/modal";
 
 const SaltsComp = styled.section`
@@ -33,7 +34,16 @@ const Aside = styled.aside`
 `;
 
 const Salts = (props) => {
-  const { isAuthenticated, loginModalToggle, saltModalToggle } = props;
+  const {
+    isAuthenticated,
+    getSalts,
+    loginModalToggle,
+    saltModalToggle,
+  } = props;
+
+  useEffect(() => {
+    getSalts();
+  }, []);
 
   return (
     <SaltsComp>
@@ -65,6 +75,7 @@ const mapStatetoProps = (state) => {
 
 const mapDispatchtoProps = (dispatch) => {
   return {
+    getSalts: () => dispatch(getSalts()),
     loginModalToggle: () => dispatch(loginModalToggle()),
     saltModalToggle: () => dispatch(saltModalToggle()),
   };
