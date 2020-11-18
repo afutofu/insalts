@@ -22,7 +22,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/salts", saltRoutes);
 
 // DATABASE
-const db = require("./config/database");
+const db = require("./database/database");
+require("./database/associations")();
 db.sync();
 // db.sync({ force: true });
 
