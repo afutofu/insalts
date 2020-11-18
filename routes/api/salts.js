@@ -12,13 +12,7 @@ const User = require("../../models/User");
 // @access  Public
 router.get("/", (req, res) => {
   Salt.findAll({
-    include: {
-      model: User,
-      as: "members",
-      attributes: {
-        exclude: ["password"],
-      },
-    },
+    order: [["updatedAt", "DESC"]],
   })
     .then((salts) => {
       res.status(200).send(salts);
