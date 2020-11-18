@@ -3,8 +3,9 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 
 import Jumbotron from "../components/Jumbotron";
-import InfoCard from "../components/InfoCard";
+import Card from "../components/Card";
 import SaltItem from "../components/SaltItem";
+import SmallButton from "../components/SmallButton";
 
 import { getSalts } from "../store/actions/salt";
 import { loginModalToggle, saltModalToggle } from "../store/actions/modal";
@@ -67,7 +68,7 @@ const Salts = (props) => {
           })}
         </Content>
         <Aside>
-          <InfoCard
+          <Card
             title="salts"
             desc="Check out all the Salts made by our users, or create one yourself!"
             buttons={[
@@ -78,11 +79,14 @@ const Salts = (props) => {
             ]}
           />
           {isAuthenticated && (
-            <InfoCard
-              type="list"
+            <Card
+              type="joinedSalts"
               title="joined salts"
               list={user.joinedSalts.map((salt) => {
-                return salt.name;
+                return {
+                  name: salt.name,
+                  onClick: () => console.log("Leave ", salt.name),
+                };
               })}
             />
           )}
