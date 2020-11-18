@@ -56,7 +56,7 @@ const ListItem = styled.li`
 
   button {
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.1s;
   }
 
   :hover {
