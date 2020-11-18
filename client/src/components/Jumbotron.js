@@ -50,7 +50,7 @@ const JumbotronSaltsComp = styled.div`
 `;
 
 const ContainerSalts = styled.div`
-  width: 80%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   justify-content: center;

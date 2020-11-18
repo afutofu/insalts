@@ -5,7 +5,8 @@ import Button from "./Button";
 import SmallButton from "./SmallButton";
 
 const CardComp = styled.div`
-  width: 280px;
+  /* width: 280px; */
+  width: 100%;
   background-color: white;
   border-radius: 5px;
   margin-bottom: 20px;
