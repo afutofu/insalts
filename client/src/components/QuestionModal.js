@@ -91,7 +91,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-  text-transform: uppercase;
+  /* text-transform: capitalize; */
   font-size: 20px;
   margin-bottom: 25px;
   display: flex;

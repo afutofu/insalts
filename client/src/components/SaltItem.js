@@ -79,9 +79,7 @@ const SaltItem = (props) => {
       <Header>
         <HeaderContainer>
           <Name>s/{props.name}</Name>
-          <SmallButton onClick={() => props.joinSalt(props.name)}>
-            Join
-          </SmallButton>
+          <SmallButton onClick={props.joinSalt}>Join</SmallButton>
         </HeaderContainer>
       </Header>
       <Content>

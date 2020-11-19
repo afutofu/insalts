@@ -7,7 +7,12 @@ import Card from "../components/Card";
 import SaltItem from "../components/SaltItem";
 
 import { getSalts, joinSalt, leaveSalt } from "../store/actions/salt";
-import { loginModalToggle, saltModalToggle } from "../store/actions/modal";
+import {
+  loginModalToggle,
+  saltModalToggle,
+  questionModalToggle,
+  setModalData,
+} from "../store/actions/modal";
 
 const SaltsComp = styled.section`
   position: relative;
@@ -46,6 +51,8 @@ const Salts = (props) => {
     leaveSalt,
     loginModalToggle,
     saltModalToggle,
+    questionModalToggle,
+    setModalData,
   } = props;
 
   useEffect(() => {
@@ -64,7 +71,18 @@ const Salts = (props) => {
                 name={salt.name}
                 title={salt.title}
                 description={salt.description}
-                joinSalt={joinSalt}
+                joinSalt={() => {
+                  setModalData({
+                    question: `Are you sure you want to join ${salt.name} ?`,
+                    options: [
+                      {
+                        text: "join",
+                        onClick: () => joinSalt(salt.name),
+                      },
+                    ],
+                  });
+                  questionModalToggle();
+                }}
               />
             );
           })}
@@ -87,7 +105,18 @@ const Salts = (props) => {
               list={user.joinedSalts.map((salt) => {
                 return {
                   name: salt.name,
-                  onClick: () => leaveSalt(salt.name),
+                  onClick: () => {
+                    setModalData({
+                      question: `Are you sure you want to leave ${salt.name} ?`,
+                      options: [
+                        {
+                          text: "leave",
+                          onClick: () => leaveSalt(salt.name),
+                        },
+                      ],
+                    });
+                    questionModalToggle();
+                  },
                 };
               })}
             />
@@ -113,6 +142,8 @@ const mapDispatchtoProps = (dispatch) => {
     leaveSalt: (saltName) => dispatch(leaveSalt(saltName)),
     loginModalToggle: () => dispatch(loginModalToggle()),
     saltModalToggle: () => dispatch(saltModalToggle()),
+    questionModalToggle: () => dispatch(questionModalToggle()),
+    setModalData: (data) => dispatch(setModalData(data)),
   };
 };
 
