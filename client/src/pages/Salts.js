@@ -61,7 +61,11 @@ const Salts = (props) => {
 
   return (
     <SaltsComp>
-      <Jumbotron salts={true} />
+      <Jumbotron
+        salts={true}
+        title="Check Out All The Salts"
+        description="Check Out All The Salts"
+      />
       <Container>
         <Content>
           {salts.map((salt, i) => {

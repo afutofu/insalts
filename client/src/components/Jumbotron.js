@@ -85,8 +85,8 @@ const Jumbotron = (props) => {
   const salts = (
     <JumbotronSaltsComp>
       <ContainerSalts>
-        <TitleSalts>Check Out All The Salts</TitleSalts>
-        <DescSalts>Browse the saltiest salts.</DescSalts>
+        <TitleSalts>{props.title}</TitleSalts>
+        <DescSalts>{props.description}</DescSalts>
       </ContainerSalts>
     </JumbotronSaltsComp>
   );

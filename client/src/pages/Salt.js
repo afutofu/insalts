@@ -63,7 +63,7 @@ const Salt = (props) => {
 
   return (
     <SaltComp>
-      <Jumbotron salts={true} title={saltName} />
+      <Jumbotron salts={true} title={`s/${saltName}`} />
       <Container>
         <Content></Content>
         <Aside>
