@@ -75,17 +75,22 @@ const Salts = (props) => {
                 name={salt.name}
                 title={salt.title}
                 description={salt.description}
+                user={user}
                 joinSalt={() => {
-                  setModalData({
-                    question: `Are you sure you want to join ${salt.name} ?`,
-                    options: [
-                      {
-                        text: "join",
-                        onClick: () => joinSalt(salt.name),
-                      },
-                    ],
-                  });
-                  questionModalToggle();
+                  if (isAuthenticated) {
+                    setModalData({
+                      question: `Are you sure you want to join ${salt.name} ?`,
+                      options: [
+                        {
+                          text: "join",
+                          onClick: () => joinSalt(salt.name),
+                        },
+                      ],
+                    });
+                    questionModalToggle();
+                  } else {
+                    loginModalToggle();
+                  }
                 }}
               />
             );

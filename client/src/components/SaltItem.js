@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 import SmallButton from "./SmallButton";
+import { saltModalToggle } from "../store/actions/modal";
 
 const borderRadius = "5px";
 
@@ -39,6 +41,11 @@ const Name = styled.h2`
   margin: 0;
   padding: 0;
 
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
   :hover {
     text-decoration: underline;
   }
@@ -74,12 +81,27 @@ const Description = styled.p`
 `;
 
 const SaltItem = (props) => {
+  const [joined, setJoined] = useState(false);
+
+  useEffect(() => {
+    setJoined(false);
+    if (props.user && props.user.joinedSalts) {
+      for (const joinedSalt of props.user.joinedSalts) {
+        if (joinedSalt.name === props.name) {
+          setJoined(true);
+        }
+      }
+    }
+  }, [props.user]);
+
   return (
     <SaltItemComp>
       <Header>
         <HeaderContainer>
-          <Name>s/{props.name}</Name>
-          <SmallButton onClick={props.joinSalt}>Join</SmallButton>
+          <Name>
+            <Link to={`/s/${props.name}`}>s/{props.name}</Link>
+          </Name>
+          {!joined && <SmallButton onClick={props.joinSalt}>Join</SmallButton>}
         </HeaderContainer>
       </Header>
       <Content>
