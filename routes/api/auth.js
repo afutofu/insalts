@@ -72,6 +72,17 @@ router.post("/", (req, res) => {
           .status(400)
           .json({ type: "INVALID_CREDENTIALS", msg: "Invalid credentials" });
 
+      // Order joined salts by last updated
+      const joinedSalts = foundUser.joinedSalts.sort(function (salt1, salt2) {
+        var salt1Date = new Date(salt1.updatedAt);
+        var salt2Date = new Date(salt2.updatedAt);
+
+        // Descendingly order by updated date
+        // If salt2Date is newer than salt1Date,
+        // then it will be placed higher in the array
+        return salt2Date - salt1Date;
+      });
+
       jwt.sign(
         { id: foundUser.id },
         process.env.JWT_SECRET,
@@ -85,7 +96,7 @@ router.post("/", (req, res) => {
               id: foundUser.id,
               username: foundUser.username,
               email: foundUser.email,
-              joinedSalts: foundUser.joinedSalts,
+              joinedSalts: joinedSalts,
             },
           });
         }
@@ -113,7 +124,7 @@ router.get("/user", auth, (req, res) => {
           .status(400)
           .json({ type: "NO_USER", msg: "User does not exist" });
 
-      // Order created salts by last updated
+      // Order joined salts by last updated
       const joinedSalts = foundUser.joinedSalts.sort(function (salt1, salt2) {
         var salt1Date = new Date(salt1.updatedAt);
         var salt2Date = new Date(salt2.updatedAt);
