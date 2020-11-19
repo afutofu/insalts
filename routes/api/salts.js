@@ -52,8 +52,14 @@ router.patch("/:saltName/join", auth, (req, res) => {
 
   Salt.findOne({ where: { name: saltName } })
     .then((foundSalt) => {
-      foundSalt.addMember(userId);
-      res.status(200).send(foundSalt);
+      foundSalt
+        .addMember(userId)
+        .then(() => {
+          res.status(200).send(foundSalt);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);
@@ -69,19 +75,32 @@ router.patch("/:saltName/leave", auth, (req, res) => {
 
   Salt.findOne({ where: { name: saltName } })
     .then((foundSalt) => {
-      foundSalt.removeMember(userId);
-      if (Object.keys(foundSalt.getMembers()).length <= 0) {
-        foundSalt
-          .destroy()
-          .then(() => {
-            res.status(200).send(saltName);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        res.status(200).send(saltName);
-      }
+      foundSalt
+        .removeMember(userId)
+        .then(() => {
+          foundSalt
+            .getMembers()
+            .then((members) => {
+              if (members.length <= 0) {
+                foundSalt
+                  .destroy()
+                  .then(() => {
+                    res.status(200).send(null);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              } else {
+                res.status(200).send(foundSalt);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);

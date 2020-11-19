@@ -53,11 +53,23 @@ const saltReducer = (state = initialState, action) => {
         isLoading: false,
       };
     case LEAVE_SALT_SUCCESS:
+      if (action.payload.deleted) {
+        return {
+          ...state,
+          salts: state.salts.filter(
+            (salt) => salt.name !== action.payload.saltName
+          ),
+        };
+      }
       return {
         ...state,
-        salts: state.salts.filter(
-          (salt) => salt.name !== action.payload.saltName
-        ),
+        salts: state.salts.map((salt) => {
+          if (salt.name === action.payload.newSalt.name) {
+            return action.payload.newSalt;
+          }
+          return salt;
+        }),
+        isLoading: false,
       };
     case GET_SALTS_FAIL:
     case CREATE_SALT_FAIL:

@@ -153,8 +153,14 @@ export const leaveSalt = (saltName) => (dispatch, getState) => {
     axios
       .patch(`/api/salts/${saltName}/leave`, {}, tokenConfig(getState))
       .then((res) => {
-        dispatch(leaveSaltSuccess(res.data));
-        dispatch(removeJoinedSalt(res.data));
+        if (res.data) {
+          dispatch(leaveSaltSuccess(res.data, false));
+          dispatch(removeJoinedSalt(saltName));
+        } else {
+          dispatch(leaveSaltSuccess(saltName, true));
+          dispatch(removeJoinedSalt(saltName));
+        }
+
         resolve();
       })
       .catch((err) => {
@@ -175,10 +181,16 @@ const leaveSaltBegin = () => {
   };
 };
 
-const leaveSaltSuccess = (saltName) => {
+const leaveSaltSuccess = (saltInfo, deleted) => {
+  if (deleted) {
+    return {
+      type: LEAVE_SALT_SUCCESS,
+      payload: { saltName: saltInfo, deleted },
+    };
+  }
   return {
     type: LEAVE_SALT_SUCCESS,
-    payload: { saltName },
+    payload: { newSalt: saltInfo, deleted },
   };
 };
 
