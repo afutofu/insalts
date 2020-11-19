@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import SmallButton from "./SmallButton";
-import { saltModalToggle } from "../store/actions/modal";
 
 const borderRadius = "5px";
 
@@ -92,7 +91,7 @@ const SaltItem = (props) => {
         }
       }
     }
-  }, [props.user]);
+  }, [props.user, props.name]);
 
   return (
     <SaltItemComp>
