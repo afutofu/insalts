@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import SmallButton from "./SmallButton";
+
 const borderRadius = "5px";
 
 const SaltItemComp = styled.div`
@@ -77,6 +79,9 @@ const SaltItem = (props) => {
       <Header>
         <HeaderContainer>
           <Name>s/{props.name}</Name>
+          <SmallButton onClick={() => props.joinSalt(props.name)}>
+            Join
+          </SmallButton>
         </HeaderContainer>
       </Header>
       <Content>

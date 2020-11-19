@@ -34,9 +34,26 @@ router.post("/", auth, (req, res) => {
     title,
     description,
   })
-    .then((salt) => {
-      salt.addMember(userId);
-      res.send(salt);
+    .then((newSalt) => {
+      newSalt.addMember(userId);
+      res.send(newSalt);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// @route   PATCH /api/salts/:saltName/join
+// @desc    User joins a salt
+// @access  Private
+router.patch("/:saltName/join", auth, (req, res) => {
+  const { saltName } = req.params;
+  const userId = req.user.id;
+
+  Salt.findOne({ where: { name: saltName } })
+    .then((foundSalt) => {
+      foundSalt.addMember(userId);
+      res.status(200).send(foundSalt);
     })
     .catch((err) => {
       console.log(err);
@@ -51,10 +68,10 @@ router.patch("/:saltName/leave", auth, (req, res) => {
   const userId = req.user.id;
 
   Salt.findOne({ where: { name: saltName } })
-    .then((salt) => {
-      salt.removeMember(userId);
-      if (Object.keys(salt.getMembers()).length <= 0) {
-        salt
+    .then((foundSalt) => {
+      foundSalt.removeMember(userId);
+      if (Object.keys(foundSalt.getMembers()).length <= 0) {
+        foundSalt
           .destroy()
           .then(() => {
             res.status(200).send(saltName);

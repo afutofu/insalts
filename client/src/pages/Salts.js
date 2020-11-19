@@ -6,7 +6,7 @@ import Jumbotron from "../components/Jumbotron";
 import Card from "../components/Card";
 import SaltItem from "../components/SaltItem";
 
-import { getSalts, leaveSalt } from "../store/actions/salt";
+import { getSalts, joinSalt, leaveSalt } from "../store/actions/salt";
 import { loginModalToggle, saltModalToggle } from "../store/actions/modal";
 
 const SaltsComp = styled.section`
@@ -42,6 +42,7 @@ const Salts = (props) => {
     salts,
     user,
     getSalts,
+    joinSalt,
     leaveSalt,
     loginModalToggle,
     saltModalToggle,
@@ -63,6 +64,7 @@ const Salts = (props) => {
                 name={salt.name}
                 title={salt.title}
                 description={salt.description}
+                joinSalt={joinSalt}
               />
             );
           })}
@@ -107,6 +109,7 @@ const mapStatetoProps = (state) => {
 const mapDispatchtoProps = (dispatch) => {
   return {
     getSalts: () => dispatch(getSalts()),
+    joinSalt: (saltName) => dispatch(joinSalt(saltName)),
     leaveSalt: (saltName) => dispatch(leaveSalt(saltName)),
     loginModalToggle: () => dispatch(loginModalToggle()),
     saltModalToggle: () => dispatch(saltModalToggle()),

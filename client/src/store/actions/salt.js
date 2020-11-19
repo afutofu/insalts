@@ -7,6 +7,9 @@ import {
   CREATE_SALT_BEGIN,
   CREATE_SALT_SUCCESS,
   CREATE_SALT_FAIL,
+  JOIN_SALT_BEGIN,
+  JOIN_SALT_SUCCESS,
+  JOIN_SALT_FAIL,
   LEAVE_SALT_BEGIN,
   LEAVE_SALT_SUCCESS,
   LEAVE_SALT_FAIL,
@@ -98,6 +101,48 @@ const createSaltSuccess = (newSalt) => {
 const createSaltFail = (msg) => {
   return {
     type: CREATE_SALT_FAIL,
+    payload: { msg },
+  };
+};
+
+export const joinSalt = (saltName) => (dispatch, getState) => {
+  return new Promise((resolve, reject) => {
+    dispatch(joinSaltBegin());
+    axios
+      .patch(`/api/salts/${saltName}/join`, {}, tokenConfig(getState))
+      .then((res) => {
+        dispatch(joinSaltSuccess(res.data));
+        dispatch(addJoinedSalt(res.data));
+        resolve();
+      })
+      .catch((err) => {
+        if (err && err.response) {
+          dispatch(joinSaltFail(err.response.data.msg));
+          reject(err.response.data.msg);
+        } else {
+          console.log(err);
+          reject(err);
+        }
+      });
+  });
+};
+
+const joinSaltBegin = () => {
+  return {
+    type: JOIN_SALT_BEGIN,
+  };
+};
+
+const joinSaltSuccess = (newSalt) => {
+  return {
+    type: JOIN_SALT_SUCCESS,
+    payload: { newSalt },
+  };
+};
+
+const joinSaltFail = (msg) => {
+  return {
+    type: JOIN_SALT_FAIL,
     payload: { msg },
   };
 };
