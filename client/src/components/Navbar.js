@@ -4,7 +4,12 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { logout } from "../store/actions/auth";
-import { loginModalToggle, registerModalToggle } from "../store/actions/modal";
+import {
+  loginModalToggle,
+  registerModalToggle,
+  questionModalToggle,
+  setModalData,
+} from "../store/actions/modal";
 
 const NavbarComp = styled.nav`
   width: 100%;
@@ -66,6 +71,8 @@ const Navbar = (props) => {
     logout,
     loginModalToggle,
     registerModalToggle,
+    questionModalToggle,
+    setModalData,
   } = props;
 
   return (
@@ -80,7 +87,22 @@ const Navbar = (props) => {
         {isAuthenticated ? (
           <>
             <NavItem>{user.username}</NavItem>
-            <NavItem onClick={() => logout()}>Logout</NavItem>
+            <NavItem
+              onClick={() => {
+                setModalData({
+                  question: "Are you sure you want to logout ?",
+                  options: [
+                    {
+                      text: "logout",
+                      onClick: logout,
+                    },
+                  ],
+                });
+                questionModalToggle();
+              }}
+            >
+              Logout
+            </NavItem>
           </>
         ) : (
           <>
@@ -105,6 +127,8 @@ const mapDispatchToProps = (dispatch) => {
     logout: () => dispatch(logout()),
     loginModalToggle: () => dispatch(loginModalToggle()),
     registerModalToggle: () => dispatch(registerModalToggle()),
+    questionModalToggle: () => dispatch(questionModalToggle()),
+    setModalData: (data) => dispatch(setModalData(data)),
   };
 };
 
