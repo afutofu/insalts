@@ -10,8 +10,10 @@ import LoginModal from "./components/LoginModal";
 import RegisterModal from "./components/RegisterModal";
 import SaltModal from "./components/SaltModal";
 import QuestionModal from "./components/QuestionModal";
+
 import Home from "./pages/Home";
 import Salts from "./pages/Salts";
+import Salt from "./pages/Salt";
 
 import { fetchUser } from "./store/actions/auth";
 
@@ -41,6 +43,7 @@ const App = ({ fetchUser }) => {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/s" exact component={Salts} />
+          <Route path="/s/:saltName" exact component={Salt} />
         </Switch>
       </AppComp>
     </Router>
