@@ -155,6 +155,13 @@ export const addJoinedSalt = (newSalt) => {
   };
 };
 
+export const editJoinedSalt = (updatedSalt) => {
+  return {
+    type: EDIT_JOINED_SALT,
+    payload: { updatedSalt },
+  };
+};
+
 export const removeJoinedSalt = (saltName) => {
   return {
     type: REMOVE_JOINED_SALT,

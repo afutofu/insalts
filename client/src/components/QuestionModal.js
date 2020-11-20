@@ -178,25 +178,27 @@ const QuestionModal = (props) => {
       <Backdrop onClick={onModalClose} />
       <QuestionBox>
         <Container>
-          <Title>{data.question}</Title>
+          <Title>{data && data.question}</Title>
         </Container>
-        <ButtonContainer>
-          {data.options &&
-            data.options.map((option, i) => {
-              return (
-                <Button
-                  key={i}
-                  onClick={async () => {
-                    await option.onClick();
-                    onModalClose();
-                  }}
-                >
-                  {option.text}
-                </Button>
-              );
-            })}
-          <CancelButton onClick={onModalClose}>Cancel</CancelButton>
-        </ButtonContainer>
+        {data && (
+          <ButtonContainer>
+            {data.options &&
+              data.options.map((option, i) => {
+                return (
+                  <Button
+                    key={i}
+                    onClick={async () => {
+                      await option.onClick();
+                      onModalClose();
+                    }}
+                  >
+                    {option.text}
+                  </Button>
+                );
+              })}
+            <CancelButton onClick={onModalClose}>Cancel</CancelButton>
+          </ButtonContainer>
+        )}
       </QuestionBox>
     </QuestionModalComp>
   );

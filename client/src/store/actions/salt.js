@@ -10,6 +10,9 @@ import {
   CREATE_SALT_BEGIN,
   CREATE_SALT_SUCCESS,
   CREATE_SALT_FAIL,
+  EDIT_SALT_BEGIN,
+  EDIT_SALT_SUCCESS,
+  EDIT_SALT_FAIL,
   JOIN_SALT_BEGIN,
   JOIN_SALT_SUCCESS,
   JOIN_SALT_FAIL,
@@ -18,7 +21,7 @@ import {
   LEAVE_SALT_FAIL,
 } from "./actions";
 
-import { addJoinedSalt, removeJoinedSalt } from "./auth";
+import { addJoinedSalt, editJoinedSalt, removeJoinedSalt } from "./auth";
 
 import { tokenConfig } from "../../shared/utils";
 
@@ -149,6 +152,48 @@ const createSaltFail = (msg) => {
   };
 };
 
+export const editSalt = (name, title, description) => (dispatch, getState) => {
+  return new Promise((resolve, reject) => {
+    dispatch(editSaltBegin());
+    axios
+      .post("/api/salts", { name, title, description }, tokenConfig(getState))
+      .then((res) => {
+        dispatch(editSaltSuccess(res.data));
+        dispatch(editJoinedSalt(res.data));
+        resolve();
+      })
+      .catch((err) => {
+        if (err && err.response) {
+          dispatch(editSaltFail(err.response.data.msg));
+          reject(err.response.data.msg);
+        } else {
+          console.log(err);
+          reject(err);
+        }
+      });
+  });
+};
+
+const editSaltBegin = () => {
+  return {
+    type: EDIT_SALT_BEGIN,
+  };
+};
+
+const editSaltSuccess = (updatedSalt) => {
+  return {
+    type: EDIT_SALT_SUCCESS,
+    payload: { updatedSalt },
+  };
+};
+
+const editSaltFail = (msg) => {
+  return {
+    type: EDIT_SALT_FAIL,
+    payload: { msg },
+  };
+};
+
 export const joinSalt = (saltName) => (dispatch, getState) => {
   return new Promise((resolve, reject) => {
     dispatch(joinSaltBegin());
@@ -177,10 +222,10 @@ const joinSaltBegin = () => {
   };
 };
 
-const joinSaltSuccess = (newSalt) => {
+const joinSaltSuccess = (updatedSalt) => {
   return {
     type: JOIN_SALT_SUCCESS,
-    payload: { newSalt },
+    payload: { updatedSalt },
   };
 };
 
@@ -234,7 +279,7 @@ const leaveSaltSuccess = (saltInfo, deleted) => {
   }
   return {
     type: LEAVE_SALT_SUCCESS,
-    payload: { newSalt: saltInfo, deleted },
+    payload: { updatedSalt: saltInfo, deleted },
   };
 };
 

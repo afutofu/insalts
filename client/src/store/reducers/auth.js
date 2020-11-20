@@ -11,6 +11,7 @@ import {
   LOGOUT,
   ADD_JOINED_SALT,
   REMOVE_JOINED_SALT,
+  EDIT_JOINED_SALT,
 } from "../actions/actions";
 
 const initialState = {
@@ -46,6 +47,19 @@ const authReducer = (state = initialState, action) => {
         user: {
           ...state.user,
           joinedSalts: [action.payload.newSalt, ...state.user.joinedSalts],
+        },
+      };
+    case EDIT_JOINED_SALT:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          joinedSalts: state.user.joinedSalts.map((salt) => {
+            if (salt.name === action.payload.updatedSalt.name) {
+              return action.payload.updatedSalt;
+            }
+            return salt;
+          }),
         },
       };
     case REMOVE_JOINED_SALT:

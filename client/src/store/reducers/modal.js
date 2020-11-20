@@ -11,7 +11,7 @@ const initialState = {
   register: false,
   salt: false,
   question: false,
-  data: {},
+  data: null,
 };
 
 const modalReducer = (state = initialState, action) => {
@@ -30,6 +30,7 @@ const modalReducer = (state = initialState, action) => {
       return {
         ...state,
         salt: !state.salt,
+        data: action.payload.data,
       };
     case QUESTION_MODAL_TOGGLE:
       return {

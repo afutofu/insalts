@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { connect } from "react-redux";
 import validator from "validator";
 
-import { createSalt } from "../store/actions/salt";
+import { createSalt, editSalt } from "../store/actions/salt";
 import { saltModalToggle } from "../store/actions/modal";
 
 const modalFadeIn = keyframes`
@@ -207,6 +207,7 @@ const SaltButton = styled.button`
   background-color: #b64e1f;
   color: #ddd;
   margin-right: 20px;
+  text-transform: capitalize;
 
   transition: 0.2s;
   :hover {
@@ -240,17 +241,29 @@ const CancelButton = styled.button`
 
 let firstRender = true;
 const SaltModal = (props) => {
-  const initialSaltData = {
+  const { modalOpen, data, createSalt, toggleModal } = props;
+
+  let initialSaltData = {
     name: "",
     title: "",
     description: "",
   };
+
   const [saltData, setSaltData] = useState(initialSaltData);
   const [error, setError] = useState("");
   const [saltDataErrors, setSaltDataErrors] = useState(initialSaltData);
-  const { modalOpen, createSalt, toggleModal } = props;
 
   if (modalOpen) firstRender = false;
+
+  useEffect(() => {
+    if (data) {
+      setSaltData({
+        name: data.name,
+        title: data.title,
+        description: data.description,
+      });
+    }
+  }, [data]);
 
   const isValidated = (errors) => {
     let isValidated = true;
@@ -312,24 +325,38 @@ const SaltModal = (props) => {
     toggleModal();
   };
 
-  const onCreateSalt = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
     resetErrors();
     const { name, title, description } = saltData;
     const isValidated = validateInputs(name, title, description);
 
     if (isValidated) {
-      createSalt(name, title, description)
-        .then(() => {
-          onModalClose();
-        })
-        .catch((error) => {
-          if (error.type === "VALIDATION") {
-            setSaltDataErrors(error.errors);
-          } else {
-            setError(error.msg);
-          }
-        });
+      if (data && data.type === "edit") {
+        editSalt(name, title, description)
+          .then(() => {
+            onModalClose();
+          })
+          .catch((error) => {
+            if (error.type === "VALIDATION") {
+              setSaltDataErrors(error.errors);
+            } else {
+              setError(error.msg);
+            }
+          });
+      } else {
+        createSalt(name, title, description)
+          .then(() => {
+            onModalClose();
+          })
+          .catch((error) => {
+            if (error.type === "VALIDATION") {
+              setSaltDataErrors(error.errors);
+            } else {
+              setError(error.msg);
+            }
+          });
+      }
     }
   };
 
@@ -337,10 +364,11 @@ const SaltModal = (props) => {
     <SaltModalComp modalOpen={modalOpen} firstRender={firstRender}>
       <Backdrop onClick={onModalClose} />
       <SaltBox>
-        <Form onSubmit={onCreateSalt}>
+        <Form onSubmit={onSubmit}>
           <Container>
             <Title>
-              create salt <Error>{error}</Error>
+              {data && data.type === "edit" ? "edit salt" : "create salt"}{" "}
+              <Error>{error}</Error>
             </Title>
 
             <Header>
@@ -398,7 +426,10 @@ const SaltModal = (props) => {
             ></TextArea>
           </Container>
           <ButtonContainer>
-            <SaltButton>Create</SaltButton>
+            <SaltButton>
+              {" "}
+              {data && data.type === "edit" ? "edit" : "create"}
+            </SaltButton>
             <CancelButton onClick={onModalClose}>Cancel</CancelButton>
           </ButtonContainer>
         </Form>
@@ -410,6 +441,7 @@ const SaltModal = (props) => {
 const mapStateToProps = (state) => {
   return {
     modalOpen: state.modal.salt,
+    data: state.modal.data,
   };
 };
 
@@ -417,6 +449,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createSalt: (name, title, description) =>
       dispatch(createSalt(name, title, description)),
+    editSalt: (name, title, description) =>
+      dispatch(editSalt(name, title, description)),
     toggleModal: () => dispatch(saltModalToggle()),
   };
 };

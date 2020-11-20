@@ -134,6 +134,21 @@ const Salt = (props) => {
                 },
                 {
                   text: "edit",
+                  onClick: () => {
+                    if (!isAuthenticated) {
+                      loginModalToggle();
+                    } else {
+                      if (isUserJoined(salt.name)) {
+                        saltModalToggle({
+                          type: "edit",
+                          name: salt.name,
+                          title: salt.title,
+                          description: salt.description,
+                        });
+                      } else {
+                      }
+                    }
+                  },
                   secondary: true,
                 },
                 {
@@ -162,7 +177,7 @@ const mapDispatchtoProps = (dispatch) => {
     joinSalt: (name) => dispatch(joinSalt(name)),
     leaveSalt: (name) => dispatch(leaveSalt(name)),
     loginModalToggle: () => dispatch(loginModalToggle()),
-    saltModalToggle: () => dispatch(saltModalToggle()),
+    saltModalToggle: (data) => dispatch(saltModalToggle(data)),
     questionModalToggle: () => dispatch(questionModalToggle()),
     setModalData: (data) => dispatch(setModalData(data)),
   };

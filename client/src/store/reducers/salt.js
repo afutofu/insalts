@@ -8,6 +8,9 @@ import {
   CREATE_SALT_BEGIN,
   CREATE_SALT_SUCCESS,
   CREATE_SALT_FAIL,
+  EDIT_SALT_BEGIN,
+  EDIT_SALT_SUCCESS,
+  EDIT_SALT_FAIL,
   JOIN_SALT_BEGIN,
   JOIN_SALT_SUCCESS,
   JOIN_SALT_FAIL,
@@ -27,6 +30,7 @@ const saltReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_SALTS_BEGIN:
     case CREATE_SALT_BEGIN:
+    case EDIT_SALT_BEGIN:
     case JOIN_SALT_BEGIN:
     case LEAVE_SALT_BEGIN:
       return {
@@ -57,12 +61,23 @@ const saltReducer = (state = initialState, action) => {
         salts: [action.payload.newSalt, ...state.salts],
         isLoading: false,
       };
+    case EDIT_SALT_SUCCESS:
+      return {
+        ...state,
+        salts: state.salts.map((salt) => {
+          if (salt.name === action.payload.updatedSalt.name) {
+            return action.payload.updatedSalt;
+          }
+          return salt;
+        }),
+        isLoading: false,
+      };
     case JOIN_SALT_SUCCESS:
       return {
         ...state,
         salts: state.salts.map((salt) => {
-          if (salt.name === action.payload.newSalt.name) {
-            return action.payload.newSalt;
+          if (salt.name === action.payload.updatedSalt.name) {
+            return action.payload.updatedSalt;
           }
           return salt;
         }),
@@ -80,8 +95,8 @@ const saltReducer = (state = initialState, action) => {
       return {
         ...state,
         salts: state.salts.map((salt) => {
-          if (salt.name === action.payload.newSalt.name) {
-            return action.payload.newSalt;
+          if (salt.name === action.payload.updatedSalt.name) {
+            return action.payload.updatedSalt;
           }
           return salt;
         }),
@@ -90,6 +105,7 @@ const saltReducer = (state = initialState, action) => {
     case GET_SALTS_FAIL:
     case GET_SALT_FAIL:
     case CREATE_SALT_FAIL:
+    case EDIT_SALT_FAIL:
     case JOIN_SALT_FAIL:
     case LEAVE_SALT_FAIL:
       return {

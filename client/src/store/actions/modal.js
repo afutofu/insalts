@@ -18,13 +18,14 @@ export const registerModalToggle = () => {
   };
 };
 
-export const saltModalToggle = () => {
+export const saltModalToggle = (data = null) => {
   return {
     type: SALT_MODAL_TOGGLE,
+    payload: { data },
   };
 };
 
-export const questionModalToggle = (data) => {
+export const questionModalToggle = () => {
   return {
     type: QUESTION_MODAL_TOGGLE,
   };
