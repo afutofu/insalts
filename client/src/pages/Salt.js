@@ -61,6 +61,29 @@ const Salt = (props) => {
     // getSalts();
   }, [getSalts]);
 
+  const isUserJoined = (saltName) => {
+    if (isAuthenticated && user.joinedSalts) {
+      for (const joinedSalt of user.joinedSalts) {
+        if (joinedSalt.name === saltName) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  const renderJoinButtonText = () => {
+    if (!isAuthenticated) {
+      return "join";
+    }
+
+    if (isUserJoined(saltName)) {
+      return "leave";
+    }
+
+    return "join";
+  };
+
   return (
     <SaltComp>
       <Jumbotron salts={true} title={`s/${saltName}`} />
@@ -73,8 +96,38 @@ const Salt = (props) => {
             desc="Check out all the Salt made by our users, or create one yourself!"
             buttons={[
               {
-                text: "join",
-                onClick: isAuthenticated ? saltModalToggle : loginModalToggle,
+                text: renderJoinButtonText(),
+                onClick: () => {
+                  if (!isAuthenticated) {
+                    loginModalToggle();
+                  } else {
+                    if (isUserJoined(saltName)) {
+                      // Leave button
+                      setModalData({
+                        question: `Are you sure you want to leave ${saltName} ?`,
+                        options: [
+                          {
+                            text: "leave",
+                            onClick: () => leaveSalt(saltName),
+                          },
+                        ],
+                      });
+                      questionModalToggle();
+                    } else {
+                      // Join button
+                      setModalData({
+                        question: `Are you sure you want to join ${saltName} ?`,
+                        options: [
+                          {
+                            text: "join",
+                            onClick: () => joinSalt(saltName),
+                          },
+                        ],
+                      });
+                      questionModalToggle();
+                    }
+                  }
+                },
                 secondary: true,
               },
               {
