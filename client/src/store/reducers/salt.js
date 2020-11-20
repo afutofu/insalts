@@ -64,6 +64,7 @@ const saltReducer = (state = initialState, action) => {
     case EDIT_SALT_SUCCESS:
       return {
         ...state,
+        selectedSalt: { ...action.payload.updatedSalt },
         salts: state.salts.map((salt) => {
           if (salt.name === action.payload.updatedSalt.name) {
             return action.payload.updatedSalt;

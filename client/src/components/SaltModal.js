@@ -241,7 +241,7 @@ const CancelButton = styled.button`
 
 let firstRender = true;
 const SaltModal = (props) => {
-  const { modalOpen, data, createSalt, toggleModal } = props;
+  const { modalOpen, data, createSalt, editSalt, toggleModal } = props;
 
   let initialSaltData = {
     name: "",
@@ -371,23 +371,27 @@ const SaltModal = (props) => {
               <Error>{error}</Error>
             </Title>
 
-            <Header>
-              name <Error>{saltDataErrors.name}</Error>
-            </Header>
-            <Input
-              onChange={(e) => {
-                e.persist();
-                setSaltData((prevData) => {
-                  return {
-                    ...prevData,
-                    name: e.target.value.toLowerCase().trim(),
-                  };
-                });
-              }}
-              name="name"
-              placeholder="yomama will be s/yomama"
-              value={saltData.name}
-            />
+            {data && !data.type === "edit" && (
+              <>
+                <Header>
+                  name <Error>{saltDataErrors.name}</Error>
+                </Header>
+                <Input
+                  onChange={(e) => {
+                    e.persist();
+                    setSaltData((prevData) => {
+                      return {
+                        ...prevData,
+                        name: e.target.value.toLowerCase().trim(),
+                      };
+                    });
+                  }}
+                  name="name"
+                  placeholder="yomama will be s/yomama"
+                  value={saltData.name}
+                />
+              </>
+            )}
 
             <Header>
               title <Error>{saltDataErrors.title}</Error>

@@ -11,6 +11,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   ADD_JOINED_SALT,
+  EDIT_JOINED_SALT,
   REMOVE_JOINED_SALT,
 } from "./actions";
 

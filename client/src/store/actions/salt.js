@@ -156,7 +156,11 @@ export const editSalt = (name, title, description) => (dispatch, getState) => {
   return new Promise((resolve, reject) => {
     dispatch(editSaltBegin());
     axios
-      .post("/api/salts", { name, title, description }, tokenConfig(getState))
+      .patch(
+        `/api/salts/${name}/edit`,
+        { title, description },
+        tokenConfig(getState)
+      )
       .then((res) => {
         dispatch(editSaltSuccess(res.data));
         dispatch(editJoinedSalt(res.data));

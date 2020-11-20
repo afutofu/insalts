@@ -59,6 +59,31 @@ router.post("/", auth, (req, res) => {
     });
 });
 
+// @route   POST /api/salts/:saltName/edit
+// @desc    Edit a salt
+// @access  Private
+router.patch("/:saltName/edit", auth, (req, res) => {
+  const { title, description } = req.body;
+  const { saltName } = req.params;
+
+  Salt.findByPk(saltName)
+    .then((foundSalt) => {
+      foundSalt.title = title;
+      foundSalt.description = description;
+      foundSalt
+        .save()
+        .then((updatedSalt) => {
+          res.status(200).send(updatedSalt);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 // @route   PATCH /api/salts/:saltName/join
 // @desc    User joins a salt
 // @access  Private
