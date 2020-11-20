@@ -78,6 +78,118 @@ const Salt = (props) => {
     return "join";
   };
 
+  const renderSaltCardButtons = () => {
+    let buttons = [];
+    if (isUserJoined(salt.name)) {
+      buttons = [
+        {
+          text: renderJoinButtonText(),
+          onClick: () => {
+            if (!isAuthenticated) {
+              loginModalToggle();
+            } else {
+              if (isUserJoined(salt.name)) {
+                // Leave button
+                setModalData({
+                  question: `Are you sure you want to leave ${salt.name} ?`,
+                  options: [
+                    {
+                      text: "leave",
+                      onClick: () => leaveSalt(salt.name),
+                    },
+                  ],
+                });
+                questionModalToggle();
+              } else {
+                // Join button
+                setModalData({
+                  question: `Are you sure you want to join ${salt.name} ?`,
+                  options: [
+                    {
+                      text: "join",
+                      onClick: () => joinSalt(salt.name),
+                    },
+                  ],
+                });
+                questionModalToggle();
+              }
+            }
+          },
+          secondary: true,
+        },
+        {
+          text: "create post",
+        },
+        {
+          text: "edit",
+          onClick: () => {
+            if (!isAuthenticated) {
+              loginModalToggle();
+            } else {
+              if (isUserJoined(salt.name)) {
+                setModalData({
+                  type: "edit",
+                  name: salt.name,
+                  title: salt.title,
+                  description: salt.description,
+                });
+                saltModalToggle();
+              } else {
+              }
+            }
+          },
+          secondary: true,
+        },
+        {
+          text: "delete",
+        },
+      ];
+    } else {
+      buttons = [
+        {
+          text: renderJoinButtonText(),
+          onClick: () => {
+            if (!isAuthenticated) {
+              loginModalToggle();
+            } else {
+              if (isUserJoined(salt.name)) {
+                // Leave button
+                setModalData({
+                  question: `Are you sure you want to leave ${salt.name} ?`,
+                  options: [
+                    {
+                      text: "leave",
+                      onClick: () => leaveSalt(salt.name),
+                    },
+                  ],
+                });
+                questionModalToggle();
+              } else {
+                // Join button
+                setModalData({
+                  question: `Are you sure you want to join ${salt.name} ?`,
+                  options: [
+                    {
+                      text: "join",
+                      onClick: () => joinSalt(salt.name),
+                    },
+                  ],
+                });
+                questionModalToggle();
+              }
+            }
+          },
+          secondary: true,
+        },
+        {
+          text: "create post",
+        },
+      ];
+    }
+
+    return buttons;
+  };
+
   return (
     <SaltComp>
       <Jumbotron
@@ -93,69 +205,7 @@ const Salt = (props) => {
               title={`s/${salt.name}`}
               titleLowercase={true}
               desc={salt.description}
-              buttons={[
-                {
-                  text: renderJoinButtonText(),
-                  onClick: () => {
-                    if (!isAuthenticated) {
-                      loginModalToggle();
-                    } else {
-                      if (isUserJoined(salt.name)) {
-                        // Leave button
-                        setModalData({
-                          question: `Are you sure you want to leave ${salt.name} ?`,
-                          options: [
-                            {
-                              text: "leave",
-                              onClick: () => leaveSalt(salt.name),
-                            },
-                          ],
-                        });
-                        questionModalToggle();
-                      } else {
-                        // Join button
-                        setModalData({
-                          question: `Are you sure you want to join ${salt.name} ?`,
-                          options: [
-                            {
-                              text: "join",
-                              onClick: () => joinSalt(salt.name),
-                            },
-                          ],
-                        });
-                        questionModalToggle();
-                      }
-                    }
-                  },
-                  secondary: true,
-                },
-                {
-                  text: "create post",
-                },
-                {
-                  text: "edit",
-                  onClick: () => {
-                    if (!isAuthenticated) {
-                      loginModalToggle();
-                    } else {
-                      if (isUserJoined(salt.name)) {
-                        setModalData({
-                          type: "edit",
-                          name: salt.name,
-                          title: salt.title,
-                          description: salt.description,
-                        });
-                        saltModalToggle();
-                      } else {
-                      }
-                    }
-                  },
-                  secondary: true,
-                },
-                {
-                  text: "delete",
-                },
-              ]}
+              buttons={renderSaltCardButtons()}
             />
           </Aside>
         </Container>
