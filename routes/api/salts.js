@@ -22,6 +22,22 @@ router.get("/", (req, res) => {
     });
 });
 
+// @route   GET /api/salts/:saltName
+// @desc    Get one salt
+// @access  Public
+router.get("/:saltName", (req, res) => {
+  const { saltName } = req.params;
+  Salt.findByPk(saltName)
+    .then((foundSalt) => {
+      if (!foundSalt)
+        return res.status(400).json({ msg: "Salt does not exist" });
+      res.status(200).send(foundSalt);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 // @route   POST /api/salts
 // @desc    Create a new salt
 // @access  Private

@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 
 import Jumbotron from "../components/Jumbotron";
 import Card from "../components/Card";
-import SaltItem from "../components/SaltItem";
 
-import { getSalts, joinSalt, leaveSalt } from "../store/actions/salt";
+import { getSalt, joinSalt, leaveSalt } from "../store/actions/salt";
 import {
   loginModalToggle,
   saltModalToggle,
@@ -44,9 +43,8 @@ const Aside = styled.aside`
 const Salt = (props) => {
   const {
     isAuthenticated,
-    salts,
     user,
-    getSalts,
+    getSalt,
     joinSalt,
     leaveSalt,
     loginModalToggle,
@@ -57,14 +55,26 @@ const Salt = (props) => {
 
   const { saltName } = props.match.params;
 
-  useEffect(() => {
-    // getSalts();
-  }, [getSalts]);
+  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
-  const isUserJoined = (saltName) => {
+  useEffect(() => {
+    getSalt(saltName)
+      .then((salt) => {
+        setName(salt.name);
+        setTitle(salt.title);
+        setDescription(salt.description);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [getSalt]);
+
+  const isUserJoined = (name) => {
     if (isAuthenticated && user.joinedSalts) {
       for (const joinedSalt of user.joinedSalts) {
-        if (joinedSalt.name === saltName) {
+        if (joinedSalt.name === name) {
           return true;
         }
       }
@@ -77,7 +87,7 @@ const Salt = (props) => {
       return "join";
     }
 
-    if (isUserJoined(saltName)) {
+    if (isUserJoined(name)) {
       return "leave";
     }
 
@@ -86,14 +96,14 @@ const Salt = (props) => {
 
   return (
     <SaltComp>
-      <Jumbotron salts={true} title={`s/${saltName}`} />
+      <Jumbotron salts={true} title={title} description={description} />
       <Container>
         <Content></Content>
         <Aside>
           <Card
-            title={`s/${saltName}`}
+            title={`s/${name}`}
             titleLowercase={true}
-            desc="Check out all the Salt made by our users, or create one yourself!"
+            desc={description}
             buttons={[
               {
                 text: renderJoinButtonText(),
@@ -101,14 +111,14 @@ const Salt = (props) => {
                   if (!isAuthenticated) {
                     loginModalToggle();
                   } else {
-                    if (isUserJoined(saltName)) {
+                    if (isUserJoined(name)) {
                       // Leave button
                       setModalData({
-                        question: `Are you sure you want to leave ${saltName} ?`,
+                        question: `Are you sure you want to leave ${name} ?`,
                         options: [
                           {
                             text: "leave",
-                            onClick: () => leaveSalt(saltName),
+                            onClick: () => leaveSalt(name),
                           },
                         ],
                       });
@@ -116,11 +126,11 @@ const Salt = (props) => {
                     } else {
                       // Join button
                       setModalData({
-                        question: `Are you sure you want to join ${saltName} ?`,
+                        question: `Are you sure you want to join ${name} ?`,
                         options: [
                           {
                             text: "join",
-                            onClick: () => joinSalt(saltName),
+                            onClick: () => joinSalt(name),
                           },
                         ],
                       });
@@ -151,16 +161,15 @@ const Salt = (props) => {
 const mapStatetoProps = (state) => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
-    salts: state.salt.salts,
     user: state.auth.user,
   };
 };
 
 const mapDispatchtoProps = (dispatch) => {
   return {
-    getSalts: () => dispatch(getSalts()),
-    joinSalt: (saltName) => dispatch(joinSalt(saltName)),
-    leaveSalt: (saltName) => dispatch(leaveSalt(saltName)),
+    getSalt: (name) => dispatch(getSalt(name)),
+    joinSalt: (name) => dispatch(joinSalt(name)),
+    leaveSalt: (name) => dispatch(leaveSalt(name)),
     loginModalToggle: () => dispatch(loginModalToggle()),
     saltModalToggle: () => dispatch(saltModalToggle()),
     questionModalToggle: () => dispatch(questionModalToggle()),

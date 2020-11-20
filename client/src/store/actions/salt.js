@@ -4,6 +4,9 @@ import {
   GET_SALTS_BEGIN,
   GET_SALTS_SUCCESS,
   GET_SALTS_FAIL,
+  GET_SALT_BEGIN,
+  GET_SALT_SUCCESS,
+  GET_SALT_FAIL,
   CREATE_SALT_BEGIN,
   CREATE_SALT_SUCCESS,
   CREATE_SALT_FAIL,
@@ -56,6 +59,47 @@ const getSaltsSuccess = (salts) => {
 const getSaltsFail = (msg) => {
   return {
     type: GET_SALTS_FAIL,
+    payload: { msg },
+  };
+};
+
+export const getSalt = (saltName) => (dispatch) => {
+  return new Promise((resolve, reject) => {
+    dispatch(getSaltBegin());
+    axios
+      .get(`/api/salts/${saltName}`)
+      .then((res) => {
+        // dispatch(getSaltSuccess(res.data));
+        resolve(res.data);
+      })
+      .catch((err) => {
+        if (err && err.response) {
+          dispatch(getSaltFail(err.response.data.msg));
+          reject(err.response.data.msg);
+        } else {
+          console.log(err);
+          reject(err);
+        }
+      });
+  });
+};
+
+const getSaltBegin = () => {
+  return {
+    type: GET_SALT_BEGIN,
+  };
+};
+
+const getSaltSuccess = (salts) => {
+  return {
+    type: GET_SALT_SUCCESS,
+    payload: { salts },
+  };
+};
+
+const getSaltFail = (msg) => {
+  return {
+    type: GET_SALT_FAIL,
     payload: { msg },
   };
 };
