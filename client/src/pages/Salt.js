@@ -75,6 +75,17 @@ const Salt = (props) => {
               {
                 text: "join",
                 onClick: isAuthenticated ? saltModalToggle : loginModalToggle,
+                secondary: true,
+              },
+              {
+                text: "create post",
+              },
+              {
+                text: "edit",
+                secondary: true,
+              },
+              {
+                text: "delete",
               },
             ]}
           />
