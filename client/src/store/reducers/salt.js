@@ -125,7 +125,7 @@ const saltReducer = (state = initialState, action) => {
     case LEAVE_SALT_FAIL:
       return {
         ...state,
-        error: action.payload.error,
+        error: action.payload.msg,
         isLoading: false,
       };
     default:

@@ -51,6 +51,8 @@ const Salt = (props) => {
     isAuthenticated,
     user,
     salt,
+    isLoading,
+    error,
     getSalt,
     deleteSalt,
     joinSalt,
@@ -85,6 +87,12 @@ const Salt = (props) => {
       return "leave";
     }
     return "join";
+  };
+
+  const renderJumbotronTitle = () => {
+    if (isLoading) return "Retreiving salt information...";
+    if (salt) return salt.title;
+    if (error) return error;
   };
 
   const renderSaltCardButtons = () => {
@@ -231,7 +239,7 @@ const Salt = (props) => {
       {redirectToSalts && <Redirect to="/s" />}
       <Jumbotron
         salts={true}
-        title={salt ? salt.title : "Retreiving salt information..."}
+        title={renderJumbotronTitle()}
         description={salt && salt.description}
       />
       {salt ? (
@@ -256,6 +264,8 @@ const mapStatetoProps = (state) => {
     isAuthenticated: state.auth.isAuthenticated,
     user: state.auth.user,
     salt: state.salt.selectedSalt,
+    isLoading: state.salt.isLoading,
+    error: state.salt.error,
   };
 };
 
