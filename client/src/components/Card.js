@@ -44,7 +44,7 @@ const List = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
-  margin-bottom: 15px;
+  margin-bottom: ${(props) => (props.noMarginBottom ? "0" : "15px")};
 `;
 
 const ListItem = styled.li`
@@ -113,7 +113,7 @@ const Card = (props) => {
       return (
         <CardComp>
           <Title>{props.title}</Title>
-          <List>
+          <List noMarginBottom={!buttons}>
             {props.list &&
               props.list.map((listItem, i) => {
                 return (
