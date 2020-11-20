@@ -18,10 +18,9 @@ export const registerModalToggle = () => {
   };
 };
 
-export const saltModalToggle = (data = null) => {
+export const saltModalToggle = () => {
   return {
     type: SALT_MODAL_TOGGLE,
-    payload: { data },
   };
 };
 

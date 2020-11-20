@@ -114,7 +114,14 @@ const Salts = (props) => {
             buttons={[
               {
                 text: "create salt",
-                onClick: isAuthenticated ? saltModalToggle : loginModalToggle,
+                onClick: () => {
+                  if (isAuthenticated) {
+                    setModalData(null);
+                    saltModalToggle();
+                  } else {
+                    loginModalToggle();
+                  }
+                },
               },
             ]}
           />

@@ -30,7 +30,6 @@ const modalReducer = (state = initialState, action) => {
       return {
         ...state,
         salt: !state.salt,
-        data: action.payload.data,
       };
     case QUESTION_MODAL_TOGGLE:
       return {

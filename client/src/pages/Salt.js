@@ -139,12 +139,13 @@ const Salt = (props) => {
                       loginModalToggle();
                     } else {
                       if (isUserJoined(salt.name)) {
-                        saltModalToggle({
+                        setModalData({
                           type: "edit",
                           name: salt.name,
                           title: salt.title,
                           description: salt.description,
                         });
+                        saltModalToggle();
                       } else {
                       }
                     }
