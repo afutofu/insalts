@@ -16,7 +16,8 @@ const CardComp = styled.div`
 const Title = styled.h2`
   width: 100%;
   font-size: 19px;
-  text-transform: uppercase;
+  text-transform: ${(props) =>
+    props.titleLowercase ? "lowercase" : "uppercase"};
   padding: ${(props) => (props.text ? "20px" : "18px 20px")};
   padding-bottom: ${(props) => (props.text ? "0px" : "16px")};
   border-bottom: ${(props) => (props.text ? "" : "1px solid #ddd")};
@@ -31,6 +32,7 @@ const Desc = styled.p`
   padding: 15px 20px;
   padding-bottom: 0;
   margin: 0;
+  margin-bottom: 15px;
 `;
 
 const List = styled.ul`
@@ -42,6 +44,7 @@ const List = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
+  margin-bottom: 15px;
 `;
 
 const ListItem = styled.li`
@@ -68,6 +71,26 @@ const ListItem = styled.li`
 `;
 
 const Card = (props) => {
+  const { buttons } = props;
+
+  const renderButtons = (buttons) => {
+    if (buttons) {
+      return buttons.map((button, i) => {
+        return (
+          <Button
+            key={i}
+            secondary={button.secondary}
+            noMarginTop={button.secondary}
+            src={button.src}
+            onClick={button.onClick}
+          >
+            {button.text}
+          </Button>
+        );
+      });
+    }
+  };
+
   switch (props.type) {
     case "list":
       return (
@@ -83,20 +106,7 @@ const Card = (props) => {
                 );
               })}
           </List>
-          {props.buttons &&
-            props.buttons.map((button, i) => {
-              return (
-                <Button
-                  key={i}
-                  secondary={button.secondary}
-                  noMarginTop={button.secondary}
-                  src={button.src}
-                  onClick={button.onClick}
-                >
-                  {button.text}
-                </Button>
-              );
-            })}
+          {renderButtons(buttons)}
         </CardComp>
       );
     case "joinedSalts":
@@ -114,40 +124,17 @@ const Card = (props) => {
                 );
               })}
           </List>
-          {props.buttons &&
-            props.buttons.map((button, i) => {
-              return (
-                <Button
-                  key={i}
-                  secondary={button.secondary}
-                  noMarginTop={button.secondary}
-                  src={button.src}
-                  onClick={button.onClick}
-                >
-                  {button.text}
-                </Button>
-              );
-            })}
+          {renderButtons(buttons)}
         </CardComp>
       );
     default:
       return (
         <CardComp>
-          <Title text={true}>{props.title}</Title>
+          <Title text={true} titleLowercase={props.titleLowercase}>
+            {props.title}
+          </Title>
           <Desc>{props.desc}</Desc>
-          {props.buttons.map((button, i) => {
-            return (
-              <Button
-                key={i}
-                secondary={button.secondary}
-                noMarginTop={button.secondary}
-                src={button.src}
-                onClick={button.onClick}
-              >
-                {button.text}
-              </Button>
-            );
-          })}
+          {renderButtons(buttons)}
         </CardComp>
       );
   }

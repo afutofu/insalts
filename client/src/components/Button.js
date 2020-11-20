@@ -13,7 +13,7 @@ const ButtonComp = styled.button.attrs((props) => ({
   background-color: ${(props) => (props.secondary ? "white" : "#b64e1f")};
   color: ${(props) => (props.secondary ? "#b64e1f" : "white")};
   margin: 15px 20px;
-  margin-top: ${(props) => props.noMarginTop && "0px"};
+  margin-top: 0px;
   text-transform: uppercase;
   border: ${(props) => (props.secondary ? "1px solid #b64e1f" : "none")};
   outline: none;
