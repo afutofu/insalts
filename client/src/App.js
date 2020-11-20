@@ -14,6 +14,7 @@ import QuestionModal from "./components/QuestionModal";
 import Home from "./pages/Home";
 import Salts from "./pages/Salts";
 import Salt from "./pages/Salt";
+import NotFound from "./pages/NotFound";
 
 import { fetchUser } from "./store/actions/auth";
 
@@ -44,6 +45,7 @@ const App = ({ fetchUser }) => {
           <Route path="/" exact component={Home} />
           <Route path="/s" exact component={Salts} />
           <Route path="/s/:saltName" exact component={Salt} />
+          <Route path="/" component={NotFound} />
         </Switch>
       </AppComp>
     </Router>
