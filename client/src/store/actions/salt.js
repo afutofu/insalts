@@ -69,7 +69,7 @@ export const getSalt = (saltName) => (dispatch) => {
     axios
       .get(`/api/salts/${saltName}`)
       .then((res) => {
-        // dispatch(getSaltSuccess(res.data));
+        dispatch(getSaltSuccess(res.data));
         resolve(res.data);
       })
       .catch((err) => {
@@ -90,10 +90,10 @@ const getSaltBegin = () => {
   };
 };
 
-const getSaltSuccess = (salts) => {
+const getSaltSuccess = (salt) => {
   return {
     type: GET_SALT_SUCCESS,
-    payload: { salts },
+    payload: { salt },
   };
 };
 

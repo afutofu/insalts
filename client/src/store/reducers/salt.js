@@ -2,6 +2,9 @@ import {
   GET_SALTS_BEGIN,
   GET_SALTS_SUCCESS,
   GET_SALTS_FAIL,
+  GET_SALT_BEGIN,
+  GET_SALT_SUCCESS,
+  GET_SALT_FAIL,
   CREATE_SALT_BEGIN,
   CREATE_SALT_SUCCESS,
   CREATE_SALT_FAIL,
@@ -14,6 +17,7 @@ import {
 } from "../actions/actions";
 
 const initialState = {
+  selectedSalt: null,
   salts: [],
   error: null,
   isLoading: false,
@@ -29,10 +33,22 @@ const saltReducer = (state = initialState, action) => {
         ...state,
         isLoading: true,
       };
+    case GET_SALT_BEGIN:
+      return {
+        ...state,
+        selectedSalt: null,
+        isLoading: true,
+      };
     case GET_SALTS_SUCCESS:
       return {
         ...state,
         salts: [...action.payload.salts],
+        isLoading: false,
+      };
+    case GET_SALT_SUCCESS:
+      return {
+        ...state,
+        selectedSalt: { ...action.payload.salt },
         isLoading: false,
       };
     case CREATE_SALT_SUCCESS:
@@ -72,6 +88,7 @@ const saltReducer = (state = initialState, action) => {
         isLoading: false,
       };
     case GET_SALTS_FAIL:
+    case GET_SALT_FAIL:
     case CREATE_SALT_FAIL:
     case JOIN_SALT_FAIL:
     case LEAVE_SALT_FAIL:

@@ -44,6 +44,7 @@ const Salt = (props) => {
   const {
     isAuthenticated,
     user,
+    salt,
     getSalt,
     joinSalt,
     leaveSalt,
@@ -55,26 +56,14 @@ const Salt = (props) => {
 
   const { saltName } = props.match.params;
 
-  const [name, setName] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-
   useEffect(() => {
-    getSalt(saltName)
-      .then((salt) => {
-        setName(salt.name);
-        setTitle(salt.title);
-        setDescription(salt.description);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [getSalt]);
+    getSalt(saltName);
+  }, [getSalt, saltName]);
 
-  const isUserJoined = (name) => {
+  const isUserJoined = (saltName) => {
     if (isAuthenticated && user.joinedSalts) {
       for (const joinedSalt of user.joinedSalts) {
-        if (joinedSalt.name === name) {
+        if (joinedSalt.name === saltName) {
           return true;
         }
       }
@@ -83,77 +72,78 @@ const Salt = (props) => {
   };
 
   const renderJoinButtonText = () => {
-    if (!isAuthenticated) {
-      return "join";
-    }
-
-    if (isUserJoined(name)) {
+    if (isUserJoined(salt.name)) {
       return "leave";
     }
-
     return "join";
   };
 
   return (
     <SaltComp>
-      <Jumbotron salts={true} title={title} description={description} />
-      <Container>
-        <Content></Content>
-        <Aside>
-          <Card
-            title={`s/${name}`}
-            titleLowercase={true}
-            desc={description}
-            buttons={[
-              {
-                text: renderJoinButtonText(),
-                onClick: () => {
-                  if (!isAuthenticated) {
-                    loginModalToggle();
-                  } else {
-                    if (isUserJoined(name)) {
-                      // Leave button
-                      setModalData({
-                        question: `Are you sure you want to leave ${name} ?`,
-                        options: [
-                          {
-                            text: "leave",
-                            onClick: () => leaveSalt(name),
-                          },
-                        ],
-                      });
-                      questionModalToggle();
+      <Jumbotron
+        salts={true}
+        title={salt ? salt.title : "Retreiving salt information..."}
+        description={salt && salt.description}
+      />
+      {salt ? (
+        <Container>
+          <Content></Content>
+          <Aside>
+            <Card
+              title={`s/${salt.name}`}
+              titleLowercase={true}
+              desc={salt.description}
+              buttons={[
+                {
+                  text: renderJoinButtonText(),
+                  onClick: () => {
+                    if (!isAuthenticated) {
+                      loginModalToggle();
                     } else {
-                      // Join button
-                      setModalData({
-                        question: `Are you sure you want to join ${name} ?`,
-                        options: [
-                          {
-                            text: "join",
-                            onClick: () => joinSalt(name),
-                          },
-                        ],
-                      });
-                      questionModalToggle();
+                      if (isUserJoined(salt.name)) {
+                        // Leave button
+                        setModalData({
+                          question: `Are you sure you want to leave ${salt.name} ?`,
+                          options: [
+                            {
+                              text: "leave",
+                              onClick: () => leaveSalt(salt.name),
+                            },
+                          ],
+                        });
+                        questionModalToggle();
+                      } else {
+                        // Join button
+                        setModalData({
+                          question: `Are you sure you want to join ${salt.name} ?`,
+                          options: [
+                            {
+                              text: "join",
+                              onClick: () => joinSalt(salt.name),
+                            },
+                          ],
+                        });
+                        questionModalToggle();
+                      }
                     }
-                  }
+                  },
+                  secondary: true,
                 },
-                secondary: true,
-              },
-              {
-                text: "create post",
-              },
-              {
-                text: "edit",
-                secondary: true,
-              },
-              {
-                text: "delete",
-              },
-            ]}
-          />
-        </Aside>
-      </Container>
+                {
+                  text: "create post",
+                },
+                {
+                  text: "edit",
+                  secondary: true,
+                },
+                {
+                  text: "delete",
+                },
+              ]}
+            />
+          </Aside>
+        </Container>
+      ) : null}
     </SaltComp>
   );
 };
@@ -162,6 +152,7 @@ const mapStatetoProps = (state) => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     user: state.auth.user,
+    salt: state.salt.selectedSalt,
   };
 };
 
