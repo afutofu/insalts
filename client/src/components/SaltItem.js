@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -80,19 +80,6 @@ const Description = styled.p`
 `;
 
 const SaltItem = (props) => {
-  const [joined, setJoined] = useState(false);
-
-  useEffect(() => {
-    setJoined(false);
-    if (props.user && props.user.joinedSalts) {
-      for (const joinedSalt of props.user.joinedSalts) {
-        if (joinedSalt.name === props.name) {
-          setJoined(true);
-        }
-      }
-    }
-  }, [props.user, props.name]);
-
   return (
     <SaltItemComp>
       <Header>
@@ -100,7 +87,9 @@ const SaltItem = (props) => {
           <Name>
             <Link to={`/s/${props.name}`}>s/{props.name}</Link>
           </Name>
-          {!joined && <SmallButton onClick={props.joinSalt}>Join</SmallButton>}
+          {!props.joined && (
+            <SmallButton onClick={props.joinSalt}>Join</SmallButton>
+          )}
         </HeaderContainer>
       </Header>
       <Content>

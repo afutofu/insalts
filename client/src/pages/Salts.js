@@ -59,6 +59,17 @@ const Salts = (props) => {
     getSalts();
   }, [getSalts]);
 
+  const isUserJoined = (saltName) => {
+    if (isAuthenticated && user.joinedSalts) {
+      for (const joinedSalt of user.joinedSalts) {
+        if (joinedSalt.name === saltName) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
   return (
     <SaltsComp>
       <Jumbotron
@@ -75,7 +86,7 @@ const Salts = (props) => {
                 name={salt.name}
                 title={salt.title}
                 description={salt.description}
-                user={user}
+                joined={isUserJoined(salt.name)}
                 joinSalt={() => {
                   if (isAuthenticated) {
                     setModalData({
