@@ -11,6 +11,9 @@ import {
   EDIT_SALT_BEGIN,
   EDIT_SALT_SUCCESS,
   EDIT_SALT_FAIL,
+  DELETE_SALT_BEGIN,
+  DELETE_SALT_SUCCESS,
+  DELETE_SALT_FAIL,
   JOIN_SALT_BEGIN,
   JOIN_SALT_SUCCESS,
   JOIN_SALT_FAIL,
@@ -31,6 +34,7 @@ const saltReducer = (state = initialState, action) => {
     case GET_SALTS_BEGIN:
     case CREATE_SALT_BEGIN:
     case EDIT_SALT_BEGIN:
+    case DELETE_SALT_BEGIN:
     case JOIN_SALT_BEGIN:
     case LEAVE_SALT_BEGIN:
       return {
@@ -73,6 +77,15 @@ const saltReducer = (state = initialState, action) => {
         }),
         isLoading: false,
       };
+    case DELETE_SALT_SUCCESS:
+      return {
+        ...state,
+        selectedSalt: null,
+        salts: state.salts.filter(
+          (salt) => salt.name !== action.payload.saltName
+        ),
+        isLoading: false,
+      };
     case JOIN_SALT_SUCCESS:
       return {
         ...state,
@@ -107,6 +120,7 @@ const saltReducer = (state = initialState, action) => {
     case GET_SALT_FAIL:
     case CREATE_SALT_FAIL:
     case EDIT_SALT_FAIL:
+    case DELETE_SALT_FAIL:
     case JOIN_SALT_FAIL:
     case LEAVE_SALT_FAIL:
       return {

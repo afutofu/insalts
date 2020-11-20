@@ -84,6 +84,28 @@ router.patch("/:saltName/edit", auth, (req, res) => {
     });
 });
 
+// @route   DELETE /api/salts/:saltName
+// @desc    Delete a salt
+// @access  Private
+router.delete("/:saltName", auth, (req, res) => {
+  const { saltName } = req.params;
+
+  Salt.findByPk(saltName)
+    .then((foundSalt) => {
+      foundSalt
+        .destroy()
+        .then(() => {
+          res.status(200).send(foundSalt);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 // @route   PATCH /api/salts/:saltName/join
 // @desc    User joins a salt
 // @access  Private

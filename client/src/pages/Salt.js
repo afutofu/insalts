@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import Jumbotron from "../components/Jumbotron";
 import Card from "../components/Card";
 
-import { getSalt, joinSalt, leaveSalt } from "../store/actions/salt";
+import {
+  getSalt,
+  deleteSalt,
+  joinSalt,
+  leaveSalt,
+} from "../store/actions/salt";
 import {
   loginModalToggle,
   saltModalToggle,
@@ -46,6 +52,7 @@ const Salt = (props) => {
     user,
     salt,
     getSalt,
+    deleteSalt,
     joinSalt,
     leaveSalt,
     loginModalToggle,
@@ -55,6 +62,8 @@ const Salt = (props) => {
   } = props;
 
   const { saltName } = props.match.params;
+
+  const [redirectToSalts, setRedirectToSalts] = useState(false);
 
   useEffect(() => {
     getSalt(saltName);
@@ -142,6 +151,33 @@ const Salt = (props) => {
         },
         {
           text: "delete",
+          onClick: () => {
+            if (!isAuthenticated) {
+              loginModalToggle();
+            } else {
+              if (isUserJoined(salt.name)) {
+                setModalData({
+                  question: `Are you sure you want to delete ${salt.name} ? This action cannot be undone.`,
+                  options: [
+                    {
+                      text: "remove",
+                      onClick: () => {
+                        deleteSalt(salt.name)
+                          .then(() => {
+                            setRedirectToSalts(true);
+                          })
+                          .catch((err) => {
+                            console.log(err);
+                          });
+                      },
+                    },
+                  ],
+                });
+                questionModalToggle();
+              } else {
+              }
+            }
+          },
         },
       ];
     } else {
@@ -192,6 +228,7 @@ const Salt = (props) => {
 
   return (
     <SaltComp>
+      {redirectToSalts && <Redirect to="/s" />}
       <Jumbotron
         salts={true}
         title={salt ? salt.title : "Retreiving salt information..."}
@@ -225,6 +262,7 @@ const mapStatetoProps = (state) => {
 const mapDispatchtoProps = (dispatch) => {
   return {
     getSalt: (name) => dispatch(getSalt(name)),
+    deleteSalt: (name) => dispatch(deleteSalt(name)),
     joinSalt: (name) => dispatch(joinSalt(name)),
     leaveSalt: (name) => dispatch(leaveSalt(name)),
     loginModalToggle: () => dispatch(loginModalToggle()),

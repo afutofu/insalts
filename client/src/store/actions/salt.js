@@ -13,6 +13,9 @@ import {
   EDIT_SALT_BEGIN,
   EDIT_SALT_SUCCESS,
   EDIT_SALT_FAIL,
+  DELETE_SALT_BEGIN,
+  DELETE_SALT_SUCCESS,
+  DELETE_SALT_FAIL,
   JOIN_SALT_BEGIN,
   JOIN_SALT_SUCCESS,
   JOIN_SALT_FAIL,
@@ -194,6 +197,48 @@ const editSaltSuccess = (updatedSalt) => {
 const editSaltFail = (msg) => {
   return {
     type: EDIT_SALT_FAIL,
+    payload: { msg },
+  };
+};
+
+export const deleteSalt = (saltName) => (dispatch, getState) => {
+  return new Promise((resolve, reject) => {
+    dispatch(deleteSaltBegin());
+    axios
+      .delete(`/api/salts/${saltName}`, tokenConfig(getState))
+      .then(() => {
+        dispatch(deleteSaltSuccess(saltName));
+        dispatch(removeJoinedSalt(saltName));
+        resolve();
+      })
+      .catch((err) => {
+        if (err && err.response) {
+          dispatch(deleteSaltFail(err.response.data.msg));
+          reject(err.response.data.msg);
+        } else {
+          console.log(err);
+          reject(err);
+        }
+      });
+  });
+};
+
+const deleteSaltBegin = () => {
+  return {
+    type: DELETE_SALT_BEGIN,
+  };
+};
+
+const deleteSaltSuccess = (saltName) => {
+  return {
+    type: DELETE_SALT_SUCCESS,
+    payload: { saltName },
+  };
+};
+
+const deleteSaltFail = (msg) => {
+  return {
+    type: DELETE_SALT_FAIL,
     payload: { msg },
   };
 };
