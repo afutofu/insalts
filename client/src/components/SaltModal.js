@@ -256,9 +256,8 @@ const SaltModal = (props) => {
   if (modalOpen) firstRender = false;
 
   useEffect(() => {
-    if (data) {
+    if (data && data.type === "edit") {
       setSaltData({
-        name: data.name,
         title: data.title,
         description: data.description,
       });
@@ -278,7 +277,7 @@ const SaltModal = (props) => {
     return isValidated;
   };
 
-  const validateInputs = (name, title, description) => {
+  const validateInputs = (name, title) => {
     let saltDataErrors = {
       name: "",
       title: "",
@@ -371,7 +370,7 @@ const SaltModal = (props) => {
               <Error>{error}</Error>
             </Title>
 
-            {data && !data.type === "edit" && (
+            {data && data.type === "edit" ? null : (
               <>
                 <Header>
                   name <Error>{saltDataErrors.name}</Error>
