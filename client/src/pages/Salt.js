@@ -98,49 +98,57 @@ const Salt = (props) => {
   };
 
   const renderSaltCardButtons = () => {
-    let buttons = [];
+    let buttons = [
+      {
+        text: renderJoinButtonText(),
+        onClick: () => {
+          if (!isAuthenticated) {
+            loginModalToggle();
+          } else {
+            if (isUserJoined(salt.name)) {
+              // Leave button
+              setModalData({
+                question: `Are you sure you want to leave ${salt.name} ?`,
+                options: [
+                  {
+                    text: "leave",
+                    onClick: () => leaveSalt(salt.name),
+                  },
+                ],
+              });
+              questionModalToggle();
+            } else {
+              // Join button
+              setModalData({
+                question: `Are you sure you want to join ${salt.name} ?`,
+                options: [
+                  {
+                    text: "join",
+                    onClick: () => joinSalt(salt.name),
+                  },
+                ],
+              });
+              questionModalToggle();
+            }
+          }
+        },
+      },
+    ];
     if (isUserJoined(salt.name)) {
-      buttons = [
+      buttons = buttons.concat([
         {
-          text: renderJoinButtonText(),
+          text: "create post",
           onClick: () => {
             if (!isAuthenticated) {
               loginModalToggle();
             } else {
               if (isUserJoined(salt.name)) {
-                // Leave button
-                setModalData({
-                  question: `Are you sure you want to leave ${salt.name} ?`,
-                  options: [
-                    {
-                      text: "leave",
-                      onClick: () => leaveSalt(salt.name),
-                    },
-                  ],
-                });
-                questionModalToggle();
+                postModalToggle();
               } else {
-                // Join button
-                setModalData({
-                  question: `Are you sure you want to join ${salt.name} ?`,
-                  options: [
-                    {
-                      text: "join",
-                      onClick: () => joinSalt(salt.name),
-                    },
-                  ],
-                });
-                questionModalToggle();
               }
             }
           },
           secondary: true,
-        },
-        {
-          text: "create post",
-          onClick: () => {
-            postModalToggle();
-          },
         },
         {
           text: "edit",
@@ -160,7 +168,6 @@ const Salt = (props) => {
               }
             }
           },
-          secondary: true,
         },
         {
           text: "delete",
@@ -191,49 +198,9 @@ const Salt = (props) => {
               }
             }
           },
-        },
-      ];
-    } else {
-      buttons = [
-        {
-          text: renderJoinButtonText(),
-          onClick: () => {
-            if (!isAuthenticated) {
-              loginModalToggle();
-            } else {
-              if (isUserJoined(salt.name)) {
-                // Leave button
-                setModalData({
-                  question: `Are you sure you want to leave ${salt.name} ?`,
-                  options: [
-                    {
-                      text: "leave",
-                      onClick: () => leaveSalt(salt.name),
-                    },
-                  ],
-                });
-                questionModalToggle();
-              } else {
-                // Join button
-                setModalData({
-                  question: `Are you sure you want to join ${salt.name} ?`,
-                  options: [
-                    {
-                      text: "join",
-                      onClick: () => joinSalt(salt.name),
-                    },
-                  ],
-                });
-                questionModalToggle();
-              }
-            }
-          },
           secondary: true,
         },
-        {
-          text: "create post",
-        },
-      ];
+      ]);
     }
 
     return buttons;
