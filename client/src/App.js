@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import LoginModal from "./components/LoginModal";
 import RegisterModal from "./components/RegisterModal";
 import SaltModal from "./components/SaltModal";
+import PostModal from "./components/PostModal";
 import QuestionModal from "./components/QuestionModal";
 
 import Home from "./pages/Home";
@@ -40,6 +41,7 @@ const App = ({ fetchUser }) => {
         <LoginModal />
         <RegisterModal />
         <SaltModal />
+        <PostModal />
         <QuestionModal />
         <Switch>
           <Route path="/" exact component={Home} />

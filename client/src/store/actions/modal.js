@@ -2,6 +2,7 @@ import {
   LOGIN_MODAL_TOGGLE,
   REGISTER_MODAL_TOGGLE,
   SALT_MODAL_TOGGLE,
+  POST_MODAL_TOGGLE,
   QUESTION_MODAL_TOGGLE,
   SET_MODAL_DATA,
 } from "./actions";
@@ -21,6 +22,12 @@ export const registerModalToggle = () => {
 export const saltModalToggle = () => {
   return {
     type: SALT_MODAL_TOGGLE,
+  };
+};
+
+export const postModalToggle = () => {
+  return {
+    type: POST_MODAL_TOGGLE,
   };
 };
 

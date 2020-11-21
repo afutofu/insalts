@@ -15,6 +15,7 @@ import {
 import {
   loginModalToggle,
   saltModalToggle,
+  postModalToggle,
   questionModalToggle,
   setModalData,
 } from "../store/actions/modal";
@@ -59,6 +60,7 @@ const Salt = (props) => {
     leaveSalt,
     loginModalToggle,
     saltModalToggle,
+    postModalToggle,
     questionModalToggle,
     setModalData,
   } = props;
@@ -136,6 +138,9 @@ const Salt = (props) => {
         },
         {
           text: "create post",
+          onClick: () => {
+            postModalToggle();
+          },
         },
         {
           text: "edit",
@@ -277,6 +282,7 @@ const mapDispatchtoProps = (dispatch) => {
     leaveSalt: (name) => dispatch(leaveSalt(name)),
     loginModalToggle: () => dispatch(loginModalToggle()),
     saltModalToggle: (data) => dispatch(saltModalToggle(data)),
+    postModalToggle: () => dispatch(postModalToggle()),
     questionModalToggle: () => dispatch(questionModalToggle()),
     setModalData: (data) => dispatch(setModalData(data)),
   };
