@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 import Button from "./Button";
 import SmallButton from "./SmallButton";
@@ -58,14 +59,24 @@ const ListItem = styled.li`
   justify-content: space-between;
   align-items: center;
 
+  a {
+    text-decoration: inherit;
+    color: inherit;
+  }
+
   button {
     opacity: 0;
     transition: opacity 0.1s;
   }
 
   :hover {
+    a {
+      text-decoration: underline;
+    }
+
     button {
       opacity: 1;
+      text-decoration: none;
     }
   }
 `;
@@ -104,7 +115,7 @@ const Card = (props) => {
                     key={i}
                     noBorder={!buttons && i + 1 === props.list.length}
                   >
-                    {listItem}
+                    <Link to={`/s/${listItem}`}>{listItem}</Link>
                   </ListItem>
                 );
               })}
@@ -121,7 +132,7 @@ const Card = (props) => {
               props.list.map((listItem, i) => {
                 return (
                   <ListItem key={i} noBorder={i + 1 === props.list.length}>
-                    {listItem.name}
+                    <Link to={`/s/${listItem.name}`}>{listItem.name}</Link>
                     <SmallButton onClick={listItem.onClick}>Leave</SmallButton>
                   </ListItem>
                 );
