@@ -4,7 +4,9 @@ import { connect } from "react-redux";
 
 import Jumbotron from "../components/Jumbotron";
 import Card from "../components/Card";
+
 import { getPosts } from "../store/actions/post";
+import { getSalts } from "../store/actions/salt";
 
 const HomeComp = styled.section`
   position: relative;
@@ -34,11 +36,12 @@ const Aside = styled.aside`
 `;
 
 const Home = (props) => {
-  const { getPosts } = props;
+  const { salts, getPosts, getSalts } = props;
 
   useEffect(() => {
     getPosts();
-  }, []);
+    getSalts();
+  }, [getPosts, getSalts]);
 
   return (
     <HomeComp>
@@ -49,6 +52,7 @@ const Home = (props) => {
           <Card
             type="list"
             title="saltiest salts"
+            list={salts.map((salt) => salt.name)}
             buttons={[
               {
                 text: "view all",
@@ -58,17 +62,7 @@ const Home = (props) => {
           />
           <Card
             title="home"
-            desc="Your personal InSalts homepage, come here to check on insalts from your favorite salts"
-            buttons={[
-              {
-                text: "create insalt",
-              },
-              {
-                text: "create salt",
-                secondary: true,
-                noMarginTop: true,
-              },
-            ]}
+            desc="Your personal Insalts homepage, come here to check on posts from your favorite salts"
           />
         </Aside>
       </Container>
@@ -76,10 +70,17 @@ const Home = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    getPosts: () => dispatch(getPosts()),
+    salts: state.salt.salts,
   };
 };
 
-export default connect(null, mapDispatchToProps)(Home);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getPosts: () => dispatch(getPosts()),
+    getSalts: () => dispatch(getSalts()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

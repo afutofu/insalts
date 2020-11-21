@@ -100,7 +100,10 @@ const Card = (props) => {
             {props.list &&
               props.list.map((listItem, i) => {
                 return (
-                  <ListItem key={i} noBorder={i + 1 === props.list.length}>
+                  <ListItem
+                    key={i}
+                    noBorder={!buttons && i + 1 === props.list.length}
+                  >
                     {listItem}
                   </ListItem>
                 );
