@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 
 import Jumbotron from "../components/Jumbotron";
 import Card from "../components/Card";
+import { getPosts } from "../store/actions/post";
 
 const HomeComp = styled.section`
   position: relative;
@@ -31,7 +33,13 @@ const Aside = styled.aside`
   flex-direction: column;
 `;
 
-const Home = () => {
+const Home = (props) => {
+  const { getPosts } = props;
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
   return (
     <HomeComp>
       <Jumbotron />
@@ -68,4 +76,10 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getPosts: () => dispatch(getPosts()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Home);
