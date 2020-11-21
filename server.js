@@ -15,11 +15,13 @@ app.use(express.json());
 const userRoutes = require("./routes/api/users");
 const authRoutes = require("./routes/api/auth");
 const saltRoutes = require("./routes/api/salts");
+const postRoutes = require("./routes/api/posts");
 
 // USE ROUTES
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/salts", saltRoutes);
+app.use("/api/posts", postRoutes);
 
 // DATABASE
 const db = require("./database/database");
