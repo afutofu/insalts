@@ -143,6 +143,9 @@ const Salt = (props) => {
               loginModalToggle();
             } else {
               if (isUserJoined(salt.name)) {
+                setModalData({
+                  saltName: salt.name,
+                });
                 postModalToggle();
               } else {
               }

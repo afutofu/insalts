@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import validator from "validator";
 
 import { createSalt, editSalt } from "../store/actions/salt";
+import { createPost } from "../store/actions/post";
 import { postModalToggle } from "../store/actions/modal";
 
 const modalFadeIn = keyframes`
@@ -241,7 +242,7 @@ const CancelButton = styled.button`
 
 let firstRender = true;
 const SaltModal = (props) => {
-  const { modalOpen, data, toggleModal } = props;
+  const { modalOpen, data, createPost, toggleModal } = props;
 
   let initialSaltData = {
     title: "",
@@ -276,20 +277,14 @@ const SaltModal = (props) => {
     return isValidated;
   };
 
-  const validateInputs = (name, title) => {
+  const validateInputs = (title) => {
     let postDataErrors = {
-      name: "",
       title: "",
       content: "",
     };
 
-    // Check if name is alphanumeric
-    if (!validator.isAlpha(name)) {
-      postDataErrors.name = "Must only contain letters";
-    }
-
     // Check if title is alphanumeric
-    if (!validator.isAlphanumeric(validator.blacklist(title, " "))) {
+    if (!validator.isAlphanumeric(validator.blacklist(title, " '"))) {
       postDataErrors.title = "Must only contain letters and numbers";
     }
 
@@ -326,12 +321,12 @@ const SaltModal = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
     resetErrors();
-    const { name, title, content } = postData;
-    const isValidated = validateInputs(name, title, content);
+    const { title, content } = postData;
+    const { saltName } = data;
+    const isValidated = validateInputs(title, content);
 
     if (isValidated) {
       if (data && data.type === "edit") {
-        console.log("edit post");
         // editSalt(name, title, content)
         //   .then(() => {
         //     onModalClose();
@@ -344,18 +339,19 @@ const SaltModal = (props) => {
         //     }
         //   });
       } else {
-        console.log("create post");
-        // createSalt(name, title, content)
-        //   .then(() => {
-        //     onModalClose();
-        //   })
-        //   .catch((error) => {
-        //     if (error.type === "VALIDATION") {
-        //       setPostDataErrors(error.errors);
-        //     } else {
-        //       setError(error.msg);
-        //     }
-        //   });
+        createPost(title, content, saltName)
+          .then(() => {
+            onModalClose();
+          })
+          .catch((error) => {
+            if (!error) {
+              setError("Oops, something went wrong");
+            } else if (error && error.type === "VALIDATION") {
+              setPostDataErrors(error.errors);
+            } else {
+              setError(error.msg);
+            }
+          });
       }
     }
   };
@@ -427,6 +423,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    createPost: (title, content, saltName) =>
+      dispatch(createPost(title, content, saltName)),
     createSalt: (title, content) => dispatch(createSalt(title, content)),
     editSalt: (title, content) => dispatch(editSalt(title, content)),
     toggleModal: () => dispatch(postModalToggle()),

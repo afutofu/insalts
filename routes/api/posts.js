@@ -19,27 +19,20 @@ router.get("/", (req, res) => {
 });
 
 // @route   POST /api/posts
-// @desc    Create all posts
+// @desc    Create a post
 // @access  Private
-router.get("/", auth, (req, res) => {
+router.post("/", auth, (req, res) => {
   const { title, content, saltName } = req.body;
   const userId = req.user.id;
 
-  Post.build({
+  Post.create({
     title,
     content,
   })
-    .then(async (builtPost) => {
-      await builtPost.setSaltName(saltName);
-      await builtPost.setUserId(userId);
-      builtPost
-        .save()
-        .then((newPost) => {
-          res.status(200).send(newPost);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    .then(async (newPost) => {
+      await newPost.setSalt(saltName);
+      await newPost.setUser(userId);
+      res.status(200).send(newPost);
     })
     .catch((err) => {
       console.log(err);
