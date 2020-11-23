@@ -4,12 +4,18 @@ const router = express.Router();
 const auth = require("../../middleware/auth");
 
 const Post = require("../../models/Post");
+const User = require("../../models/User");
 
 // @route   GET /api/posts
 // @desc    Get all posts
 // @access  Public
 router.get("/", (req, res) => {
-  Post.findAll()
+  Post.findAll({
+    include: {
+      model: User,
+      attributes: ["username"],
+    },
+  })
     .then((allPosts) => {
       res.status(200).send(allPosts);
     })

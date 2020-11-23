@@ -59,7 +59,7 @@ const Home = (props) => {
             return (
               <PostItem
                 saltName={post.saltName}
-                username={post.userId}
+                username={post.user.username}
                 createdAt={post.createdAt}
                 title={post.title}
                 content={post.content}
