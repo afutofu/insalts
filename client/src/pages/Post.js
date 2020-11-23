@@ -33,7 +33,7 @@ const Container = styled.div`
 `;
 
 const InnerContainer = styled.div`
-  padding-top: 20px;
+  padding-top: 50px;
   width: 100%;
   margin: auto;
   display: flex;
@@ -110,25 +110,20 @@ const Salt = (props) => {
   };
 
   const renderSaltCardButtons = () => {
-    let buttons = [
-      {
-        text: renderJoinButtonText(),
-        onClick: () => {
-          if (!isAuthenticated) {
-            loginModalToggle();
-          } else {
-            if (isUserJoined(post.salt.name)) {
-              // Leave button
-              setModalData({
-                question: `Are you sure you want to leave ${post.salt.name} ?`,
-                options: [
-                  {
-                    text: "leave",
-                    onClick: () => leaveSalt(post.salt.name),
-                  },
-                ],
-              });
-              questionModalToggle();
+    if (isUserJoined(post.salt.name)) {
+      return [
+        {
+          text: "view salt page",
+          onClick: () => setRedirectToSalt(true),
+        },
+      ];
+    } else {
+      return [
+        {
+          text: renderJoinButtonText(),
+          onClick: () => {
+            if (!isAuthenticated) {
+              loginModalToggle();
             } else {
               // Join button
               setModalData({
@@ -142,37 +137,59 @@ const Salt = (props) => {
               });
               questionModalToggle();
             }
-          }
+          },
         },
+        {
+          text: "view salt page",
+          onClick: () => setRedirectToSalt(true),
+          secondary: true,
+        },
+      ];
+    }
+  };
+
+  const renderPostButtons = () => {
+    return [
+      {
+        text: "edit",
       },
       {
-        text: "view salt posts",
-        onClick: () => setRedirectToSalt(true),
+        text: "delete",
         secondary: true,
       },
     ];
-
-    return buttons;
   };
 
   return (
     <PostComp>
       {redirectToSalt && <Redirect to={`/s/${post.saltName}`} />}
       {error && <Jumbotron salts={true} title={renderJumbotronTitle()} />}
-      {post ? (
+      {post && post.id == postId && (
         <Container>
           <InnerContainer>
-            <Content></Content>
+            <Content>
+              <PostItem
+                type="page"
+                noHover={true}
+                author={user && user.id === post.userId}
+                saltName={post.saltName}
+                username={post.user.username}
+                createdAt={post.createdAt}
+                title={post.title}
+                content={post.content}
+                buttons={renderPostButtons()}
+              />
+            </Content>
             <Aside>
               <Card
-                title={`about`}
+                title={post.salt.title}
                 desc={post.salt.description}
                 buttons={renderSaltCardButtons()}
               />
             </Aside>
           </InnerContainer>
         </Container>
-      ) : null}
+      )}
     </PostComp>
   );
 };
