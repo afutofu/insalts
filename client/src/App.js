@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 
 import "normalize.css";
+import "./styles.css";
 
 import Navbar from "./components/Navbar";
 import LoginModal from "./components/LoginModal";
