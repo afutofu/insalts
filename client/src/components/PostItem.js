@@ -11,6 +11,7 @@ const PostItemComp = styled.div`
   border-radius: 5px;
   overflow: hidden;
   box-sizing: border-box;
+  margin-bottom: 20px;
 `;
 
 const Container = styled.div`
