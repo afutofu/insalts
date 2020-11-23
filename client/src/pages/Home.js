@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import Jumbotron from "../components/Jumbotron";
 import Card from "../components/Card";
+import PostItem from "../components/PostItem";
 
 import { getPosts } from "../store/actions/post";
 import { getSalts } from "../store/actions/salt";
@@ -19,24 +20,30 @@ const Container = styled.div`
   width: 80%;
   margin: auto;
   display: flex;
+  justify-content: space-between;
 `;
 
 const Content = styled.section`
   position: relative;
-  width: 70%;
+  flex: 1;
+  padding: 0 10px;
+  box-sizing: border-box;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
 `;
 
 const Aside = styled.aside`
   position: relative;
-  width: 30%;
+  max-width: 30%;
+  padding: 0 10px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
 `;
 
 const Home = (props) => {
-  const { salts, getPosts, getSalts } = props;
+  const { posts, salts, getPosts, getSalts } = props;
 
   useEffect(() => {
     getPosts();
@@ -47,7 +54,11 @@ const Home = (props) => {
     <HomeComp>
       <Jumbotron />
       <Container>
-        <Content></Content>
+        <Content>
+          {posts.map((post) => {
+            return <PostItem />;
+          })}
+        </Content>
         <Aside>
           <Card
             type="list"
@@ -72,6 +83,7 @@ const Home = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    posts: state.post.posts,
     salts: state.salt.salts,
   };
 };
