@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 const PostItemComp = styled.div`
   width: 100%;
@@ -62,14 +63,18 @@ const ContentInfo = styled.p`
 `;
 
 const PostItem = (props) => {
+  const toRelativeTime = (date) => {
+    return moment(date).fromNow();
+  };
+
   return (
     <PostItemComp>
       <Header>
         <Container>
           <SaltName>
             <Link to={`/s/${props.saltName}`}>s/{props.saltName}</Link>
-          </SaltName>{" "}
-          Posted by {props.username} {props.createdAt}
+          </SaltName>
+          Posted by {props.username} {toRelativeTime(props.createdAt)}
         </Container>
       </Header>
       <Content>
