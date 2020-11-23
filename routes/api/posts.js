@@ -5,6 +5,7 @@ const auth = require("../../middleware/auth");
 
 const Post = require("../../models/Post");
 const User = require("../../models/User");
+const Salt = require("../../models/Salt");
 
 // @route   GET /api/posts
 // @desc    Get all posts
@@ -19,6 +20,35 @@ router.get("/", (req, res) => {
   })
     .then((allPosts) => {
       res.status(200).send(allPosts);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+// @route   GET /api/posts/:postId
+// @desc    Get one post
+// @access  Public
+router.get("/:postId", (req, res) => {
+  const { postId } = req.params;
+
+  Post.findOne({
+    where: { id: postId },
+    include: [
+      {
+        model: User,
+        attributes: ["username"],
+      },
+      {
+        model: Salt,
+      },
+    ],
+  })
+    .then((foundPost) => {
+      if (!foundPost)
+        return res.status(400).json({ msg: "Post does not exist" });
+
+      res.status(200).send(foundPost);
     })
     .catch((err) => {
       console.log(err);

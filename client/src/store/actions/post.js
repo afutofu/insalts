@@ -4,6 +4,9 @@ import {
   GET_POSTS_BEGIN,
   GET_POSTS_SUCCESS,
   GET_POSTS_FAIL,
+  GET_POST_BEGIN,
+  GET_POST_SUCCESS,
+  GET_POST_FAIL,
   CREATE_POST_BEGIN,
   CREATE_POST_SUCCESS,
   CREATE_POST_FAIL,
@@ -52,6 +55,47 @@ const getPostsSuccess = (posts) => {
 const getPostsFail = (msg) => {
   return {
     type: GET_POSTS_FAIL,
+    payload: { msg },
+  };
+};
+
+export const getPost = (postId) => (dispatch) => {
+  return new Promise((resolve, reject) => {
+    dispatch(getPostBegin());
+    axios
+      .get(`/api/posts/${postId}`)
+      .then((res) => {
+        dispatch(getPostSuccess(res.data));
+        resolve();
+      })
+      .catch((err) => {
+        if (err && err.response) {
+          dispatch(getPostFail(err.response.data.msg));
+          reject(err.response.data.msg);
+        } else {
+          console.log(err);
+          reject(err);
+        }
+      });
+  });
+};
+
+const getPostBegin = () => {
+  return {
+    type: GET_POST_BEGIN,
+  };
+};
+
+const getPostSuccess = (post) => {
+  return {
+    type: GET_POST_SUCCESS,
+    payload: { post },
+  };
+};
+
+const getPostFail = (msg) => {
+  return {
+    type: GET_POST_FAIL,
     payload: { msg },
   };
 };
