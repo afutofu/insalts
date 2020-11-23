@@ -11,11 +11,15 @@ import {
 
 import { tokenConfig } from "../../shared/utils";
 
-export const getPosts = () => (dispatch) => {
+export const getPosts = (saltName = null) => (dispatch) => {
   return new Promise((resolve, reject) => {
     dispatch(getPostsBegin());
     axios
-      .get("/api/posts")
+      .get("/api/posts", {
+        params: {
+          saltName,
+        },
+      })
       .then((res) => {
         dispatch(getPostsSuccess(res.data));
         resolve();

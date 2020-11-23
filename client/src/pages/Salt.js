@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 
 import Jumbotron from "../components/Jumbotron";
 import Card from "../components/Card";
+import PostItem from "../components/PostItem";
 
 import {
   getSalt,
@@ -219,7 +220,19 @@ const Salt = (props) => {
       />
       {salt ? (
         <Container>
-          <Content></Content>
+          <Content>
+            {salt.posts.map((post) => {
+              return (
+                <PostItem
+                  saltName={post.saltName}
+                  username={post.user.username}
+                  createdAt={post.createdAt}
+                  title={post.title}
+                  content={post.content}
+                />
+              );
+            })}
+          </Content>
           <Aside>
             <Card
               title={`about`}

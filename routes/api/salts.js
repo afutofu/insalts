@@ -5,6 +5,7 @@ const router = express.Router({ mergeParams: true });
 const auth = require("../../middleware/auth");
 
 const Salt = require("../../models/Salt");
+const Post = require("../../models/Post");
 const User = require("../../models/User");
 
 // @route   GET /api/salts
@@ -31,7 +32,23 @@ router.get("/:saltName", (req, res) => {
     .then((foundSalt) => {
       if (!foundSalt)
         return res.status(400).json({ msg: "Salt does not exist" });
-      res.status(200).send(foundSalt);
+
+      Post.findAll({
+        where: { saltName },
+        include: {
+          model: User,
+          attributes: ["username"],
+        },
+      })
+        .then((allSaltPosts) => {
+          foundSalt = foundSalt.toJSON();
+          foundSalt.posts = allSaltPosts;
+
+          res.status(200).send(foundSalt);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);
