@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { saltModalToggle } from "../store/actions/modal";
+import { Link } from "react-router-dom";
 
 const PostItemComp = styled.div`
   width: 100%;
@@ -32,6 +32,11 @@ const SaltName = styled.span`
   margin-right: 10px;
   color: #b64e1f;
 
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
   :hover {
     text-decoration: underline;
   }
@@ -61,8 +66,10 @@ const PostItem = (props) => {
     <PostItemComp>
       <Header>
         <Container>
-          <SaltName>s/{props.saltName}</SaltName> Posted by {props.username}{" "}
-          {props.createdAt}
+          <SaltName>
+            <Link to={`/s/${props.saltName}`}>s/{props.saltName}</Link>
+          </SaltName>{" "}
+          Posted by {props.username} {props.createdAt}
         </Container>
       </Header>
       <Content>

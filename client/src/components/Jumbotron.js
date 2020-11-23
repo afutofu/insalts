@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const JumbotronComp = styled.div`
   width: 100%;
-  height: 260px;
+  height: 160px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -77,8 +77,7 @@ const Jumbotron = (props) => {
   const home = (
     <JumbotronComp>
       <Container>
-        <Title>Insult of the Week</Title>
-        <Desc>"Yo momma's so fat not even dora can explore her."</Desc>
+        <Title>Welcome to Insalts</Title>
       </Container>
     </JumbotronComp>
   );
