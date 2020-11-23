@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 const ButtonComp = styled.button.attrs((props) => ({
   src: props.src,
 }))`
-  display: block;
   padding: 6px 8px;
   text-align: center;
   background-color: ${(props) => (props.secondary ? "white" : "#b64e1f")};
@@ -20,6 +19,7 @@ const ButtonComp = styled.button.attrs((props) => ({
   font-weight: 600;
   border-radius: 5px;
   margin: 0;
+  margin-left: 10px;
 
   display: flex;
   justify-content: center;

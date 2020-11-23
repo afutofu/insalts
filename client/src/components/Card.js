@@ -25,6 +25,7 @@ const Title = styled.h2`
   font-weight: 500;
   margin: 0;
   box-sizing: border-box;
+  line-height: 1.5rem;
 `;
 
 const Desc = styled.p`
