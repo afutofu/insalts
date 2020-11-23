@@ -27,12 +27,15 @@ const Header = styled.div`
   padding-bottom: 10px;
   box-sizing: border-box;
   padding: 15px 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.85rem;
 `;
 
 const SaltName = styled.span`
   font-weight: 600;
   margin-right: 10px;
   color: #b64e1f;
+  font-size: 1rem;
 
   a {
     color: inherit;
@@ -52,14 +55,14 @@ const Content = styled.div`
 `;
 
 const Title = styled.h3`
-  font-size: 20px;
+  font-size: 1.3rem;
   font-weight: 500;
   margin: 0;
   margin-bottom: 15px;
 `;
 
 const ContentInfo = styled.p`
-  font-size: 16px;
+  font-size: 1rem;
   margin: 0;
 `;
 
@@ -72,9 +75,11 @@ const PostItem = (props) => {
     <PostItemComp>
       <Header>
         <Container>
-          <SaltName>
-            <Link to={`/s/${props.saltName}`}>s/{props.saltName}</Link>
-          </SaltName>
+          {props.saltName && (
+            <SaltName>
+              <Link to={`/s/${props.saltName}`}>s/{props.saltName}</Link>
+            </SaltName>
+          )}
           Posted by {props.username} {toRelativeTime(props.createdAt)}
         </Container>
       </Header>

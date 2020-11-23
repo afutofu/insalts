@@ -24,20 +24,17 @@ const Container = styled.div`
 `;
 
 const Content = styled.section`
-  position: relative;
+  display: relative;
   flex: 1;
-  padding: 0 10px;
-  box-sizing: border-box;
+  padding-right: 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
 `;
 
 const Aside = styled.aside`
-  position: relative;
+  display: relative;
   max-width: 30%;
-  padding: 0 10px;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
 `;
@@ -55,9 +52,10 @@ const Home = (props) => {
       <Jumbotron />
       <Container>
         <Content>
-          {posts.map((post) => {
+          {posts.map((post, i) => {
             return (
               <PostItem
+                key={i}
                 saltName={post.saltName}
                 username={post.user.username}
                 createdAt={post.createdAt}

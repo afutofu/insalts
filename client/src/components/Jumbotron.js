@@ -22,7 +22,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 55px;
+  font-size: 2.8rem;
   font-weight: 500;
   text-align: center;
   margin-bottom: 20px;
@@ -59,15 +59,15 @@ const ContainerSalts = styled.div`
 
 const TitleSalts = styled.h1`
   margin: 0;
-  font-size: 30px;
+  font-size: 1.8rem;
   font-weight: 500;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 `;
 
 const DescSalts = styled.p`
   margin: 0;
-  font-size: 17px;
+  font-size: 1.05rem;
   /* background-color: rgba(255, 255, 255, 0.9); */
   border-radius: 15px;
   font-weight: 500;

@@ -28,15 +28,17 @@ const Container = styled.div`
 `;
 
 const Content = styled.section`
-  width: 70%;
-  padding-right: 30px;
+  display: relative;
+  flex: 1;
+  padding-right: 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
 `;
 
 const Aside = styled.aside`
-  width: 30%;
+  display: relative;
+  max-width: 30%;
   display: flex;
   flex-direction: column;
 `;

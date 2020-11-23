@@ -71,7 +71,7 @@ const PostBox = styled.div`
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  width: 400px;
+  width: 600px;
   background-color: #eee;
   font-family: "Montserrat", "san-serif";
   display: flex;
@@ -159,7 +159,7 @@ const TextArea = styled.textarea.attrs((props) => ({
 }))`
   position: relative;
   width: 100%;
-  height: 100px;
+  height: 120px;
   padding: 10px 20px;
   border-radius: 10px;
   color: #222;

@@ -50,7 +50,7 @@ const NavItems = styled.ul`
 `;
 
 const NavItem = styled.li`
-  font-size: 16px;
+  font-size: 1rem;
   padding: 5px;
   margin-left: 30px;
   color: #666;

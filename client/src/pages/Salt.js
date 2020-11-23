@@ -32,18 +32,21 @@ const Container = styled.div`
   width: 90%;
   margin: auto;
   display: flex;
+  justify-content: space-between;
 `;
 
 const Content = styled.section`
-  width: 70%;
-  padding-right: 30px;
+  display: relative;
+  flex: 1;
+  padding-right: 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
 `;
 
 const Aside = styled.aside`
-  width: 30%;
+  display: relative;
+  max-width: 30%;
   display: flex;
   flex-direction: column;
 `;
@@ -221,10 +224,10 @@ const Salt = (props) => {
       {salt ? (
         <Container>
           <Content>
-            {salt.posts.map((post) => {
+            {salt.posts.map((post, i) => {
               return (
                 <PostItem
-                  saltName={post.saltName}
+                  key={i}
                   username={post.user.username}
                   createdAt={post.createdAt}
                   title={post.title}

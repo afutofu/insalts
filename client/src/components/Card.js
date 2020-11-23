@@ -16,7 +16,7 @@ const CardComp = styled.div`
 
 const Title = styled.h2`
   width: 100%;
-  font-size: 19px;
+  font-size: 1.1rem;
   text-transform: ${(props) =>
     props.titleLowercase ? "lowercase" : "uppercase"};
   padding: ${(props) => (props.text ? "20px" : "18px 20px")};
@@ -28,7 +28,7 @@ const Title = styled.h2`
 `;
 
 const Desc = styled.p`
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.5em;
   padding: 15px 20px;
   padding-bottom: 0;
@@ -50,7 +50,7 @@ const List = styled.ul`
 
 const ListItem = styled.li`
   width: 100%;
-  font-size: 16px;
+  font-size: 1rem;
   list-style: none;
   border-bottom: ${(props) => (props.noBorder ? "" : "1px solid #ddd")};
   padding: 14px 20px;

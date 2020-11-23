@@ -18,7 +18,7 @@ const ButtonComp = styled.button.attrs((props) => ({
   border: ${(props) => (props.secondary ? "1px solid #b64e1f" : "none")};
   outline: none;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 0.85rem;
   font-weight: 600;
   border-radius: 5px;
 
