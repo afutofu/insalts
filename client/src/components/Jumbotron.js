@@ -62,11 +62,12 @@ const TitleSalts = styled.h1`
   font-size: 30px;
   font-weight: 500;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  margin-bottom: 3px;
 `;
 
 const DescSalts = styled.p`
   margin: 0;
-  font-size: 16px;
+  font-size: 17px;
   /* background-color: rgba(255, 255, 255, 0.9); */
   border-radius: 15px;
   font-weight: 500;

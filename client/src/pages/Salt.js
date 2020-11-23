@@ -215,15 +215,14 @@ const Salt = (props) => {
       <Jumbotron
         salts={true}
         title={renderJumbotronTitle()}
-        description={salt && salt.description}
+        description={salt && `s/${salt.name}`}
       />
       {salt ? (
         <Container>
           <Content></Content>
           <Aside>
             <Card
-              title={`s/${salt.name}`}
-              titleLowercase={true}
+              title={`about`}
               desc={salt.description}
               buttons={renderSaltCardButtons()}
             />
