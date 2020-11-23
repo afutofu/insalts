@@ -56,7 +56,15 @@ const Home = (props) => {
       <Container>
         <Content>
           {posts.map((post) => {
-            return <PostItem />;
+            return (
+              <PostItem
+                saltName={post.saltName}
+                username={post.userId}
+                createdAt={post.createdAt}
+                title={post.title}
+                content={post.content}
+              />
+            );
           })}
         </Content>
         <Aside>

@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { saltModalToggle } from "../store/actions/modal";
 
 const PostItemComp = styled.div`
   width: 100%;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -12,33 +12,64 @@ const PostItemComp = styled.div`
   box-sizing: border-box;
 `;
 
+const Container = styled.div`
+  padding: 0 20px;
+`;
+
 const Header = styled.div`
-  height: 40px;
+  height: 50px;
   display: flex;
   align-items: center;
+  color: #888;
+  background-color: #f5f5f5;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+  padding: 15px 0;
+`;
+
+const SaltName = styled.span`
+  font-weight: 600;
+  margin-right: 10px;
+  color: #b64e1f;
+
+  :hover {
+    text-decoration: underline;
+  }
 `;
 
 const Content = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 20px 0;
+  padding-top: 18px;
 `;
 
 const Title = styled.h3`
   font-size: 20px;
-  font-size: 500;
+  font-weight: 500;
+  margin: 0;
+  margin-bottom: 15px;
 `;
 
 const ContentInfo = styled.p`
   font-size: 16px;
+  margin: 0;
 `;
 
-const PostItem = () => {
+const PostItem = (props) => {
   return (
     <PostItemComp>
-      <Header>s/yomama Posted by Afu 10 seconds ago</Header>
+      <Header>
+        <Container>
+          <SaltName>s/{props.saltName}</SaltName> Posted by {props.username}{" "}
+          {props.createdAt}
+        </Container>
+      </Header>
       <Content>
-        <Title> Yo mama title</Title>
-        <ContentInfo>Yo amma joke</ContentInfo>
+        <Container>
+          <Title>{props.title}</Title>
+          <ContentInfo>{props.content}</ContentInfo>
+        </Container>
       </Content>
     </PostItemComp>
   );
