@@ -56,6 +56,7 @@ const Home = (props) => {
             return (
               <PostItem
                 key={i}
+                id={post.id}
                 saltName={post.saltName}
                 username={post.user.username}
                 createdAt={post.createdAt}

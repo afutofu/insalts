@@ -10,8 +10,14 @@ const PostItemComp = styled.div`
   background-color: white;
   border-radius: 5px;
   overflow: hidden;
-  box-sizing: border-box;
   margin-bottom: 20px;
+  border: 1px solid white;
+  box-sizing: border-box;
+
+  transition: border 0.15s;
+  :hover {
+    border: 1px solid #e98455;
+  }
 `;
 
 const Container = styled.div`
@@ -73,22 +79,29 @@ const PostItem = (props) => {
 
   return (
     <PostItemComp>
-      <Header>
-        <Container>
-          {props.saltName && (
-            <SaltName>
-              <Link to={`/s/${props.saltName}`}>s/{props.saltName}</Link>
-            </SaltName>
-          )}
-          Posted by {props.username} {toRelativeTime(props.createdAt)}
-        </Container>
-      </Header>
-      <Content>
-        <Container>
-          <Title>{props.title}</Title>
-          <ContentInfo>{props.content}</ContentInfo>
-        </Container>
-      </Content>
+      <Link to={`/s/${props.saltName}/posts/${props.id}`}>
+        <Header>
+          <Container>
+            {props.saltName && (
+              <SaltName>
+                <Link
+                  to={`/s/${props.saltName}`}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  s/{props.saltName}
+                </Link>
+              </SaltName>
+            )}
+            Posted by {props.username} {toRelativeTime(props.createdAt)}
+          </Container>
+        </Header>
+        <Content>
+          <Container>
+            <Title>{props.title}</Title>
+            <ContentInfo>{props.content}</ContentInfo>
+          </Container>
+        </Content>
+      </Link>
     </PostItemComp>
   );
 };
