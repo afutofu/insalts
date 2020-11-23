@@ -75,7 +75,7 @@ const Salts = (props) => {
       <Jumbotron
         salts={true}
         title="Check Out All The Salts"
-        description="Check Out All The Salts"
+        description="Browse the saltiest salts. Find one you like and start posting!"
       />
       <Container>
         <Content>
