@@ -11,6 +11,7 @@ const User = require("../../models/User");
 // @access  Public
 router.get("/", (req, res) => {
   Post.findAll({
+    order: [["createdAt", "DESC"]],
     include: {
       model: User,
       attributes: ["username"],
