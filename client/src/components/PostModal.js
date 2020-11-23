@@ -277,16 +277,11 @@ const SaltModal = (props) => {
     return isValidated;
   };
 
-  const validateInputs = (title) => {
+  const validateInputs = () => {
     let postDataErrors = {
       title: "",
       content: "",
     };
-
-    // Check if title is alphanumeric
-    if (!validator.isAlphanumeric(validator.blacklist(title, " '"))) {
-      postDataErrors.title = "Must only contain letters and numbers";
-    }
 
     // Check if any fields are empty
     for (const key in postData) {
