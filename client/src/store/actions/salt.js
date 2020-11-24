@@ -22,6 +22,7 @@ import {
   LEAVE_SALT_BEGIN,
   LEAVE_SALT_SUCCESS,
   LEAVE_SALT_FAIL,
+  ADD_POST,
 } from "./actions";
 
 import { addJoinedSalt, editJoinedSalt, removeJoinedSalt } from "./auth";
@@ -336,5 +337,12 @@ const leaveSaltFail = (msg) => {
   return {
     type: LEAVE_SALT_FAIL,
     payload: { msg },
+  };
+};
+
+export const addPost = (newPost) => {
+  return {
+    type: ADD_POST,
+    payload: { newPost },
   };
 };

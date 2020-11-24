@@ -18,6 +18,8 @@ import {
   DELETE_POST_FAIL,
 } from "./actions";
 
+import { addPost } from "./salt";
+
 import { tokenConfig } from "../../shared/utils";
 
 export const getPosts = (saltName = null) => (dispatch) => {
@@ -116,6 +118,7 @@ export const createPost = (title, content, saltName) => (
       .post("/api/posts", { title, content, saltName }, tokenConfig(getState))
       .then((res) => {
         dispatch(createPostSuccess(res.data));
+        dispatch(addPost(res.data));
         resolve();
       })
       .catch((err) => {

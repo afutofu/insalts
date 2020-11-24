@@ -20,6 +20,7 @@ import {
   LEAVE_SALT_BEGIN,
   LEAVE_SALT_SUCCESS,
   LEAVE_SALT_FAIL,
+  ADD_POST,
 } from "../actions/actions";
 
 const initialState = {
@@ -115,6 +116,14 @@ const saltReducer = (state = initialState, action) => {
           return salt;
         }),
         isLoading: false,
+      };
+    case ADD_POST:
+      return {
+        ...state,
+        selectedSalt: {
+          ...state.selectedSalt,
+          posts: [action.payload.newPost, ...state.selectedSalt.posts],
+        },
       };
     case GET_SALTS_FAIL:
     case GET_SALT_FAIL:

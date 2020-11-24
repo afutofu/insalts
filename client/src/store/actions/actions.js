@@ -54,6 +54,8 @@ export const LEAVE_SALT_BEGIN = "LEAVE_SALT_BEGIN";
 export const LEAVE_SALT_SUCCESS = "LEAVE_SALT_SUCCESS";
 export const LEAVE_SALT_FAIL = "LEAVE_SALT_FAIL";
 
+export const ADD_POST = "ADD_POST";
+
 // POST
 export const GET_POSTS_BEGIN = "GET_POSTS_BEGIN";
 export const GET_POSTS_SUCCESS = "GET_POSTS_SUCCESS";

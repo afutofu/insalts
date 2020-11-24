@@ -69,7 +69,16 @@ router.post("/", isLoggedIn, (req, res) => {
     .then(async (newPost) => {
       await newPost.setSalt(saltName);
       await newPost.setUser(userId);
-      res.status(200).send(newPost);
+      Post.findOne({
+        where: { id: newPost.id },
+        include: { model: User, attributes: ["username"] },
+      })
+        .then((foundPost) => {
+          res.status(200).send(foundPost);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);

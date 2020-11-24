@@ -238,7 +238,6 @@ const Salt = (props) => {
                 <PostItem
                   key={i}
                   id={post.id}
-                  saltName={post.saltName}
                   username={post.user.username}
                   createdAt={post.createdAt}
                   title={post.title}

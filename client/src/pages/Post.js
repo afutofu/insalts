@@ -55,11 +55,6 @@ const Aside = styled.aside`
   flex-direction: column;
 `;
 
-const ButtonContainer = styled.div`
-  width: 100%;
-  display: flex;
-`;
-
 const Salt = (props) => {
   const {
     isAuthenticated,
@@ -70,9 +65,7 @@ const Salt = (props) => {
     getPost,
     deletePost,
     joinSalt,
-    leaveSalt,
     loginModalToggle,
-    saltModalToggle,
     postModalToggle,
     questionModalToggle,
     setModalData,
@@ -245,9 +238,7 @@ const mapDispatchtoProps = (dispatch) => {
     getPost: (postId) => dispatch(getPost(postId)),
     deletePost: (postId) => dispatch(deletePost(postId)),
     joinSalt: (saltName) => dispatch(joinSalt(saltName)),
-    leaveSalt: (saltName) => dispatch(leaveSalt(saltName)),
     loginModalToggle: () => dispatch(loginModalToggle()),
-    saltModalToggle: (data) => dispatch(saltModalToggle(data)),
     postModalToggle: () => dispatch(postModalToggle()),
     questionModalToggle: () => dispatch(questionModalToggle()),
     setModalData: (data) => dispatch(setModalData(data)),
