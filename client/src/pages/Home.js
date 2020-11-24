@@ -35,6 +35,7 @@ const Content = styled.section`
 const Aside = styled.aside`
   display: relative;
   max-width: 30%;
+  width: 30%;
   display: flex;
   flex-direction: column;
 `;
