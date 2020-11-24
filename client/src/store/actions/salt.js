@@ -172,7 +172,7 @@ export const editSalt = (name, title, description) => (dispatch, getState) => {
       .catch((err) => {
         if (err && err.response) {
           dispatch(editSaltFail(err.response.data.msg));
-          reject(err.response.data.msg);
+          reject(err.response.data);
         } else {
           console.log(err);
           reject(err);
