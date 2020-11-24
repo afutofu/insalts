@@ -258,6 +258,7 @@ const SaltModal = (props) => {
   useEffect(() => {
     if (data && data.type === "edit") {
       setSaltData({
+        name: data.name,
         title: data.title,
         description: data.description,
       });
@@ -284,8 +285,8 @@ const SaltModal = (props) => {
       description: "",
     };
 
-    // Check if name is alphanumeric
-    if (!validator.isAlpha(name)) {
+    // Check if name is alpha
+    if (name && !validator.isAlpha(name)) {
       saltDataErrors.name = "Must only contain letters";
     }
 
@@ -296,6 +297,7 @@ const SaltModal = (props) => {
 
     // Check if any fields are empty
     for (const key in saltData) {
+      if (key === "description") continue;
       if (validator.isEmpty(saltData[key])) {
         saltDataErrors[key] = "Field must not be empty";
       }
