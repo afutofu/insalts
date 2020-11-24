@@ -47,6 +47,7 @@ const Content = styled.section`
 const Aside = styled.aside`
   display: relative;
   max-width: 30%;
+  width: 30%;
   display: flex;
   flex-direction: column;
 `;
@@ -116,7 +117,15 @@ const Salt = (props) => {
                 options: [
                   {
                     text: "leave",
-                    onClick: () => leaveSalt(salt.name),
+                    onClick: () => {
+                      leaveSalt(salt.name)
+                        .then(() => {
+                          setRedirectToSalts(true);
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    },
                   },
                 ],
               });
