@@ -1,8 +1,8 @@
 const express = require("express");
-const { model } = require("../../database/database");
 const router = express.Router({ mergeParams: true });
 
-const auth = require("../../middleware/auth");
+const isLoggedIn = require("../../middleware/isLoggedIn");
+const isUserJoined = require("../../middleware/isUserJoined");
 
 const Salt = require("../../models/Salt");
 const Post = require("../../models/Post");
@@ -58,7 +58,7 @@ router.get("/:saltName", (req, res) => {
 // @route   POST /api/salts
 // @desc    Create a new salt
 // @access  Private
-router.post("/", auth, (req, res) => {
+router.post("/", isLoggedIn, (req, res) => {
   const { name, title, description } = req.body;
   const userId = req.user.id;
 
@@ -79,7 +79,7 @@ router.post("/", auth, (req, res) => {
 // @route   POST /api/salts/:saltName/edit
 // @desc    Edit a salt
 // @access  Private
-router.patch("/:saltName/edit", auth, (req, res) => {
+router.patch("/:saltName/edit", isUserJoined, (req, res) => {
   const { title, description } = req.body;
   const { saltName } = req.params;
 
@@ -90,7 +90,22 @@ router.patch("/:saltName/edit", auth, (req, res) => {
       foundSalt
         .save()
         .then((updatedSalt) => {
-          res.status(200).send(updatedSalt);
+          Post.findAll({
+            where: { saltName },
+            include: {
+              model: User,
+              attributes: ["username"],
+            },
+          })
+            .then((allSaltPosts) => {
+              updatedSalt = updatedSalt.toJSON();
+              updatedSalt.posts = allSaltPosts;
+
+              res.status(200).send(updatedSalt);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         })
         .catch((err) => {
           console.log(err);
@@ -104,7 +119,7 @@ router.patch("/:saltName/edit", auth, (req, res) => {
 // @route   DELETE /api/salts/:saltName
 // @desc    Delete a salt
 // @access  Private
-router.delete("/:saltName", auth, (req, res) => {
+router.delete("/:saltName", isUserJoined, (req, res) => {
   const { saltName } = req.params;
 
   Salt.findByPk(saltName)
@@ -126,7 +141,7 @@ router.delete("/:saltName", auth, (req, res) => {
 // @route   PATCH /api/salts/:saltName/join
 // @desc    User joins a salt
 // @access  Private
-router.patch("/:saltName/join", auth, (req, res) => {
+router.patch("/:saltName/join", isLoggedIn, (req, res) => {
   const { saltName } = req.params;
   const userId = req.user.id;
 
@@ -149,7 +164,7 @@ router.patch("/:saltName/join", auth, (req, res) => {
 // @route   PATCH /api/salts/:saltName/leave
 // @desc    User leaves a salt
 // @access  Private
-router.patch("/:saltName/leave", auth, (req, res) => {
+router.patch("/:saltName/leave", isUserJoined, (req, res) => {
   const { saltName } = req.params;
   const userId = req.user.id;
 
