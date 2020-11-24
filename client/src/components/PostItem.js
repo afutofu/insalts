@@ -94,7 +94,6 @@ const Title = styled.h3`
 const ContentInfo = styled.p`
   font-size: 1rem;
   margin: 0;
-  margin-bottom: 23px;
 `;
 
 const CommentBox = styled.textarea.attrs((props) => ({
@@ -115,6 +114,7 @@ const CommentBox = styled.textarea.attrs((props) => ({
   font-size: 14px;
   font-family: "Montserrat", "san-serif";
   margin: 0;
+  margin-top: 23px;
   resize: none;
   line-height: 1.5em;
 
