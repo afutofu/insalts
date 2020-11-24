@@ -4,7 +4,6 @@ const validator = require("validator");
 require("dotenv/config");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const auth = require("../../middleware/auth");
 
 const User = require("../../models/User");
 
