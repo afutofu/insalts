@@ -6,6 +6,9 @@ import {
   GET_POST_BEGIN,
   GET_POST_SUCCESS,
   GET_POST_FAIL,
+  EDIT_POST_BEGIN,
+  EDIT_POST_SUCCESS,
+  EDIT_POST_FAIL,
 } from "../actions/actions";
 
 const initialState = {
@@ -25,6 +28,12 @@ const saltReducer = (state = initialState, action) => {
         isLoading: true,
         error: null,
       };
+    case EDIT_POST_BEGIN:
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+      };
     case GET_POSTS_SUCCESS:
       return {
         ...state,
@@ -39,8 +48,16 @@ const saltReducer = (state = initialState, action) => {
         isLoading: false,
         error: null,
       };
+    case EDIT_POST_SUCCESS:
+      return {
+        ...state,
+        selectedPost: { ...action.payload.updatedPost },
+        isLoading: false,
+        error: null,
+      };
     case GET_POSTS_FAIL:
     case GET_POST_FAIL:
+    case EDIT_POST_FAIL:
       return {
         ...state,
         error: action.payload.msg,

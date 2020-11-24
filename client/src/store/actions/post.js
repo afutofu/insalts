@@ -10,6 +10,9 @@ import {
   CREATE_POST_BEGIN,
   CREATE_POST_SUCCESS,
   CREATE_POST_FAIL,
+  EDIT_POST_BEGIN,
+  EDIT_POST_SUCCESS,
+  EDIT_POST_FAIL,
 } from "./actions";
 
 import { tokenConfig } from "../../shared/utils";
@@ -140,6 +143,51 @@ const createPostSuccess = (newPost) => {
 const createPostFail = (msg) => {
   return {
     type: CREATE_POST_FAIL,
+    payload: { msg },
+  };
+};
+
+export const editPost = (postId, title, content) => (dispatch, getState) => {
+  return new Promise((resolve, reject) => {
+    dispatch(editPostBegin());
+    axios
+      .patch(
+        `/api/posts/${postId}/edit`,
+        { title, content },
+        tokenConfig(getState)
+      )
+      .then((res) => {
+        dispatch(editPostSuccess(res.data));
+        resolve();
+      })
+      .catch((err) => {
+        if (err && err.response) {
+          dispatch(editPostFail(err.response.data.msg));
+          reject(err.response.data);
+        } else {
+          console.log(err);
+          reject(err);
+        }
+      });
+  });
+};
+
+const editPostBegin = () => {
+  return {
+    type: EDIT_POST_BEGIN,
+  };
+};
+
+const editPostSuccess = (updatedPost) => {
+  return {
+    type: EDIT_POST_SUCCESS,
+    payload: { updatedPost },
+  };
+};
+
+const editPostFail = (msg) => {
+  return {
+    type: EDIT_POST_FAIL,
     payload: { msg },
   };
 };

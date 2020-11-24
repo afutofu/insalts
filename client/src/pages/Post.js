@@ -152,10 +152,22 @@ const Salt = (props) => {
     return [
       {
         text: "edit",
+        onClick: () => {
+          setModalData({
+            type: "edit",
+            postId: post.id,
+            title: post.title,
+            content: post.content,
+          });
+          postModalToggle();
+        },
       },
       {
         text: "delete",
         secondary: true,
+        onClick: () => {
+          console.log("delete");
+        },
       },
     ];
   };

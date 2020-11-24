@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import validator from "validator";
 
 import { createSalt, editSalt } from "../store/actions/salt";
-import { createPost } from "../store/actions/post";
+import { createPost, editPost } from "../store/actions/post";
 import { postModalToggle } from "../store/actions/modal";
 
 const modalFadeIn = keyframes`
@@ -242,7 +242,7 @@ const CancelButton = styled.button`
 
 let firstRender = true;
 const SaltModal = (props) => {
-  const { modalOpen, data, createPost, toggleModal } = props;
+  const { modalOpen, modalData, createPost, editPost, toggleModal } = props;
 
   let initialSaltData = {
     title: "",
@@ -256,13 +256,13 @@ const SaltModal = (props) => {
   if (modalOpen) firstRender = false;
 
   useEffect(() => {
-    if (data && data.type === "edit") {
+    if (modalData && modalData.type === "edit") {
       setPostData({
-        title: data.title,
-        content: data.content,
+        title: modalData.title,
+        content: modalData.content,
       });
     }
-  }, [data]);
+  }, [modalData]);
 
   const isValidated = (errors) => {
     let isValidated = true;
@@ -317,22 +317,22 @@ const SaltModal = (props) => {
     e.preventDefault();
     resetErrors();
     const { title, content } = postData;
-    const { saltName } = data;
+    const { postId, saltName } = modalData;
     const isValidated = validateInputs(title, content);
 
     if (isValidated) {
-      if (data && data.type === "edit") {
-        // editSalt(name, title, content)
-        //   .then(() => {
-        //     onModalClose();
-        //   })
-        //   .catch((error) => {
-        //     if (error.type === "VALIDATION") {
-        //       setPostDataErrors(error.errors);
-        //     } else {
-        //       setError(error.msg);
-        //     }
-        //   });
+      if (modalData && modalData.type === "edit") {
+        editPost(postId, title, content)
+          .then(() => {
+            onModalClose();
+          })
+          .catch((error) => {
+            if (error && error.type === "VALIDATION") {
+              setPostDataErrors(error.errors);
+            } else {
+              setError(error.msg);
+            }
+          });
       } else {
         createPost(title, content, saltName)
           .then(() => {
@@ -358,7 +358,9 @@ const SaltModal = (props) => {
         <Form onSubmit={onSubmit}>
           <Container>
             <Title>
-              {data && data.type === "edit" ? "edit post" : "create post"}{" "}
+              {modalData && modalData.type === "edit"
+                ? "edit post"
+                : "create post"}{" "}
               <Error>{error}</Error>
             </Title>
 
@@ -399,7 +401,7 @@ const SaltModal = (props) => {
           <ButtonContainer>
             <PostButton>
               {" "}
-              {data && data.type === "edit" ? "edit" : "create"}
+              {modalData && modalData.type === "edit" ? "edit" : "create"}
             </PostButton>
             <CancelButton onClick={onModalClose}>Cancel</CancelButton>
           </ButtonContainer>
@@ -412,7 +414,7 @@ const SaltModal = (props) => {
 const mapStateToProps = (state) => {
   return {
     modalOpen: state.modal.post,
-    data: state.modal.data,
+    modalData: state.modal.data,
   };
 };
 
@@ -420,6 +422,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createPost: (title, content, saltName) =>
       dispatch(createPost(title, content, saltName)),
+    editPost: (postId, title, content) =>
+      dispatch(editPost(postId, title, content)),
     createSalt: (title, content) => dispatch(createSalt(title, content)),
     editSalt: (title, content) => dispatch(editSalt(title, content)),
     toggleModal: () => dispatch(postModalToggle()),

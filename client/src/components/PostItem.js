@@ -152,7 +152,11 @@ const PostItem = (props) => {
                   props.buttons &&
                   props.buttons.map((button, i) => {
                     return (
-                      <SmallButton key={i} secondary={button.secondary}>
+                      <SmallButton
+                        key={i}
+                        secondary={button.secondary}
+                        onClick={button.onClick}
+                      >
                         {button.text}
                       </SmallButton>
                     );
