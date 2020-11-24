@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const validator = require("validator");
 require("dotenv/config");
 
-const auth = require("../../middleware/auth");
+const isLoggedIn = require("../../middleware/isLoggedIn");
 
 // User Model
 const User = require("../../models/User");
@@ -108,7 +108,7 @@ router.post("/", (req, res) => {
 // @route   GET /api/auth/user
 // @desc    Get user data
 // @access  Private
-router.get("/user", auth, (req, res) => {
+router.get("/user", isLoggedIn, (req, res) => {
   const userId = req.user.id;
 
   User.findOne({

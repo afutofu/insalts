@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const auth = require("../../middleware/auth");
+const isLoggedIn = require("../../middleware/isLoggedIn");
 
 const Post = require("../../models/Post");
 const User = require("../../models/User");
@@ -58,7 +58,7 @@ router.get("/:postId", (req, res) => {
 // @route   POST /api/posts
 // @desc    Create a post
 // @access  Private
-router.post("/", auth, (req, res) => {
+router.post("/", isLoggedIn, (req, res) => {
   const { title, content, saltName } = req.body;
   const userId = req.user.id;
 
