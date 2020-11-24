@@ -3,12 +3,11 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
-import SmallButton from "../components/SmallButton";
 import Card from "../components/Card";
 import Jumbotron from "../components/Jumbotron";
 import PostItem from "../components/PostItem";
 
-import { getPost } from "../store/actions/post";
+import { getPost, deletePost } from "../store/actions/post";
 import { joinSalt, leaveSalt } from "../store/actions/salt";
 import {
   loginModalToggle,
@@ -69,6 +68,7 @@ const Salt = (props) => {
     isLoading,
     error,
     getPost,
+    deletePost,
     joinSalt,
     leaveSalt,
     loginModalToggle,
@@ -166,7 +166,31 @@ const Salt = (props) => {
         text: "delete",
         secondary: true,
         onClick: () => {
-          console.log("delete");
+          if (!isAuthenticated) {
+            loginModalToggle();
+          } else {
+            if (isUserJoined(post.saltName)) {
+              setModalData({
+                question: `Are you sure you want to delete this post ? This action cannot be undone.`,
+                options: [
+                  {
+                    text: "delete",
+                    onClick: () => {
+                      deletePost(post.id)
+                        .then(() => {
+                          setRedirectToSalt(true);
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    },
+                  },
+                ],
+              });
+              questionModalToggle();
+            } else {
+            }
+          }
         },
       },
     ];
@@ -219,6 +243,7 @@ const mapStatetoProps = (state) => {
 const mapDispatchtoProps = (dispatch) => {
   return {
     getPost: (postId) => dispatch(getPost(postId)),
+    deletePost: (postId) => dispatch(deletePost(postId)),
     joinSalt: (saltName) => dispatch(joinSalt(saltName)),
     leaveSalt: (saltName) => dispatch(leaveSalt(saltName)),
     loginModalToggle: () => dispatch(loginModalToggle()),

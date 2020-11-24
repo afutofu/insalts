@@ -1,4 +1,3 @@
-import SaltItem from "../../components/SaltItem";
 import {
   GET_POSTS_BEGIN,
   GET_POSTS_SUCCESS,
@@ -9,6 +8,9 @@ import {
   EDIT_POST_BEGIN,
   EDIT_POST_SUCCESS,
   EDIT_POST_FAIL,
+  DELETE_POST_BEGIN,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_FAIL,
 } from "../actions/actions";
 
 const initialState = {
@@ -29,6 +31,7 @@ const saltReducer = (state = initialState, action) => {
         error: null,
       };
     case EDIT_POST_BEGIN:
+    case DELETE_POST_BEGIN:
       return {
         ...state,
         isLoading: true,
@@ -55,9 +58,17 @@ const saltReducer = (state = initialState, action) => {
         isLoading: false,
         error: null,
       };
+    case DELETE_POST_SUCCESS:
+      return {
+        ...state,
+        posts: state.posts.map((post) => post.id !== action.payload.postId),
+        isLoading: false,
+        error: null,
+      };
     case GET_POSTS_FAIL:
     case GET_POST_FAIL:
     case EDIT_POST_FAIL:
+    case DELETE_POST_FAIL:
       return {
         ...state,
         error: action.payload.msg,

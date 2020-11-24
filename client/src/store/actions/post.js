@@ -13,6 +13,9 @@ import {
   EDIT_POST_BEGIN,
   EDIT_POST_SUCCESS,
   EDIT_POST_FAIL,
+  DELETE_POST_BEGIN,
+  DELETE_POST_SUCCESS,
+  DELETE_POST_FAIL,
 } from "./actions";
 
 import { tokenConfig } from "../../shared/utils";
@@ -188,6 +191,47 @@ const editPostSuccess = (updatedPost) => {
 const editPostFail = (msg) => {
   return {
     type: EDIT_POST_FAIL,
+    payload: { msg },
+  };
+};
+
+export const deletePost = (postId) => (dispatch, getState) => {
+  return new Promise((resolve, reject) => {
+    dispatch(deletePostBegin());
+    axios
+      .delete(`/api/posts/${postId}/delete`, tokenConfig(getState))
+      .then(() => {
+        dispatch(deletePostSuccess(postId));
+        resolve();
+      })
+      .catch((err) => {
+        if (err && err.response) {
+          dispatch(deletePostFail(err.response.data.msg));
+          reject(err.response.data);
+        } else {
+          console.log(err);
+          reject(err);
+        }
+      });
+  });
+};
+
+const deletePostBegin = () => {
+  return {
+    type: DELETE_POST_BEGIN,
+  };
+};
+
+const deletePostSuccess = (postId) => {
+  return {
+    type: DELETE_POST_SUCCESS,
+    payload: { postId },
+  };
+};
+
+const deletePostFail = (msg) => {
+  return {
+    type: DELETE_POST_FAIL,
     payload: { msg },
   };
 };
