@@ -238,6 +238,8 @@ const Salt = (props) => {
                 <PostItem
                   key={i}
                   id={post.id}
+                  noSaltLink={true}
+                  saltName={salt.name}
                   username={post.user.username}
                   createdAt={post.createdAt}
                   title={post.title}

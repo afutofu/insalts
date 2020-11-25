@@ -181,7 +181,7 @@ const PostItem = (props) => {
       <Link to={`/s/${props.saltName}/posts/${props.id}`}>
         <Header>
           <Container>
-            {props.saltName && (
+            {!props.noSaltLink && props.saltName && (
               <SaltName>
                 <Link
                   to={`/s/${props.saltName}`}
