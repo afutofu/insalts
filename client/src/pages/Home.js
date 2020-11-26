@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 
+import Container from "../components/Container";
 import Jumbotron from "../components/Jumbotron";
 import Card from "../components/Card";
 import PostItem from "../components/PostItem";
@@ -13,14 +14,6 @@ const HomeComp = styled.section`
   position: relative;
   width: 100%;
   height: 100%;
-`;
-
-const Container = styled.div`
-  position: relative;
-  width: 80%;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
 `;
 
 const Content = styled.section`

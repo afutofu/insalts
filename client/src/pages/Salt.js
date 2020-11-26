@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
+import Container from "../components/Container";
 import Jumbotron from "../components/Jumbotron";
 import Card from "../components/Card";
 import PostItem from "../components/PostItem";
@@ -25,14 +26,6 @@ const SaltComp = styled.section`
   position: relative;
   width: 100%;
   height: 100%;
-`;
-
-const Container = styled.div`
-  position: relative;
-  width: 90%;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
 `;
 
 const Content = styled.section`
