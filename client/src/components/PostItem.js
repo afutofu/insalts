@@ -29,10 +29,6 @@ const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
   padding: 0 20px;
-
-  @media only screen and (max-width: 600px) {
-    padding: 0 15px;
-  }
 `;
 
 const Header = styled.div`
