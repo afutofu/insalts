@@ -29,7 +29,7 @@ const Title = styled.h2`
 `;
 
 const Desc = styled.p`
-  font-size: 1rem;
+  font-size: 0.8rem;
   line-height: 1.5em;
   padding: 15px 20px;
   padding-bottom: 0;
@@ -51,7 +51,7 @@ const List = styled.ul`
 
 const ListItem = styled.li`
   width: 100%;
-  font-size: 1rem;
+  font-size: 0.8rem;
   list-style: none;
   border-bottom: ${(props) => (props.noBorder ? "" : "1px solid #ddd")};
   padding: 14px 20px;

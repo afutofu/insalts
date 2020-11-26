@@ -22,21 +22,21 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 2.8rem;
+  font-size: 2.4rem;
   font-weight: 500;
   text-align: center;
   margin-bottom: 20px;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 `;
 
-const Desc = styled.p`
-  font-size: 18px;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 15px;
-  padding: 5px 15px;
-  font-weight: 500;
-`;
+// const Desc = styled.p`
+//   font-size: 18px;
+//   text-align: center;
+//   background-color: rgba(255, 255, 255, 0.9);
+//   border-radius: 15px;
+//   padding: 5px 15px;
+//   font-weight: 500;
+// `;
 
 const JumbotronSaltsComp = styled.div`
   width: 100%;
@@ -59,7 +59,7 @@ const ContainerSalts = styled.div`
 
 const TitleSalts = styled.h1`
   margin: 0;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 500;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
   margin-bottom: 4px;
@@ -67,7 +67,7 @@ const TitleSalts = styled.h1`
 
 const DescSalts = styled.p`
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 0.8rem;
   /* background-color: rgba(255, 255, 255, 0.9); */
   border-radius: 15px;
   font-weight: 500;

@@ -35,7 +35,7 @@ const HeaderContainer = styled.div`
 
 const Name = styled.h2`
   color: #b64e1f;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   margin: 0;
   padding: 0;
@@ -67,14 +67,14 @@ const ContentContainer = styled.div`
 `;
 
 const Title = styled.h3`
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 500;
   margin: 0;
   margin-bottom: 15px;
 `;
 
 const Description = styled.p`
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 400;
   margin: 0;
 `;

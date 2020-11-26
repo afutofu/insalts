@@ -31,7 +31,7 @@ const Icon = styled.img.attrs(() => ({
 `;
 
 const Title = styled.h3`
-  font-size: 18px;
+  font-size: 1rem;
   margin: 0;
   color: black;
   font-weight: 400;
@@ -50,7 +50,7 @@ const NavItems = styled.ul`
 `;
 
 const NavItem = styled.li`
-  font-size: 1rem;
+  font-size: 0.9rem;
   padding: 5px;
   margin-left: 30px;
   color: #666;

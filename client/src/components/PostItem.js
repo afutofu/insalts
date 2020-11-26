@@ -59,7 +59,7 @@ const SaltName = styled.span`
   font-weight: 600;
   margin-right: 10px;
   color: #b64e1f;
-  font-size: 1rem;
+  font-size: 0.8rem;
 
   a {
     color: inherit;
@@ -87,14 +87,14 @@ const Content = styled.div`
 `;
 
 const Title = styled.h3`
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: 500;
   margin: 0;
   margin-bottom: 15px;
 `;
 
 const ContentInfo = styled.p`
-  font-size: 1rem;
+  font-size: 0.8rem;
   margin: 0;
 `;
 
@@ -119,6 +119,7 @@ const CommentBox = styled.textarea.attrs((props) => ({
   margin-top: 23px;
   resize: none;
   line-height: 1.5em;
+  font-size: 0.8rem;
 
   :focus {
     border: 1px #e98455 solid;
