@@ -10,7 +10,7 @@ const isLoggedIn = (req, res, next) => {
 
   // Verify token
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) res.status(400).json({ msg: "Token is invalid" });
+    if (err) return res.status(400).json({ msg: "Token is invalid" });
 
     // Add info to req.user
     req.user = decoded;
