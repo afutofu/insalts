@@ -8,7 +8,7 @@ import Jumbotron from "../components/Jumbotron";
 import PostItem from "../components/PostItem";
 
 import { getPost, deletePost } from "../store/actions/post";
-import { joinSalt, leaveSalt } from "../store/actions/salt";
+import { getSalt, joinSalt } from "../store/actions/salt";
 import {
   loginModalToggle,
   saltModalToggle,
@@ -60,10 +60,13 @@ const Salt = (props) => {
     isAuthenticated,
     user,
     post,
+    salt,
     isLoading,
-    error,
+    postError,
+    saltError,
     getPost,
     deletePost,
+    getSalt,
     joinSalt,
     loginModalToggle,
     postModalToggle,
@@ -71,12 +74,18 @@ const Salt = (props) => {
     setModalData,
   } = props;
 
-  const { postId } = props.match.params;
+  const { saltName, postId } = props.match.params;
 
   const [redirectToSalt, setRedirectToSalt] = useState(false);
 
   useEffect(() => {
-    getPost(postId);
+    getSalt(saltName)
+      .then(() => {
+        getPost(postId);
+      })
+      .catch(() => {
+        return;
+      });
   }, [getPost, postId]);
 
   const isUserJoined = (postId) => {
@@ -92,18 +101,19 @@ const Salt = (props) => {
 
   const renderJumbotronTitle = () => {
     if (isLoading) return "Retreiving post information...";
-    if (error) return error;
+    if (saltError) return saltError;
+    if (postError) return postError;
   };
 
   const renderJoinButtonText = () => {
-    if (isUserJoined(post.salt.name)) {
+    if (isUserJoined(salt.name)) {
       return "leave";
     }
     return "join";
   };
 
   const renderSaltCardButtons = () => {
-    if (isUserJoined(post.salt.name)) {
+    if (isUserJoined(salt.name)) {
       return [
         {
           text: "view salt page",
@@ -120,11 +130,11 @@ const Salt = (props) => {
             } else {
               // Join button
               setModalData({
-                question: `Are you sure you want to join ${post.salt.name} ?`,
+                question: `Are you sure you want to join ${salt.name} ?`,
                 options: [
                   {
                     text: "join",
-                    onClick: () => joinSalt(post.salt.name),
+                    onClick: () => joinSalt(salt.name),
                   },
                 ],
               });
@@ -162,7 +172,7 @@ const Salt = (props) => {
           if (!isAuthenticated) {
             loginModalToggle();
           } else {
-            if (isUserJoined(post.saltName)) {
+            if (isUserJoined(saltName)) {
               setModalData({
                 question: `Are you sure you want to delete this post ? This action cannot be undone.`,
                 options: [
@@ -191,8 +201,10 @@ const Salt = (props) => {
 
   return (
     <PostComp>
-      {redirectToSalt && <Redirect to={`/s/${post.saltName}`} />}
-      {error && <Jumbotron salts={true} title={renderJumbotronTitle()} />}
+      {redirectToSalt && <Redirect to={`/s/${saltName}`} />}
+      {(saltError || postError) && (
+        <Jumbotron salts={true} title={renderJumbotronTitle()} />
+      )}
       {post && post.id == postId && (
         <Container>
           <InnerContainer>
@@ -201,7 +213,7 @@ const Salt = (props) => {
                 type="page"
                 noHover={true}
                 author={user && user.id === post.userId}
-                saltName={post.saltName}
+                saltName={saltName}
                 username={post.user.username}
                 createdAt={post.createdAt}
                 title={post.title}
@@ -209,13 +221,15 @@ const Salt = (props) => {
                 buttons={renderPostButtons()}
               />
             </Content>
-            <Aside>
-              <Card
-                title={post.salt.title}
-                desc={post.salt.description}
-                buttons={renderSaltCardButtons()}
-              />
-            </Aside>
+            {salt && (
+              <Aside>
+                <Card
+                  title={salt.title}
+                  desc={salt.description}
+                  buttons={renderSaltCardButtons()}
+                />
+              </Aside>
+            )}
           </InnerContainer>
         </Container>
       )}
@@ -228,8 +242,10 @@ const mapStatetoProps = (state) => {
     isAuthenticated: state.auth.isAuthenticated,
     user: state.auth.user,
     post: state.post.selectedPost,
+    salt: state.salt.selectedSalt,
     isLoading: state.post.isLoading,
-    error: state.post.error,
+    postError: state.post.error,
+    saltError: state.salt.error,
   };
 };
 
@@ -237,6 +253,7 @@ const mapDispatchtoProps = (dispatch) => {
   return {
     getPost: (postId) => dispatch(getPost(postId)),
     deletePost: (postId) => dispatch(deletePost(postId)),
+    getSalt: (saltName) => dispatch(getSalt(saltName)),
     joinSalt: (saltName) => dispatch(joinSalt(saltName)),
     loginModalToggle: () => dispatch(loginModalToggle()),
     postModalToggle: () => dispatch(postModalToggle()),
