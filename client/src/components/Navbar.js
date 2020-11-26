@@ -20,6 +20,10 @@ const NavbarComp = styled.nav`
   padding: 20px 40px;
   background-color: #fff;
   box-sizing: border-box;
+
+  @media only screen and (max-width: 600px) {
+    padding: 20px 20px;
+  }
 `;
 
 const Icon = styled.img.attrs(() => ({
@@ -39,6 +43,11 @@ const Title = styled.h3`
   a {
     color: unset;
     text-decoration: none;
+    display: flex;
+  }
+
+  @media only screen and (max-width: 600px) {
+    font-size: 0.8rem;
   }
 `;
 
@@ -61,6 +70,11 @@ const NavItem = styled.li`
   transition: color 0.2s;
   :hover {
     color: #b64e1f;
+  }
+
+  @media only screen and (max-width: 600px) {
+    font-size: 0.7rem;
+    margin-left: 15px;
   }
 `;
 

@@ -68,7 +68,6 @@ const QuestionBox = styled.div`
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  /* width: 600px; */
   background-color: #eee;
   font-family: "Montserrat", "san-serif";
   display: flex;
@@ -80,6 +79,11 @@ const QuestionBox = styled.div`
   z-index: 200;
   border-radius: 5px;
   overflow: hidden;
+
+  @media only screen and (max-width: 600px) {
+    padding-bottom: 60px;
+    min-width: 250px;
+  }
 `;
 
 const Container = styled.div`
@@ -92,11 +96,16 @@ const Container = styled.div`
 
 const Title = styled.h1`
   /* text-transform: capitalize; */
-  font-size: 20px;
+  font-size: 1.2rem;
   margin-bottom: 25px;
   display: flex;
   align-items: center;
   width: 100%;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 0.9rem;
+    line-height: 1.4em;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -119,6 +128,16 @@ const ButtonContainer = styled.div`
     font-family: "Montserrat", "san-serif";
     box-sizing: border-box;
     font-weight: 500;
+
+    @media only screen and (max-width: 600px) {
+      padding: 7px 15px;
+      font-size: 0.7rem;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    height: 60px;
+    padding: 20px;
   }
 `;
 

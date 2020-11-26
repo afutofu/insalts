@@ -31,6 +31,7 @@ const InnerContainer = styled.div`
   justify-content: space-between;
 
   @media only screen and (max-width: 768px) {
+    padding-top: 20px;
     flex-direction: column-reverse;
     align-items: center;
   }

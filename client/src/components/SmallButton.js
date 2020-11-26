@@ -56,6 +56,10 @@ const ButtonComp = styled.button.attrs((props) => ({
       color: ${(props) => (props.secondary ? "#e98455" : "white")};
     }
   }
+
+  @media only screen and (max-width: 600px) {
+    font-size: 0.5rem;
+  }
 `;
 
 const Button = (props) => {

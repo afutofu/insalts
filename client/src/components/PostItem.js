@@ -29,12 +29,16 @@ const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
   padding: 0 20px;
+
+  @media only screen and (max-width: 600px) {
+    padding: 0 15px;
+  }
 `;
 
 const Header = styled.div`
   position: relative;
   width: 100%;
-  height: 50px;
+  /* height: 50px; */
   display: flex;
   align-items: center;
   color: #888;
@@ -43,7 +47,13 @@ const Header = styled.div`
   box-sizing: border-box;
   padding: 15px 0;
   border-bottom: 1px solid #ddd;
-  font-size: 0.85rem;
+  font-size: 0.7rem;
+  line-height: 1.5em;
+
+  @media only screen and (max-width: 600px) {
+    padding: 13px 0;
+    font-size: 0.6rem;
+  }
 `;
 
 const HeaderContainer = styled.div`
@@ -60,6 +70,10 @@ const SaltName = styled.span`
   margin-right: 10px;
   color: #b64e1f;
   font-size: 0.8rem;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 0.7rem;
+  }
 
   a {
     color: inherit;
@@ -84,6 +98,11 @@ const Content = styled.div`
   padding: 20px 0;
   padding-top: 18px;
   box-sizing: border-box;
+
+  @media only screen and (max-width: 600px) {
+    padding: 15px 0;
+    padding-top: 13px;
+  }
 `;
 
 const Title = styled.h3`
@@ -91,6 +110,12 @@ const Title = styled.h3`
   font-weight: 500;
   margin: 0;
   margin-bottom: 15px;
+  line-height: 1.4em;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
 `;
 
 const ContentInfo = styled.p`

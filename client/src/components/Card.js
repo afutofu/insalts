@@ -26,6 +26,10 @@ const Title = styled.h2`
   margin: 0;
   box-sizing: border-box;
   line-height: 1.5rem;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 1rem;
+  }
 `;
 
 const Desc = styled.p`
@@ -78,6 +82,14 @@ const ListItem = styled.li`
     button {
       opacity: 1;
       text-decoration: none;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    padding: 14px 20px;
+
+    button {
+      opacity: 1;
     }
   }
 `;

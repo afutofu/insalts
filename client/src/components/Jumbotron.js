@@ -11,10 +11,14 @@ const JumbotronComp = styled.div`
   background-image: url("https://cdn11.bigcommerce.com/s-dis4vxtxtc/images/stencil/1280x1280/products/1867/2397/image_1577__37264.1567254894.jpg?c=2?imbypass=on");
   background-size: contain;
   margin-bottom: 20px;
+
+  @media only screen and (max-width: 600px) {
+    height: 80px;
+  }
 `;
 
 const Container = styled.div`
-  width: 80%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -27,6 +31,10 @@ const Title = styled.h1`
   text-align: center;
   margin-bottom: 20px;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 1.6rem;
+  }
 `;
 
 // const Desc = styled.p`
@@ -47,6 +55,10 @@ const JumbotronSaltsComp = styled.div`
   align-items: center;
   background-image: url("https://media.istockphoto.com/photos/background-of-white-sea-salt-picture-id184342915?k=6&m=184342915&s=612x612&w=0&h=iV9PtQwXQ2lnnIP_Bvzk3UwUg37tpDS0Zzgl-3wyRW4=");
   margin-bottom: 20px;
+
+  @media only screen and (max-width: 600px) {
+    height: 80px;
+  }
 `;
 
 const ContainerSalts = styled.div`
@@ -71,6 +83,10 @@ const TitleSalts = styled.h1`
   font-weight: 500;
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
   margin-bottom: 4px;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 1.3rem;
+  }
 `;
 
 const DescSalts = styled.p`
@@ -79,6 +95,10 @@ const DescSalts = styled.p`
   /* background-color: rgba(255, 255, 255, 0.9); */
   border-radius: 15px;
   font-weight: 500;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 0.7rem;
+  }
 `;
 
 const Jumbotron = (props) => {

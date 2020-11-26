@@ -82,6 +82,10 @@ const SaltBox = styled.div`
   z-index: 200;
   border-radius: 5px;
   overflow: hidden;
+
+  @media only screen and (max-width: 600px) {
+    width: 250px;
+  }
 `;
 
 const Container = styled.div`
@@ -98,6 +102,10 @@ const Title = styled.h1`
   margin-bottom: 25px;
   display: flex;
   align-items: center;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 1rem;
+  }
 `;
 
 const Header = styled.h3`
@@ -107,6 +115,11 @@ const Header = styled.h3`
   font-weight: 500;
 
   display: flex;
+  align-items: center;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 0.6rem;
+  }
 `;
 
 const Error = styled.p`
@@ -116,6 +129,10 @@ const Error = styled.p`
   margin-left: 10px;
   text-transform: capitalize;
   font-weight: 400;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 0.5rem;
+  }
 `;
 
 const Form = styled.form`
@@ -149,6 +166,12 @@ const Input = styled.input.attrs((props) => ({
   :focus {
     border: 1px #e98455 solid;
   }
+
+  @media only screen and (max-width: 600px) {
+    padding: 10px 15px;
+    height: 35px;
+    font-size: 0.6rem;
+  }
 `;
 
 const TextArea = styled.textarea.attrs((props) => ({
@@ -158,7 +181,7 @@ const TextArea = styled.textarea.attrs((props) => ({
 }))`
   position: relative;
   width: 100%;
-  height: 100px;
+  height: 120px;
   padding: 10px 20px;
   border-radius: 10px;
   color: #222;
@@ -175,6 +198,11 @@ const TextArea = styled.textarea.attrs((props) => ({
 
   :focus {
     border: 1px #e98455 solid;
+  }
+
+  @media only screen and (max-width: 600px) {
+    padding: 10px 15px;
+    font-size: 0.6rem;
   }
 `;
 
@@ -198,6 +226,16 @@ const ButtonContainer = styled.div`
     font-family: "Montserrat", "san-serif";
     box-sizing: border-box;
     font-weight: 500;
+
+    @media only screen and (max-width: 600px) {
+      padding: 7px 15px;
+      font-size: 0.7rem;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    height: 60px;
+    padding: 20px;
   }
 `;
 
