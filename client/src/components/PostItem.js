@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import moment from "moment";
 
 import SmallButton from "./SmallButton";
@@ -16,6 +16,7 @@ const PostItemComp = styled.div`
   margin-bottom: 20px;
   border: 1px solid white;
   box-sizing: border-box;
+  cursor: ${(props) => (props.noHover ? "auto" : "pointer")};
 
   transition: border 0.15s;
   :hover {
@@ -24,6 +25,7 @@ const PostItemComp = styled.div`
 `;
 
 const Container = styled.div`
+  position: relative;
   box-sizing: border-box;
   width: 100%;
   padding: 0 20px;
@@ -124,9 +126,14 @@ const CommentBox = styled.textarea.attrs((props) => ({
 `;
 
 const PostItem = (props) => {
+  const [redirectToPost, setRedirectToPost] = useState(false);
+
   const toRelativeTime = (date) => {
     return moment(date).fromNow();
   };
+
+  if (redirectToPost)
+    return <Redirect to={`/s/${props.saltName}/posts/${props.id}`} />;
 
   if (props.type === "page") {
     return (
@@ -177,30 +184,28 @@ const PostItem = (props) => {
   }
 
   return (
-    <PostItemComp>
-      <Link to={`/s/${props.saltName}/posts/${props.id}`}>
-        <Header>
-          <Container>
-            {!props.noSaltLink && props.saltName && (
-              <SaltName>
-                <Link
-                  to={`/s/${props.saltName}`}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  s/{props.saltName}
-                </Link>
-              </SaltName>
-            )}
-            Posted by {props.username} {toRelativeTime(props.createdAt)}
-          </Container>
-        </Header>
-        <Content>
-          <Container>
-            <Title>{props.title}</Title>
-            <ContentInfo>{props.content}</ContentInfo>
-          </Container>
-        </Content>
-      </Link>
+    <PostItemComp onClick={() => setRedirectToPost(true)}>
+      <Header>
+        <Container>
+          {!props.noSaltLink && props.saltName && (
+            <SaltName>
+              <Link
+                to={`/s/${props.saltName}`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                s/{props.saltName}
+              </Link>
+            </SaltName>
+          )}
+          Posted by {props.username} {toRelativeTime(props.createdAt)}
+        </Container>
+      </Header>
+      <Content>
+        <Container>
+          <Title>{props.title}</Title>
+          <ContentInfo>{props.content}</ContentInfo>
+        </Container>
+      </Content>
     </PostItemComp>
   );
 };
