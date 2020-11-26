@@ -5,7 +5,9 @@ const UserSalt = require("../models/UserSalt");
 
 const isUserJoined = (req, res, next) => {
   const token = req.header("x-auth-token");
-  const { saltName } = req.params;
+  let { saltName } = req.params;
+
+  if (!saltName) saltName = req.body.saltName;
 
   // Check for token
   if (!token)
