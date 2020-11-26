@@ -18,7 +18,7 @@ const ContainerComp = styled.div`
 
   @media only screen and (max-width: 768px) {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     justify-content: flex-start;
     align-items: center;
   }

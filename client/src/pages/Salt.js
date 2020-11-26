@@ -48,6 +48,11 @@ const Aside = styled.aside`
   width: 30%;
   display: flex;
   flex-direction: column;
+
+  @media only screen and (max-width: 768px) {
+    max-width: unset;
+    width: 100%;
+  }
 `;
 
 const Salt = (props) => {

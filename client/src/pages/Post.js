@@ -31,7 +31,7 @@ const InnerContainer = styled.div`
   justify-content: space-between;
 
   @media only screen and (max-width: 768px) {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
   }
 `;
@@ -57,7 +57,8 @@ const Aside = styled.aside`
   flex-direction: column;
 
   @media only screen and (max-width: 768px) {
-    display: none;
+    max-width: unset;
+    width: 100%;
   }
 `;
 

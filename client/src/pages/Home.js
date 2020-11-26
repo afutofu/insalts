@@ -22,7 +22,7 @@ const Content = styled.section`
   padding-right: 20px;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
 
   @media only screen and (max-width: 768px) {
     width: 100%;
@@ -36,6 +36,12 @@ const Aside = styled.aside`
   width: 30%;
   display: flex;
   flex-direction: column;
+
+  @media only screen and (max-width: 768px) {
+    max-width: unset;
+    width: 100%;
+    flex-direction: column-reverse;
+  }
 `;
 
 const Home = (props) => {
