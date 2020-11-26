@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const isLoggedIn = require("../../middleware/isLoggedIn");
+const isUserJoined = require("../../middleware/isUserJoined");
+const checkPostOwnership = require("../../middleware/checkPostOwnership");
 
 const Post = require("../../models/Post");
 const User = require("../../models/User");
@@ -58,7 +59,7 @@ router.get("/:postId", (req, res) => {
 // @route   POST /api/posts
 // @desc    Create a post
 // @access  Private
-router.post("/", isLoggedIn, (req, res) => {
+router.post("/", isUserJoined, (req, res) => {
   const { title, content, saltName } = req.body;
   const userId = req.user.id;
 
@@ -88,7 +89,7 @@ router.post("/", isLoggedIn, (req, res) => {
 // @route   PATCH /api/posts/:postId/edit
 // @desc    Edit a post
 // @access  Private
-router.patch("/:postId/edit", isLoggedIn, (req, res) => {
+router.patch("/:postId/edit", checkPostOwnership, (req, res) => {
   const { postId } = req.params;
   const { title, content } = req.body;
 
@@ -128,7 +129,7 @@ router.patch("/:postId/edit", isLoggedIn, (req, res) => {
 // @route   DELETE /api/posts/:postId/delete
 // @desc    Delete a post
 // @access  Private
-router.delete("/:postId/delete", isLoggedIn, (req, res) => {
+router.delete("/:postId/delete", checkPostOwnership, (req, res) => {
   const { postId } = req.params;
 
   Post.findByPk(postId)
