@@ -28,8 +28,7 @@ const isUserJoined = (req, res, next) => {
         req.user = decoded;
         next();
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         res.status(500).json({ msg: "Unable to retreive info from server" });
       });
   });
