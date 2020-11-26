@@ -50,11 +50,19 @@ const JumbotronSaltsComp = styled.div`
 `;
 
 const ContainerSalts = styled.div`
-  width: 90%;
+  width: 60%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+
+  @media only screen and (max-width: 1200px) {
+    width: 80%;
+  }
+
+  @media only screen and (max-width: 992px) {
+    width: 90%;
+  }
 `;
 
 const TitleSalts = styled.h1`

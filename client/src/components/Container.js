@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const ContainerComp = styled.div`
   position: relative;
-  width: 65%;
+  width: 60%;
   margin: auto;
   display: flex;
   justify-content: space-between;
@@ -13,7 +13,14 @@ const ContainerComp = styled.div`
   }
 
   @media only screen and (max-width: 992px) {
-    width: 95%;
+    width: 90%;
+  }
+
+  @media only screen and (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
   }
 `;
 

@@ -29,6 +29,11 @@ const InnerContainer = styled.div`
   margin: auto;
   display: flex;
   justify-content: space-between;
+
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const Content = styled.section`
@@ -38,6 +43,11 @@ const Content = styled.section`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    padding: 0;
+  }
 `;
 
 const Aside = styled.aside`
@@ -45,6 +55,10 @@ const Aside = styled.aside`
   max-width: 30%;
   display: flex;
   flex-direction: column;
+
+  @media only screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const Salt = (props) => {
@@ -66,7 +80,8 @@ const Salt = (props) => {
     setModalData,
   } = props;
 
-  const { saltName, postId } = props.match.params;
+  const { saltName } = props.match.params;
+  const postId = parseInt(props.match.params.postId);
 
   const [redirectToSalt, setRedirectToSalt] = useState(false);
 
@@ -190,7 +205,6 @@ const Salt = (props) => {
       },
     ];
   };
-
   return (
     <PostComp>
       {redirectToSalt && <Redirect to={`/s/${saltName}`} />}

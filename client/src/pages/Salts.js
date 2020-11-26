@@ -28,6 +28,11 @@ const Content = styled.section`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    padding: 0;
+  }
 `;
 
 const Aside = styled.aside`
