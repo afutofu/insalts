@@ -63,6 +63,17 @@ const ButtonComp = styled.button.attrs((props) => ({
   }
 `;
 
+/*
+Button
+General button, takes entire width
+
+Takes props :-
+- secondary: reverses the button colors
+- noMarginTop: removes top margin
+- src: adds src attribute to button
+- onClick: adds onClick listener to button and overrides src
+*/
+
 const Button = (props) => {
   return (
     <ButtonComp

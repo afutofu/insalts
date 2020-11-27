@@ -101,6 +101,17 @@ const DescSalts = styled.p`
   }
 `;
 
+/*
+Jumbotron
+Either for home or for salts page
+Home page does not have description (for now)
+Salts page has title and description
+
+Takes props:-
+- title
+- description
+*/
+
 const Jumbotron = (props) => {
   const home = (
     <JumbotronComp>

@@ -78,6 +78,22 @@ const NavItem = styled.li`
   }
 `;
 
+/*
+Navbar
+
+Displays:-
+Logo: onClick takes client to Home page "/""
+
+Additionally:-
+When not logged in:-
+- Register: onClick opens register modal
+- Login: onClick opens login modal
+
+When logged in:
+- Username: for display
+- Logout: onClick opens questionModal to verify action
+*/
+
 const Navbar = (props) => {
   const {
     isAuthenticated,

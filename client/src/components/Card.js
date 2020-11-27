@@ -94,6 +94,17 @@ const ListItem = styled.li`
   }
 `;
 
+/*
+Mutli-purpose card
+Can add list and buttons and custom components
+
+Takes props :-
+- type: specifies what type of card - list, joinedSalts, or none basic info card
+- title: title of card
+- list: array of string (if regular list), array of objects if (if joinedSalts)
+- buttons: array of objects containing Button props
+*/
+
 const Card = (props) => {
   const { buttons } = props;
 
