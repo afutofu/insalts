@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 require("dotenv/config");
 
@@ -23,16 +24,25 @@ app.use("/api/auth", authRoutes);
 app.use("/api/salts", saltRoutes);
 app.use("/api/posts", postRoutes);
 
-// DATABASE
+// CONNECT TO DATABASE
 const db = require("./database/database");
 require("./database/associations")();
 db.sync();
 // db.sync({ force: true });
 
-// CONNECT TO DATABASE
+// TESTING DATABASE CONNECTION
 db.authenticate()
   .then(() => console.log("Connected to DB"))
   .catch((err) => console.log(err));
+
+// SERVE STATIC ASSETS IF IN PRODUCTION
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+
+  app.get("*", (_req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 // START SERVER
 app.listen(PORT, () => {
