@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const JumbotronComp = styled.div`
   width: 100%;
-  height: 160px;
+  height: 140px;
   display: flex;
   flex-direction: column;
   justify-content: center;

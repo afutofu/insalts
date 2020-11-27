@@ -22,7 +22,7 @@ const Content = styled.section`
   padding-right: 20px;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
 
   @media only screen and (max-width: 768px) {
     width: 100%;
