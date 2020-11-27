@@ -106,7 +106,7 @@ const Title = styled.h3`
   font-weight: 500;
   margin: 0;
   margin-bottom: 15px;
-  line-height: 1.4em;
+  line-height: 1.5em;
 
   @media only screen and (max-width: 600px) {
     font-size: 1rem;
@@ -117,6 +117,7 @@ const Title = styled.h3`
 const ContentInfo = styled.p`
   font-size: 0.8rem;
   margin: 0;
+  line-height: 1.5em;
 `;
 
 const CommentBox = styled.textarea.attrs((props) => ({
