@@ -84,11 +84,18 @@ router.post("/", isLoggedIn, (req, res) => {
     saltDataErrors.title = "Must only contain letters and numbers";
   }
 
+  // Check if any fields are empty
+  for (const key in saltData) {
+    if (validator.isEmpty(saltData[key])) {
+      saltDataErrors[key] = "Field must not be empty";
+    }
+  }
+
   let isValidated = true;
 
-  // Check if any fields are empty
-  for (const field in saltData) {
-    if (validator.isEmpty(saltData[field])) {
+  // Check if there are any errors
+  for (const field in saltDataErrors) {
+    if (!validator.isEmpty(saltDataErrors[field])) {
       isValidated = false;
     }
   }
@@ -136,11 +143,18 @@ router.patch("/:saltName/edit", isUserJoined, (req, res) => {
     saltDataErrors.title = "Must only contain letters and numbers";
   }
 
+  // Check if any fields are empty
+  for (const key in saltData) {
+    if (validator.isEmpty(saltData[key])) {
+      saltDataErrors[key] = "Field must not be empty";
+    }
+  }
+
   let isValidated = true;
 
-  // Check if any fields are empty
-  for (const field in saltData) {
-    if (validator.isEmpty(saltData[field])) {
+  // Check if there are any errors
+  for (const field in saltDataErrors) {
+    if (!validator.isEmpty(saltDataErrors[field])) {
       isValidated = false;
     }
   }
