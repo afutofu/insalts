@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
+const validator = require("validator");
 
 const isLoggedIn = require("../../middleware/isLoggedIn");
 const isUserJoined = require("../../middleware/isUserJoined");
@@ -62,14 +63,72 @@ router.post("/", isLoggedIn, (req, res) => {
   const { name, title, description } = req.body;
   const userId = req.user.id;
 
-  Salt.create({
+  // Server side validation
+  const saltData = {
     name,
     title,
-    description,
+  };
+
+  let saltDataErrors = {
+    name: "",
+    title: "",
+  };
+
+  // Check if name is alpha
+  if (name && !validator.isAlpha(name)) {
+    saltDataErrors.name = "Must only contain letters";
+  }
+
+  // Check if title is alphanumeric
+  if (!validator.isAlphanumeric(validator.blacklist(title, " "))) {
+    saltDataErrors.title = "Must only contain letters and numbers";
+  }
+
+  // Check if any fields are empty
+  for (const key in saltData) {
+    if (validator.isEmpty(saltData[key])) {
+      saltDataErrors[key] = "Field must not be empty";
+    }
+  }
+
+  let isValidated = true;
+
+  // Check if there are any errors
+  for (const field in saltDataErrors) {
+    if (!validator.isEmpty(saltDataErrors[field])) {
+      isValidated = false;
+    }
+  }
+
+  // Send errors back to client if exists
+  if (!isValidated) {
+    return res.status(400).json({
+      type: "VALIDATION",
+      errors: { ...saltDataErrors },
+    });
+  }
+
+  Salt.findOne({
+    where: {
+      name,
+    },
   })
-    .then((newSalt) => {
-      newSalt.addMember(userId);
-      res.send(newSalt);
+    .then((foundSalt) => {
+      if (foundSalt)
+        return res.status(400).json({ msg: "Salt name already exists" });
+
+      Salt.create({
+        name,
+        title,
+        description,
+      })
+        .then((newSalt) => {
+          newSalt.addMember(userId);
+          res.send(newSalt);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);
@@ -82,6 +141,44 @@ router.post("/", isLoggedIn, (req, res) => {
 router.patch("/:saltName/edit", isUserJoined, (req, res) => {
   const { title, description } = req.body;
   const { saltName } = req.params;
+
+  // Server side validation
+  const saltData = {
+    title,
+  };
+
+  let saltDataErrors = {
+    title: "",
+  };
+
+  // Check if title is alphanumeric
+  if (!validator.isAlphanumeric(validator.blacklist(title, " "))) {
+    saltDataErrors.title = "Must only contain letters and numbers";
+  }
+
+  // Check if any fields are empty
+  for (const key in saltData) {
+    if (validator.isEmpty(saltData[key])) {
+      saltDataErrors[key] = "Field must not be empty";
+    }
+  }
+
+  let isValidated = true;
+
+  // Check if there are any errors
+  for (const field in saltDataErrors) {
+    if (!validator.isEmpty(saltDataErrors[field])) {
+      isValidated = false;
+    }
+  }
+
+  // Send errors back to client if exists
+  if (!isValidated) {
+    return res.status(400).json({
+      type: "VALIDATION",
+      errors: { ...saltDataErrors },
+    });
+  }
 
   Salt.findByPk(saltName)
     .then((foundSalt) => {
@@ -147,6 +244,9 @@ router.patch("/:saltName/join", isLoggedIn, (req, res) => {
 
   Salt.findOne({ where: { name: saltName } })
     .then((foundSalt) => {
+      if (!foundSalt)
+        return res.status(400).json({ msg: "Salt does not exist" });
+
       foundSalt
         .addMember(userId)
         .then(() => {

@@ -62,6 +62,15 @@ const ButtonComp = styled.button.attrs((props) => ({
   }
 `;
 
+/*
+SmallButton
+Same functionality to Button
+Does not take entire width, more similar to regular html button with same styling as Button
+
+Takes props :-
+Same as Button
+*/
+
 const Button = (props) => {
   return (
     <ButtonComp

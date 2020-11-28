@@ -1,6 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
+/*
+Container
+Reusable in pages for horizontal spacing
+*/
+
 const ContainerComp = styled.div`
   position: relative;
   width: 60%;

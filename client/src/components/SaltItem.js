@@ -79,6 +79,20 @@ const Description = styled.p`
   margin: 0;
 `;
 
+/*
+SaltItem
+Used in Salts page to display salts
+
+May change style as it looks too similar to PostItem
+
+Takes props:-
+- name: display salt name (ex-yomama) and links to Salt page (ex-/s/yomama)
+- joined: check if user is joined. If not joined, render join salt button  
+- joinSalt: function to join salt, passed down to SmallButton
+- title: title of salt
+- description: description of salt
+*/
+
 const SaltItem = (props) => {
   return (
     <SaltItemComp>

@@ -148,6 +148,27 @@ const CommentBox = styled.textarea.attrs((props) => ({
   }
 `;
 
+/*
+PostItem
+Used in pages to display information about each post
+
+Used in Post page to display additional functionality
+- Edit and Delete buttons
+- Comment box: to add a comment to the post (WIP)
+
+Takes props:-
+- type: either 'page' or none. 'page' for displaying in Post page
+- id: used for CRUD operations
+- saltName: used for links to origin salt page or to Post page 
+- username: displays username of user who created the post
+- createdAt: used to display since when the post was created
+- title: displays title of post
+- content: displays content information
+
+Additional props when type === 'page':-
+- buttons: array of objects for Button component
+*/
+
 const PostItem = (props) => {
   const [redirectToPost, setRedirectToPost] = useState(false);
 

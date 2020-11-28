@@ -1,6 +1,7 @@
 require("dotenv/config");
 const jwt = require("jsonwebtoken");
 
+const Salt = require("../models/Salt");
 const UserSalt = require("../models/UserSalt");
 
 const isUserJoined = (req, res, next) => {
@@ -17,18 +18,29 @@ const isUserJoined = (req, res, next) => {
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) return res.status(400).json({ msg: "Token is invalid" });
 
-    UserSalt.findOne({
-      where: { saltName, userId: decoded.id },
-    })
-      .then((foundUser) => {
-        if (!foundUser)
-          return res
-            .status(401)
-            .json({ msg: "User not joined, authorization denied" });
+    Salt.findByPk(saltName)
+      .then((foundSalt) => {
+        if (!foundSalt)
+          return res.status(400).json({ msg: "Salt does not exist" });
 
-        // Add info to req.user
-        req.user = decoded;
-        next();
+        UserSalt.findOne({
+          where: { saltName, userId: decoded.id },
+        })
+          .then((foundUser) => {
+            if (!foundUser)
+              return res
+                .status(401)
+                .json({ msg: "User not joined, authorization denied" });
+
+            // Add info to req.user
+            req.user = decoded;
+            next();
+          })
+          .catch(() => {
+            res
+              .status(500)
+              .json({ msg: "Unable to retreive info from server" });
+          });
       })
       .catch(() => {
         res.status(500).json({ msg: "Unable to retreive info from server" });
