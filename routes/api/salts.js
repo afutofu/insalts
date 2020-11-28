@@ -108,14 +108,27 @@ router.post("/", isLoggedIn, (req, res) => {
     });
   }
 
-  Salt.create({
-    name,
-    title,
-    description,
+  Salt.findOne({
+    where: {
+      name,
+    },
   })
-    .then((newSalt) => {
-      newSalt.addMember(userId);
-      res.send(newSalt);
+    .then((foundSalt) => {
+      if (foundSalt)
+        return res.status(400).json({ msg: "Salt name already exists" });
+
+      Salt.create({
+        name,
+        title,
+        description,
+      })
+        .then((newSalt) => {
+          newSalt.addMember(userId);
+          res.send(newSalt);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);
@@ -231,6 +244,9 @@ router.patch("/:saltName/join", isLoggedIn, (req, res) => {
 
   Salt.findOne({ where: { name: saltName } })
     .then((foundSalt) => {
+      if (!foundSalt)
+        return res.status(400).json({ msg: "Salt does not exist" });
+
       foundSalt
         .addMember(userId)
         .then(() => {
