@@ -32,8 +32,8 @@ db.sync();
 
 // TESTING DATABASE CONNECTION
 db.authenticate()
-  .then(() => console.log("Connected to DB"))
-  .catch((err) => console.log(err));
+  .then(() => console.log("Connection to database successfully established"))
+  .catch((err) => console.log("Unable to connect to the database: ", err));
 
 // SERVE STATIC ASSETS IF IN PRODUCTION
 if (process.env.NODE_ENV === "production") {
