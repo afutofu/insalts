@@ -13,6 +13,7 @@ const User = require("../../models/User");
 router.post("/", (req, res) => {
   const { username, email, password, rePassword } = req.body;
 
+  // Server side validation
   let registerDataError = {
     username: "",
     email: "",
@@ -54,10 +55,12 @@ router.post("/", (req, res) => {
     }
   }
 
+  // Assume inputs are validated
   let isValidated = true;
 
   // Check if there are no errors
   for (const field in registerDataError) {
+    // If errors are not empty, isValidated set to false
     if (!validator.isEmpty(registerDataError[field])) {
       isValidated = false;
     }
@@ -71,14 +74,17 @@ router.post("/", (req, res) => {
     });
   }
 
+  // Find user based on email
   User.findOne({ where: { email } })
     .then((foundUser) => {
+      // If user exists, return error
       if (foundUser)
         return res.status(400).json({
           type: "EMAIL_TAKEN",
           msg: "Email already taken",
         });
 
+      // If user exists
       // Generate salt and hash user password
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, (err, hashedPassword) => {
@@ -99,7 +105,7 @@ router.post("/", (req, res) => {
                 (err, token) => {
                   if (err) throw err;
 
-                  // Send
+                  // Send jwt along with user information
                   res.json({
                     token,
                     user: {
