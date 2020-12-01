@@ -60,6 +60,7 @@ router.post("/", (req, res) => {
     where: { email },
     include: { model: Salt, as: "joinedSalts" },
   }).then((foundUser) => {
+    // If user is not found, return error
     if (!foundUser)
       return res
         .status(400)
@@ -73,7 +74,7 @@ router.post("/", (req, res) => {
           .json({ type: "INVALID_CREDENTIALS", msg: "Invalid credentials" });
 
       // Order joined salts by last updated
-      const joinedSalts = foundUser.joinedSalts.sort(function (salt1, salt2) {
+      const joinedSalts = foundUser.joinedSalts.sort((salt1, salt2) => {
         var salt1Date = new Date(salt1.updatedAt);
         var salt2Date = new Date(salt2.updatedAt);
 
@@ -83,6 +84,7 @@ router.post("/", (req, res) => {
         return salt2Date - salt1Date;
       });
 
+      // Sign a new jwt and return it along with user information
       jwt.sign(
         { id: foundUser.id },
         process.env.JWT_SECRET,
@@ -111,6 +113,7 @@ router.post("/", (req, res) => {
 router.get("/user", isLoggedIn, (req, res) => {
   const userId = req.user.id;
 
+  // Check for user in the database
   User.findOne({
     where: { id: userId },
     include: {
@@ -119,6 +122,7 @@ router.get("/user", isLoggedIn, (req, res) => {
     },
   })
     .then((foundUser) => {
+      // If user does not exist, return error
       if (!foundUser)
         return res
           .status(400)
@@ -135,6 +139,7 @@ router.get("/user", isLoggedIn, (req, res) => {
         return salt2Date - salt1Date;
       });
 
+      // Sign a new jwt and return it along with user information
       jwt.sign(
         { id: foundUser.id },
         process.env.JWT_SECRET,
