@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
+import redSaltBg from "../assets/red-salt-bg.jpg";
+import whiteSaltBg from "../assets/white-salt-bg.jpg";
+
 const JumbotronComp = styled.div`
   width: 100%;
   height: 140px;
@@ -8,7 +11,7 @@ const JumbotronComp = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url("https://cdn11.bigcommerce.com/s-dis4vxtxtc/images/stencil/1280x1280/products/1867/2397/image_1577__37264.1567254894.jpg?c=2?imbypass=on");
+  background-image: url(${redSaltBg});
   background-size: contain;
   margin-bottom: 20px;
 
@@ -37,15 +40,6 @@ const Title = styled.h1`
   }
 `;
 
-// const Desc = styled.p`
-//   font-size: 18px;
-//   text-align: center;
-//   background-color: rgba(255, 255, 255, 0.9);
-//   border-radius: 15px;
-//   padding: 5px 15px;
-//   font-weight: 500;
-// `;
-
 const JumbotronSaltsComp = styled.div`
   width: 100%;
   height: 90px;
@@ -53,7 +47,7 @@ const JumbotronSaltsComp = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url("https://media.istockphoto.com/photos/background-of-white-sea-salt-picture-id184342915?k=6&m=184342915&s=612x612&w=0&h=iV9PtQwXQ2lnnIP_Bvzk3UwUg37tpDS0Zzgl-3wyRW4=");
+  background-image: url(${whiteSaltBg});
   margin-bottom: 20px;
 
   @media only screen and (max-width: 600px) {

@@ -10,6 +10,7 @@ import {
   questionModalToggle,
   setModalData,
 } from "../store/actions/modal";
+import saltIcon from "../assets/salt-icon.jpg";
 
 const NavbarComp = styled.nav`
   width: 100%;
@@ -26,9 +27,7 @@ const NavbarComp = styled.nav`
   }
 `;
 
-const Icon = styled.img.attrs(() => ({
-  src: "https://image.freepik.com/free-icon/salt_318-127920.jpg",
-}))`
+const Icon = styled.img`
   width: 15px;
   height: 15px;
   margin-right: 8px;
@@ -109,7 +108,7 @@ const Navbar = (props) => {
     <NavbarComp>
       <Title>
         <Link to="/">
-          <Icon />
+          <Icon src={saltIcon} />
           Insalts
         </Link>
       </Title>
